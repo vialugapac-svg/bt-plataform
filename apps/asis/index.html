@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BT Model Cristocêntrico — AS-IS</title>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
+    authDomain: "btmodel-asis.firebaseapp.com",
+    databaseURL: "https://btmodel-asis-default-rtdb.firebaseio.com",
+    projectId: "btmodel-asis",
+    storageBucket: "btmodel-asis.firebasestorage.app",
+    messagingSenderId: "177492900543",
+    appId: "1:177492900543:web:8d7c3c3bd623464aefa40a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  window._db = db;
+  window._dbRef = ref;
+  window._dbSet = set;
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; }
+.page { max-width: 540px; margin: 0 auto; padding: 16px; }
+.screen { display: none; }
+.screen.active { display: block; }
+
+.hub-header { background: #1a2744; border-radius: 14px; padding: 20px 24px; margin-bottom: 12px; text-align: center; }
+.hub-header .eyebrow { font-size: 11px; color: #8899bb; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.hub-header h1 { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.hub-header p { font-size: 13px; color: #aabbdd; }
+
+.instrucao { background: #fff; border: 1px solid #e0ddd5; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; font-size: 13px; color: #666; text-align: center; }
+
+.equipe-box { background: #fff; border: 1px solid #e0ddd5; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+.equipe-box label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #999; display: block; margin-bottom: 8px; }
+.equipe-input { width: 100%; font-size: 15px; padding: 12px; border: 1px solid #e0ddd5; border-radius: 10px; font-family: inherit; color: #1a1a1a; background: #faf9f6; }
+.equipe-input:focus { outline: none; border-color: #1B4F9B; box-shadow: 0 0 0 3px rgba(27,79,155,0.1); }
+.equipe-ok { display: block; width: 100%; padding: 13px; background: #1a2744; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; font-family: inherit; }
+.equipe-ok:hover { opacity: 0.9; }
+
+.prog-wrap { margin-bottom: 16px; }
+.prog-text { font-size: 12px; color: #999; text-align: right; margin-bottom: 4px; }
+.prog-bar { height: 5px; background: #e0ddd5; border-radius: 3px; }
+.prog-fill { height: 5px; background: #1B4F9B; border-radius: 3px; transition: width 0.4s; width: 0%; }
+
+.equipe-tag { display: inline-flex; align-items: center; gap: 8px; background: #1a2744; color: #fff; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 20px; margin-bottom: 12px; }
+
+.comp-list { display: flex; flex-direction: column; gap: 8px; }
+.comp-btn { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid #e0ddd5; border-radius: 12px; background: #fff; cursor: pointer; text-align: left; transition: all 0.15s; width: 100%; }
+.comp-btn:hover { border-color: #bbb; background: #faf9f6; }
+.num-badge { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; color: #fff; }
+.comp-info { flex: 1; }
+.comp-nome { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.comp-def { font-size: 12px; color: #888; margin-top: 2px; }
+.done-circle { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 1px solid #e0ddd5; }
+
+.back-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #666; cursor: pointer; background: none; border: none; padding: 0; margin-bottom: 14px; font-family: inherit; }
+.back-btn:hover { color: #1a1a1a; }
+.ficha-cabecalho { border-radius: 14px; padding: 20px 24px; margin-bottom: 12px; }
+.ficha-cabecalho .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.8; }
+.ficha-cabecalho h2 { font-size: 24px; font-weight: 600; }
+
+.bloco { background: #fff; border: 1px solid #e0ddd5; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+.bloco-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #999; margin-bottom: 10px; }
+.def-texto { font-size: 14px; color: #333; line-height: 1.65; margin-bottom: 12px; }
+.cristo-box { font-size: 13px; color: #555; font-style: italic; padding: 10px 14px; border-left: 3px solid #ddd; border-radius: 0 6px 6px 0; background: #faf9f6; line-height: 1.6; }
+
+.pergunta { font-size: 14px; color: #555; font-style: italic; padding: 10px 14px; background: #faf9f6; border-left: 3px solid #ddd; border-radius: 0 6px 6px 0; margin-bottom: 16px; line-height: 1.6; }
+
+.ref-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0ede5; gap: 12px; }
+.ref-row:last-of-type { border-bottom: none; }
+.ref-text { font-size: 13px; color: #333; flex: 1; line-height: 1.4; }
+.pill-g { display: flex; gap: 5px; flex-shrink: 0; }
+.pl { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid #d0cdc5; cursor: pointer; color: #777; background: #fff; transition: all 0.15s; white-space: nowrap; font-family: inherit; }
+.pl.s.on { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 500; }
+.pl.p.on { background: #FAEEDA; border-color: #854F0B; color: #633806; font-weight: 500; }
+.pl.n.on { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; font-weight: 500; }
+
+.perc-wrap { margin-top: 14px; padding-top: 14px; border-top: 1px solid #f0ede5; }
+.perc-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #999; margin-bottom: 10px; }
+.perc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.pb { padding: 8px 2px; border-radius: 8px; border: 1px solid #e0ddd5; font-size: 11px; text-align: center; cursor: pointer; color: #777; background: #fff; transition: all 0.15s; font-family: inherit; line-height: 1.3; }
+.pb.ms { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 600; }
+.pb.sa { background: #E1F5EE; border-color: #0F6E56; color: #085041; font-weight: 600; }
+.pb.in { background: #FAEEDA; border-color: #854F0B; color: #633806; font-weight: 600; }
+.pb.fr { background: #FAECE7; border-color: #993C1D; color: #712B13; font-weight: 600; }
+.pb.cr { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; font-weight: 600; }
+
+.obs-wrap { margin-top: 14px; padding-top: 14px; border-top: 1px solid #f0ede5; }
+.obs-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #999; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.obs-tag { background: #FFF9C4; border: 1px solid #F9A825; color: #7A5F00; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+.obs-textarea { width: 100%; font-size: 13px; padding: 12px; border: 1px solid #e0ddd5; border-radius: 10px; background: #FEFDF5; color: #333; resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; }
+.obs-textarea:focus { outline: none; border-color: #F9A825; }
+.obs-hint { margin-top: 6px; font-size: 11px; color: #aaa; }
+
+.postit-hint { margin-top: 12px; padding: 10px 14px; background: #f5f4f0; border-radius: 10px; font-size: 12px; color: #666; display: flex; align-items: center; gap: 10px; }
+.postit-dot { width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0; border: 1px solid #ddd; transition: background 0.2s; }
+
+.salvo-badge { display: none; align-items: center; gap: 6px; font-size: 12px; color: #2E7D3C; background: #E8F5E9; padding: 8px 12px; border-radius: 8px; margin-top: 10px; }
+.salvo-badge.show { display: flex; }
+
+.concluir-btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; text-align: center; color: #fff; margin-top: 8px; font-family: inherit; transition: opacity 0.15s; }
+.concluir-btn:hover { opacity: 0.9; }
+
+.footer { text-align: center; font-size: 11px; color: #bbb; margin-top: 24px; padding-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TELA: IDENTIFICAÇÃO DA EQUIPE -->
+  <div class="screen active" id="screen-equipe">
+    <div class="hub-header">
+      <div class="eyebrow">BT Model Cristocêntrico · QR 1</div>
+      <h1>AS-IS — Diagnóstico</h1>
+      <p>Identifique sua equipe para começar</p>
+    </div>
+    <div class="equipe-box">
+      <label>Nome ou código da equipe</label>
+      <input class="equipe-input" id="equipe-input" type="text" placeholder="Ex: Equipe 1 ou FTSA-G1" maxlength="30" />
+      <button class="equipe-ok" onclick="confirmarEquipe()">Confirmar e começar →</button>
+    </div>
+    <div class="footer">BT Model Cristocêntrico · com Cristo no centro de tudo</div>
+  </div>
+
+  <!-- TELA: LISTA DE COMPONENTES -->
+  <div class="screen" id="screen-home">
+    <div class="hub-header">
+      <div class="eyebrow">BT Model Cristocêntrico · QR 1</div>
+      <h1>AS-IS — Diagnóstico</h1>
+      <p>Selecione o componente que está sendo estudado</p>
+    </div>
+    <div class="instrucao">Trabalhe um componente por vez · após concluir, cole o post-it no tabuleiro antes de avançar</div>
+    <div class="equipe-tag" id="equipe-tag">👥 —</div>
+    <div class="prog-wrap">
+      <div class="prog-text" id="prog-text">0 de 11 concluídos</div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+    <div class="comp-list" id="comp-list"></div>
+    <div class="footer">BT Model Cristocêntrico · com Cristo no centro de tudo</div>
+  </div>
+
+  <!-- TELA: FICHA DO COMPONENTE -->
+  <div class="screen" id="screen-ficha">
+    <button class="back-btn" onclick="voltarHome()">← Voltar ao menu</button>
+    <div id="ficha-content"></div>
+    <div class="footer">BT Model Cristocêntrico · com Cristo no centro de tudo</div>
+  </div>
+
+</div>
+
+<script>
+// ─── DADOS DOS COMPONENTES ───────────────────────────────────────────────────
+const COR = {
+  proposito:  { bg: "#4A4A4A", light: "#EBEBEB" },
+  oque:       { bg: "#1B4F9B", light: "#E3EBF7" },
+  como:       { bg: "#C85A1E", light: "#FAE9DF" },
+  quem:       { bg: "#2E7D3C", light: "#E2F0E5" },
+  quanto:     { bg: "#C4920A", light: "#FAF0D7" }
+};
+
+const comps = [
+  { num:"01", nome:"Propósito", grupo:"Por Quê", cor: COR.proposito,
+    def:"A razão de existir da organização — o 'por que' que orienta cada decisão, investimento e relação. Sem propósito claro, age-se por inércia.",
+    cristo:"Cristo veio com um propósito absoluto: resgatar e reconciliar a humanidade com Deus. Tudo que Ele fez estava a serviço desse propósito. (Lucas 19:10; João 3:16-17)",
+    pergunta:"Qual é o propósito central da nossa organização e ele está claro para todos?",
+    refs:["Nosso propósito está claramente definido e documentado","Todos na organização conhecem e vivem o propósito","O propósito orienta nossas decisões e prioridades","O propósito está alinhado ao Reino de Deus","Nosso propósito gera impacto real e mensurável","O propósito nos une e nos motiva como equipe"] },
+  { num:"02", nome:"Problema / Oportunidade", grupo:"O Quê", cor: COR.oque,
+    def:"Todo organismo saudável existe para resolver um problema real. Sem clareza sobre o problema que resolve, a organização perde relevância e direção.",
+    cristo:"Cristo identificou com clareza o problema da humanidade: a separação de Deus pelo pecado. Sua missão foi cirúrgica — não veio para melhorar o mundo, mas para resgatar o perdido. (João 3:16-17; Romanos 3:23)",
+    pergunta:"Qual problema ou necessidade real nossa organização está resolvendo hoje?",
+    refs:["O problema que resolvemos está claramente definido","Conhecemos profundamente quem sofre com esse problema","Nossa solução atende de fato a dor identificada","Monitoramos se o problema está sendo resolvido","Existem oportunidades relevantes que ainda não exploramos","O problema que resolvemos está conectado ao nosso propósito"] },
+  { num:"03", nome:"Proposta de Valor", grupo:"O Quê", cor: COR.oque,
+    def:"A proposta de valor é o que torna a organização única e insubstituível — o conjunto de benefícios que entrega e que nenhuma outra entrega da mesma forma.",
+    cristo:"Cristo ofereceu algo que ninguém mais poderia: vida eterna, perdão real e restauração do relacionamento com o Pai. Sua proposta era única e permanece única. (João 10:10; João 14:6; 2 Coríntios 5:17-21)",
+    pergunta:"Qual é o valor único que entregamos e por que nos escolheriam?",
+    refs:["Nossa proposta de valor é clara e diferenciada","Comunicamos bem o que nos torna únicos","As pessoas percebem e valorizam o que entregamos","Nossa proposta está alinhada ao nosso propósito","Revisamos e atualizamos nossa proposta regularmente","Nossa proposta gera transformação real e duradoura"] },
+  { num:"04", nome:"Processos", grupo:"Como", cor: COR.como,
+    def:"Processos são os caminhos repetíveis e organizados pelos quais a organização transforma intenção em resultado. Sem eles, tudo depende da pessoa certa no lugar certo.",
+    cristo:"Cristo tinha processos claros: ensinar, curar, chamar, enviar, replicar. Formou discípulos com método e intenção — não improvisou a missão. (Marcos 3:13-15; Lucas 9:1-6)",
+    pergunta:"Como nossos processos estão estruturados e funcionando hoje?",
+    refs:["Nossos processos estão claros e documentados","Os processos estão integrados entre as diferentes áreas","Os processos são eficientes e sem retrabalho excessivo","Os processos geram resultados consistentes e previsíveis","Os processos são monitorados com indicadores claros","Os processos não dependem de pessoas específicas para funcionar"] },
+  { num:"05", nome:"Ativos", grupo:"Como", cor: COR.como,
+    def:"Ativos são todos os recursos, capacidades, talentos e ferramentas disponíveis para cumprir a missão. Boa mordomia começa por conhecer e usar bem o que já existe.",
+    cristo:"Cristo usou o que estava disponível — cinco pães, dois peixes, a saliva, o barro, as pessoas ao redor. Não esperou condições ideais para agir. (João 6:11; João 9:6; Filipenses 2:5-8)",
+    pergunta:"Quais são nossos principais recursos e estamos usando bem o que temos?",
+    refs:["Conhecemos e mapeamos nossos principais ativos","Utilizamos bem os recursos já disponíveis","Nossos ativos estão alinhados ao propósito da organização","Desenvolvemos continuamente nossas capacidades e talentos","Somos bons mordomos dos recursos que Deus nos confiou","Há recursos subutilizados ou desperdiçados na organização"] },
+  { num:"06", nome:"Canais", grupo:"Como", cor: COR.como,
+    def:"Canais são os meios pelos quais a organização se comunica, alcança e se relaciona com as pessoas que serve. O canal errado compromete até a melhor mensagem.",
+    cristo:"Cristo usou sinagogas, montanhas, barcas e conversas individuais. Alcançava as pessoas onde elas estavam — não esperava que viessem até Ele. (Mateus 4:23; Marcos 1:14-15; João 4:7)",
+    pergunta:"Como estamos alcançando e nos comunicando com as pessoas que servimos?",
+    refs:["Nossos canais alcançam efetivamente quem precisamos alcançar","Nossa comunicação é clara, consistente e intencional","Usamos os canais certos para cada público e contexto","Nossa mensagem reflete e comunica nosso propósito","Medimos a efetividade dos nossos canais de comunicação","Há canais relevantes que ainda não estamos utilizando"] },
+  { num:"07", nome:"Ecossistema", grupo:"Quem", cor: COR.quem,
+    def:"Ecossistema são as parcerias, alianças e relações externas que ampliam o alcance e a sustentabilidade da missão. Nenhuma organização cumpre sua missão sozinha.",
+    cristo:"Cristo escolheu 12, enviou 70, dialogou com líderes e colaborou com o Pai e o Espírito Santo. Seu ecossistema era intencional, diverso e orientado à missão. (Lucas 10:1; João 17:20-23)",
+    pergunta:"Com quem nos relacionamos e como estão nossas parcerias estratégicas?",
+    refs:["Temos parcerias que fortalecem e ampliam nossa missão","Cultivamos bem nossos relacionamentos externos","Nossas parcerias estão alinhadas ao propósito da organização","Contribuímos genuinamente para nossos parceiros","Há conexões estratégicas que ainda não estabelecemos","Nossas parcerias geram fruto mútuo e sustentável"] },
+  { num:"08", nome:"Clientes / Pessoas", grupo:"Quem", cor: COR.quem,
+    def:"Pessoas são o centro de qualquer missão. Conhecer profundamente quem servimos é condição para entregar valor real — não apenas boas intenções desconectadas da realidade.",
+    cristo:"Cristo conhecia as pessoas pelo nome, pela história e pela necessidade real. Via indivíduos dentro das multidões e os tratava com dignidade única. (Lucas 19:5; João 4:17-18; Mateus 15:24)",
+    pergunta:"Quem são as pessoas que servimos e como estamos cuidando delas?",
+    refs:["Conhecemos bem quem servimos e suas necessidades reais","Nos importamos genuinamente com as pessoas que servimos","Ouvimos ativamente e respondemos às suas necessidades","As pessoas percebem que são valorizadas e cuidadas","Acompanhamos a jornada e o crescimento das pessoas","Há pessoas que deveríamos estar servindo e ainda não estamos"] },
+  { num:"09", nome:"Jornada", grupo:"Quem", cor: COR.quem,
+    def:"Jornada é a experiência completa que as pessoas vivem ao se relacionar com a organização — do primeiro contato ao impacto duradouro.",
+    cristo:"A jornada com Cristo era transformadora: as pessoas chegavam cegas, paralíticas, perdidas — e saíam enxergando, andando, restauradas. Nunca deixava alguém do mesmo jeito. (Lucas 17:12-19; Filipenses 2:6-11)",
+    pergunta:"Como está a experiência de quem se relaciona com nossa organização?",
+    refs:["A jornada de quem nos acessa é clara e acolhedora","As pessoas encontram o que precisam ao se relacionar conosco","Há continuidade e acompanhamento na jornada das pessoas","A jornada reflete nossos valores e nosso propósito","Medimos e acompanhamos a experiência das pessoas","Há pontos de abandono ou frustração na jornada que precisamos resolver"] },
+  { num:"10", nome:"Custos / Externalidades", grupo:"Quanto", cor: COR.quanto,
+    def:"Custos são os recursos investidos para operar e cumprir a missão. Externalidades são os impactos gerados no ambiente ao redor. Boa gestão cuida de ambos.",
+    cristo:"Cristo assumiu o maior custo — a cruz — para gerar o maior impacto positivo: a redenção da humanidade. Não fugiu do custo alinhado ao propósito. (Hebreus 12:2; Isaías 53:4-5)",
+    pergunta:"Como estamos administrando nossos recursos e quais impactos geramos ao redor?",
+    refs:["Temos clareza dos nossos custos e investimentos","Administramos os recursos com responsabilidade e integridade","Monitoramos os impactos negativos que nossa organização gera","Buscamos ativamente reduzir externalidades negativas","Nossos gastos e investimentos estão alinhados ao propósito","Somos transparentes sobre como utilizamos os recursos confiados"] },
+  { num:"11", nome:"Receitas / Impactos", grupo:"Quanto", cor: COR.quanto,
+    def:"Receitas e impactos são os frutos gerados pela organização — financeiros, relacionais, espirituais ou sociais. Fruto legítimo é consequência de missão bem cumprida.",
+    cristo:"O fruto da missão de Cristo é eterno e em expansão: vidas transformadas, comunidades restauradas, o Reino avançando. Plantou para colheitas além do que pôde ver. (João 15:16; Atos 2:47; Romanos 5:17-21)",
+    pergunta:"Quais frutos e impactos positivos a nossa organização está gerando?",
+    refs:["Temos clareza dos frutos que estamos gerando","Os resultados obtidos refletem e confirmam nosso propósito","Comunicamos bem os impactos positivos que geramos","Os frutos que geramos são sustentáveis e duradouros","Reconhecemos que Deus é a fonte e o dono do crescimento","Celebramos e compartilhamos as conquistas como equipe"] }
+];
+
+const postits = { ms:"#43A047", sa:"#7CB342", in:"#FDD835", fr:"#FB8C00", cr:"#E53935" };
+const postNames = {
+  ms:"Muito saudável — post-it verde escuro · escreva a observação antes de colar",
+  sa:"Saudável — post-it verde claro · escreva a observação antes de colar",
+  in:"Instável — post-it amarelo · escreva a observação antes de colar",
+  fr:"Frágil — post-it laranja · escreva a observação antes de colar",
+  cr:"Crítico — post-it vermelho · escreva a observação antes de colar"
+};
+const percValor = { ms:5, sa:4, in:3, fr:2, cr:1 };
+
+let equipe = "";
+let concluidos = new Set();
+let respostas = {};
+
+// ─── EQUIPE ──────────────────────────────────────────────────────────────────
+function confirmarEquipe() {
+  const val = document.getElementById('equipe-input').value.trim();
+  if (!val) { alert("Por favor, digite o nome ou código da equipe."); return; }
+  equipe = val;
+  document.getElementById('equipe-tag').textContent = "👥 " + equipe;
+  document.getElementById('screen-equipe').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+  renderList();
+}
+
+// ─── PROGRESSO ───────────────────────────────────────────────────────────────
+function atualizarProgresso() {
+  const pct = Math.round((concluidos.size / 11) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = concluidos.size + ' de 11 concluídos';
+}
+
+// ─── LISTA ───────────────────────────────────────────────────────────────────
+function renderList() {
+  const list = document.getElementById('comp-list');
+  list.innerHTML = '';
+  comps.forEach((c, i) => {
+    const done = concluidos.has(i);
+    const btn = document.createElement('button');
+    btn.className = 'comp-btn';
+    btn.style.borderColor = done ? c.cor.bg : '#e0ddd5';
+    btn.style.background = done ? c.cor.light : '#fff';
+    btn.innerHTML = `
+      <div class="num-badge" style="background:${c.cor.bg}">${c.num}</div>
+      <div class="comp-info">
+        <div class="comp-nome">${c.nome}</div>
+        <div class="comp-def">${c.grupo} · ${c.def.substring(0,55)}…</div>
+      </div>
+      <div class="done-circle" style="background:${done ? c.cor.bg : '#e0ddd5'};border-color:${done ? c.cor.bg : '#e0ddd5'}"></div>
+    `;
+    btn.onclick = () => abrirFicha(i);
+    list.appendChild(btn);
+  });
+}
+
+// ─── FICHA ───────────────────────────────────────────────────────────────────
+function abrirFicha(i) {
+  const c = comps[i];
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-ficha').classList.add('active');
+
+  document.getElementById('ficha-content').innerHTML = `
+    <div class="ficha-cabecalho" style="background:${c.cor.light}">
+      <div class="eyebrow" style="color:${c.cor.bg}">Componente ${c.num} · ${c.grupo}</div>
+      <h2 style="color:${c.cor.bg}">${c.nome}</h2>
+    </div>
+    <div class="bloco">
+      <div class="bloco-label">O que é este componente</div>
+      <div class="def-texto">${c.def}</div>
+      <div class="cristo-box" style="border-left-color:${c.cor.bg}">✝ Cristo como modelo: ${c.cristo}</div>
+    </div>
+    <div class="bloco">
+      <div class="bloco-label">AS-IS — como estamos hoje</div>
+      <div class="pergunta" style="border-left-color:${c.cor.bg}">${c.pergunta}</div>
+      ${c.refs.map((r,ri) => `
+        <div class="ref-row">
+          <span class="ref-text">${r}</span>
+          <div class="pill-g">
+            <button class="pl s" onclick="this.closest('.pill-g').querySelectorAll('.pl').forEach(p=>p.classList.remove('on'));this.classList.add('on');salvarRef(${i},${ri},'sim')">Sim</button>
+            <button class="pl p" onclick="this.closest('.pill-g').querySelectorAll('.pl').forEach(p=>p.classList.remove('on'));this.classList.add('on');salvarRef(${i},${ri},'parcial')">Parcial</button>
+            <button class="pl n" onclick="this.closest('.pill-g').querySelectorAll('.pl').forEach(p=>p.classList.remove('on'));this.classList.add('on');salvarRef(${i},${ri},'nao')">Não</button>
+          </div>
+        </div>`).join('')}
+      <div class="perc-wrap">
+        <div class="perc-label">Percepção atual da equipe</div>
+        <div class="perc-grid">
+          <button class="pb" onclick="selP(this,'ms',${i})">Muito saudável</button>
+          <button class="pb" onclick="selP(this,'sa',${i})">Saudável</button>
+          <button class="pb" onclick="selP(this,'in',${i})">Instável</button>
+          <button class="pb" onclick="selP(this,'fr',${i})">Frágil</button>
+          <button class="pb" onclick="selP(this,'cr',${i})">Crítico</button>
+        </div>
+      </div>
+      <div class="obs-wrap">
+        <div class="obs-label">Observação da equipe <span class="obs-tag">✏️ transcreva no post-it</span></div>
+        <textarea class="obs-textarea" id="obs-${i}" placeholder="Registre o principal insight ou comentário que surgiu na discussão deste componente. Transcreva também no post-it antes de colar no tabuleiro."></textarea>
+        <div class="obs-hint">Esta observação será transcrita no post-it e colada no tabuleiro</div>
+      </div>
+      <div class="postit-hint">
+        <div class="postit-dot" id="pdot" style="background:#e0ddd5;border-color:#e0ddd5"></div>
+        <span id="ptxt" style="font-size:12px;color:#888">Selecione a percepção para ver a cor do post-it</span>
+      </div>
+      <div class="salvo-badge" id="salvo-badge">✓ Dados salvos em tempo real</div>
+    </div>
+    <button class="concluir-btn" style="background:${c.cor.bg}" onclick="concluir(${i})">✓ Concluído — voltar ao menu</button>
+  `;
+  window.scrollTo(0,0);
+}
+
+function selP(btn, cls, i) {
+  btn.closest('.perc-grid').querySelectorAll('.pb').forEach(b => b.className = 'pb');
+  btn.classList.add(cls);
+  const dot = document.getElementById('pdot');
+  const txt = document.getElementById('ptxt');
+  if (dot) { dot.style.background = postits[cls]; dot.style.borderColor = postits[cls]; }
+  if (txt) { txt.textContent = postNames[cls]; txt.style.color = '#444'; }
+  salvarPercepcao(i, cls);
+}
+
+function salvarRef(compIdx, refIdx, valor) {
+  if (!respostas[compIdx]) respostas[compIdx] = { refs: {} };
+  if (!respostas[compIdx].refs) respostas[compIdx].refs = {};
+  respostas[compIdx].refs[refIdx] = valor;
+  salvarFirebase(compIdx);
+}
+
+function salvarPercepcao(compIdx, cls) {
+  if (!respostas[compIdx]) respostas[compIdx] = {};
+  respostas[compIdx].percepcao = cls;
+  respostas[compIdx].percepcaoValor = percValor[cls];
+  respostas[compIdx].nomeComponente = comps[compIdx].nome;
+  respostas[compIdx].numComponente = comps[compIdx].num;
+  salvarFirebase(compIdx);
+}
+
+function salvarFirebase(compIdx) {
+  if (!window._db || !window._dbRef || !window._dbSet) return;
+  const obs = document.getElementById('obs-' + compIdx);
+  if (!respostas[compIdx]) respostas[compIdx] = {};
+  respostas[compIdx].observacao = obs ? obs.value : "";
+  respostas[compIdx].equipe = equipe;
+  respostas[compIdx].timestamp = new Date().toISOString();
+
+  const chave = equipe.replace(/[^a-zA-Z0-9]/g, '_');
+  const r = window._dbRef(window._db, `asis/${chave}/comp_${comps[compIdx].num}`);
+  window._dbSet(r, respostas[compIdx]).then(() => {
+    const badge = document.getElementById('salvo-badge');
+    if (badge) { badge.classList.add('show'); setTimeout(() => badge.classList.remove('show'), 2000); }
+  });
+}
+
+function concluir(i) {
+  const obs = document.getElementById('obs-' + i);
+  if (obs && respostas[i]) { respostas[i].observacao = obs.value; salvarFirebase(i); }
+  concluidos.add(i);
+  voltarHome();
+}
+
+function voltarHome() {
+  document.getElementById('screen-ficha').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+  renderList();
+  atualizarProgresso();
+  window.scrollTo(0,0);
+}
+
+document.getElementById('equipe-input').addEventListener('keypress', e => {
+  if (e.key === 'Enter') confirmarEquipe();
+});
+</script>
+</body>
+</html>
