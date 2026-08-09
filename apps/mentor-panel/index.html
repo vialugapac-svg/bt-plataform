@@ -1,13 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BT Model — Painel do Mentor</title>
+  <title>Painel do Mentor — Diagnósticos AS-IS</title>
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { min-height:100vh; background:#f5f4f0; color:#1a1a1a; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .page { width:min(1040px,100%); margin:0 auto; padding:28px 20px 48px; }
+    .header { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding-bottom:20px; border-bottom:1px solid #ddd9cf; }
+    .eyebrow { margin-bottom:6px; color:#6f7f99; font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+    h1 { color:#1a2744; font-size:26px; line-height:1.2; }
+    .header p { margin-top:6px; color:#6f6f6f; font-size:13px; }
+    .live { display:flex; align-items:center; gap:7px; color:#42604a; font-size:12px; font-weight:600; white-space:nowrap; }
+    .live::before { content:""; width:8px; height:8px; border-radius:50%; background:#3b914d; box-shadow:0 0 0 4px #dcecdf; }
+    .summary { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:20px 0 12px; }
+    .summary h2 { color:#1a2744; font-size:16px; }
+    .count { color:#777; font-size:12px; }
+    .list { overflow:hidden; background:#fff; border:1px solid #dedbd3; border-radius:14px; }
+    .row { display:grid; grid-template-columns:minmax(170px,1.3fr) minmax(150px,1fr) 125px 90px 105px 150px; align-items:center; gap:14px; width:100%; padding:16px 18px; border:0; border-top:1px solid #eeece6; background:#fff; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+    .row:first-child { border-top:0; }
+    .row:hover { background:#faf9f6; }
+    .row-head { background:#f8f7f3; color:#858585; cursor:default; font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+    .row-head:hover { background:#f8f7f3; }
+    .participant strong { display:block; color:#1a2744; font-size:14px; }
+    .participant span, .business, .date { color:#6f6f6f; font-size:12px; line-height:1.4; }
+    .maturity { color:#1a2744; font-size:16px; font-weight:750; }
+    .status { display:inline-flex; justify-content:center; border-radius:20px; padding:5px 9px; font-size:10px; font-weight:700; text-transform:uppercase; }
+    .status.done { background:#e5f2e8; color:#246735; }
+    .status.progress { background:#fff1d9; color:#80530b; }
+    .ft-control { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+    .ft-status { font-size:11px; font-weight:700; white-space:nowrap; }
+    .ft-status.locked { color:#6f7782; }
+    .ft-status.released { color:#27723a; }
+    .release-button { border:1px solid #1a2744; border-radius:7px; padding:6px 8px; background:#fff; color:#1a2744; cursor:pointer; font-family:inherit; font-size:10px; font-weight:600; white-space:nowrap; }
+    .release-button:hover { background:#1a2744; color:#fff; }
+    .release-button:disabled { border-color:#d1d4d8; background:#f2f2f2; color:#999; cursor:not-allowed; }
+    .empty, .error, .loading { padding:48px 20px; color:#777; font-size:13px; text-align:center; }
+    .error { color:#8e3030; }
+    @media (max-width:760px) {
+      .page { padding:20px 14px 36px; }
+      .header { align-items:flex-start; flex-direction:column; }
+      .row-head { display:none; }
+      .row { grid-template-columns:1fr auto; gap:8px 14px; padding:16px; }
+      .participant { grid-column:1; }
+      .business { grid-column:1; }
+      .date { grid-column:1; }
+      .maturity { grid-column:2; grid-row:1; text-align:right; }
+      .status { grid-column:2; grid-row:2; }
+      .ft-control { grid-column:2; grid-row:3; justify-content:flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <div class="eyebrow">Projeto Nova Economia</div>
+        <h1>Painel do Mentor</h1>
+        <p>Diagnósticos AS-IS gravados no Firebase</p>
+      </div>
+      <div class="live">Atualização em tempo real</div>
+    </header>
+
+    <div class="summary">
+      <h2>Participantes</h2>
+      <span class="count" id="count">Carregando…</span>
+    </div>
+
+    <section class="list" id="diagnosticos" aria-live="polite">
+      <div class="loading">Carregando diagnósticos…</div>
+    </section>
+  </main>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
@@ -19,570 +87,115 @@
       appId: "1:177492900543:web:8d7c3c3bd623464aefa40a"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const dbRef = ref(db, 'asis');
+    const db = getDatabase(initializeApp(firebaseConfig));
+    const list = document.getElementById("diagnosticos");
+    const count = document.getElementById("count");
 
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val() || {};
-      window._dadosFirebase = data;
-      window.atualizarPainel(data);
-    });
-  </script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    function formatarData(valor) {
+      if (!valor) return "Data não disponível";
+      const data = new Date(valor);
+      if (Number.isNaN(data.getTime())) return "Data não disponível";
+      return new Intl.DateTimeFormat("pt-BR", { dateStyle:"short", timeStyle:"short" }).format(data);
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f1523;
-      color: #fff;
-      min-height: 100vh;
+    function criarTexto(tag, classe, texto) {
+      const elemento = document.createElement(tag);
+      elemento.className = classe;
+      elemento.textContent = texto;
+      return elemento;
     }
 
-    .painel {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px;
+    function abrirDiagnostico(workshopId, participanteId) {
+      const params = new URLSearchParams({ workshop:workshopId, participante:participanteId });
+      window.location.href = `./diagnostico.html?${params.toString()}`;
     }
 
-    /* HEADER */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .header h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .header p {
-      font-size: 13px;
-      color: #8899bb;
-      margin-top: 2px;
-    }
-
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #1a2744;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-      color: #aabbdd;
-    }
-
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #43A047;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: 0.4
+    async function liberarFtView(evento, workshopId, participanteId) {
+      evento.stopPropagation();
+      const botao = evento.currentTarget;
+      botao.disabled = true;
+      try {
+        await update(ref(db, `workshops/${workshopId}/participantes/${participanteId}/diagnostico`), {
+          ftViewLiberado: true
+        });
+      } catch (error) {
+        console.error(error);
+        botao.disabled = false;
+        alert("Não foi possível liberar o FT View. Tente novamente.");
       }
     }
 
-    /* RESUMO */
-    .resumo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin-bottom: 28px;
-    }
+    function renderizar(workshops) {
+      const registros = [];
+      Object.entries(workshops || {}).forEach(([workshopId, workshop]) => {
+        Object.entries(workshop?.participantes || {}).forEach(([participanteId, participante]) => {
+          registros.push({ workshopId, participanteId, participante });
+        });
+      });
 
-    .resumo-card {
-      background: #1a2744;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-    }
+      registros.sort((a,b) => {
+        const dataA = a.participante.diagnostico?.geradoEm || a.participante.ultimoAcessoEm || a.participante.iniciadoEm || "";
+        const dataB = b.participante.diagnostico?.geradoEm || b.participante.ultimoAcessoEm || b.participante.iniciadoEm || "";
+        return dataB.localeCompare(dataA);
+      });
 
-    .resumo-num {
-      font-size: 32px;
-      font-weight: 700;
-      color: #fff;
-    }
+      list.replaceChildren();
+      count.textContent = `${registros.length} diagnóstico${registros.length === 1 ? "" : "s"}`;
 
-    .resumo-label {
-      font-size: 12px;
-      color: #8899bb;
-      margin-top: 4px;
-    }
-
-    /* SEÇÃO */
-    .secao-titulo {
-      font-size: 14px;
-      font-weight: 600;
-      color: #8899bb;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 14px;
-      margin-top: 28px;
-    }
-
-    /* TABELA DE COMPONENTES POR EQUIPE */
-    .tabela-wrap {
-      overflow-x: auto;
-      margin-bottom: 28px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-    }
-
-    th {
-      font-size: 11px;
-      font-weight: 600;
-      color: #8899bb;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid #1a2744;
-    }
-
-    th.comp-th {
-      text-align: center;
-    }
-
-    td {
-      padding: 10px 12px;
-      border-bottom: 1px solid #1a2744;
-      font-size: 13px;
-      color: #ccd;
-    }
-
-    td.equipe-td {
-      font-weight: 600;
-      color: #fff;
-      white-space: nowrap;
-    }
-
-    .celula {
-      width: 36px;
-      height: 28px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      margin: 0 auto;
-    }
-
-    .celula.vazia {
-      background: #1a2744;
-      color: #445;
-    }
-
-    /* GRID DE COMPONENTES COM MÉDIA */
-    .comp-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .comp-card {
-      background: #1a2744;
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .comp-card-num {
-      font-size: 11px;
-      color: #8899bb;
-      margin-bottom: 4px;
-    }
-
-    .comp-card-nome {
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-
-    .barra-wrap {
-      margin-bottom: 6px;
-    }
-
-    .barra-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: #8899bb;
-      margin-bottom: 4px;
-    }
-
-    .barra {
-      height: 8px;
-      background: #0f1523;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .barra-fill {
-      height: 8px;
-      border-radius: 4px;
-      transition: width 0.5s;
-    }
-
-    .media-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    /* TABULEIRO VISUAL */
-    .tabuleiro-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-
-    .tabuleiro {
-      position: relative;
-      width: 420px;
-      height: 420px;
-    }
-
-    .anel-externo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 3px solid #1a2744;
-    }
-
-    .centro {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: #1a2744;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      z-index: 10;
-    }
-
-    .centro-titulo {
-      font-size: 11px;
-      font-weight: 600;
-      color: #aabbdd;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .centro-val {
-      font-size: 28px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .centro-label {
-      font-size: 10px;
-      color: #8899bb;
-    }
-
-    .segmento-label {
-      position: absolute;
-      font-size: 10px;
-      font-weight: 600;
-      color: #fff;
-      text-align: center;
-      line-height: 1.2;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      pointer-events: none;
-    }
-
-    /* OBSERVAÇÕES */
-    .obs-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .obs-item {
-      background: #1a2744;
-      border-radius: 10px;
-      padding: 14px 16px;
-      border-left: 4px solid #333;
-    }
-
-    .obs-item-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .obs-equipe {
-      font-size: 12px;
-      font-weight: 600;
-      color: #aabbdd;
-    }
-
-    .obs-comp {
-      font-size: 12px;
-      color: #8899bb;
-    }
-
-    .obs-texto {
-      font-size: 13px;
-      color: #ccd;
-      line-height: 1.5;
-    }
-
-    /* VAZIO */
-    .vazio-msg {
-      text-align: center;
-      padding: 60px 20px;
-      color: #8899bb;
-    }
-
-    .vazio-msg h2 {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: #aabbdd;
-    }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-
-<body>
-  <div class="painel">
-
-    <div class="header">
-      <div>
-        <h1>Painel do Mentor — BT Model Cristocêntrico</h1>
-        <p>Diagnóstico AS-IS em tempo real · atualiza automaticamente</p>
-      </div>
-      <div class="live-badge">
-        <div class="live-dot"></div>Ao vivo
-      </div>
-    </div>
-
-    <div style="display:flex;justify-content:flex-end;margin:18px 0">
-      <button id="btnRelatorio" onclick="gerarRelatorioWorkshop()"
-        style="background:#1B4F9B;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer">📄
-        Gerar Relatório Executivo</button>
-    </div>
-    <div id="conteudo">
-      <div class="vazio-msg">
-        <h2>Aguardando respostas…</h2>
-        <p>As equipes ainda não iniciaram o preenchimento do AS-IS.</p>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const comps = [
-      { num: "01", nome: "Propósito", grupo: "Por Quê", cor: "#4A4A4A" },
-      { num: "02", nome: "Problema/Oport.", grupo: "O Quê", cor: "#1B4F9B" },
-      { num: "03", nome: "Proposta de Valor", grupo: "O Quê", cor: "#1B4F9B" },
-      { num: "04", nome: "Processos", grupo: "Como", cor: "#C85A1E" },
-      { num: "05", nome: "Ativos", grupo: "Como", cor: "#C85A1E" },
-      { num: "06", nome: "Canais", grupo: "Como", cor: "#C85A1E" },
-      { num: "07", nome: "Ecossistema", grupo: "Quem", cor: "#2E7D3C" },
-      { num: "08", nome: "Clientes/Pessoas", grupo: "Quem", cor: "#2E7D3C" },
-      { num: "09", nome: "Jornada", grupo: "Quem", cor: "#2E7D3C" },
-      { num: "10", nome: "Custos/External.", grupo: "Quanto", cor: "#C4920A" },
-      { num: "11", nome: "Receitas/Impactos", grupo: "Quanto", cor: "#C4920A" }
-    ];
-
-    const percLabel = { ms: "Muito saudável", sa: "Saudável", in: "Instável", fr: "Frágil", cr: "Crítico" };
-    const percCor = { ms: "#43A047", sa: "#7CB342", in: "#FDD835", fr: "#FB8C00", cr: "#E53935" };
-    const percValor = { ms: 5, sa: 4, in: 3, fr: 2, cr: 1 };
-    const percFonte = { ms: "#fff", sa: "#fff", in: "#333", fr: "#fff", cr: "#fff" };
-    console.log("CHEGUEI AQUI");
-    window.atualizarPainel = function (data) {
-      const equipes = Object.keys(data || {});
-      const conteudo = document.getElementById('conteudo');
-      if (!equipes.length) {
-        conteudo.innerHTML = `<div class="vazio-msg"><h2>Aguardando respostas…</h2><p>As equipes ainda não iniciaram o preenchimento do AS-IS.</p></div>`;
+      if (!registros.length) {
+        list.appendChild(criarTexto("div", "empty", "Nenhum diagnóstico AS-IS foi gravado até o momento."));
         return;
       }
 
-      // Calcular médias por componente
-      const medias = comps.map((c, i) => {
-        const chave = `comp_${c.num}`;
-        let soma = 0, count = 0;
-        const distribuicao = { ms: 0, sa: 0, in: 0, fr: 0, cr: 0 };
-        equipes.forEach(eq => {
-          const resp = data[eq]?.[chave];
-          if (resp?.percepcao) {
-            soma += percValor[resp.percepcao] || 0;
-            count++;
-            distribuicao[resp.percepcao]++;
-          }
+      const head = document.createElement("div");
+      head.className = "row row-head";
+      ["Participante", "Negócio / contexto", "Data", "Maturidade", "Status", "FT View"].forEach(texto => head.appendChild(criarTexto("span", "", texto)));
+      list.appendChild(head);
+
+      registros.forEach(({ workshopId, participanteId, participante }) => {
+        const concluido = participante.status === "concluido";
+        const percentual = participante.diagnostico?.percentualGeral;
+        const data = participante.diagnostico?.geradoEm || participante.ultimoAcessoEm || participante.iniciadoEm;
+        const liberado = participante.diagnostico?.ftViewLiberado === true;
+        const button = document.createElement("div");
+        button.className = "row";
+        button.tabIndex = 0;
+        button.setAttribute("role", "button");
+        button.setAttribute("aria-label", `Abrir diagnóstico de ${participante.nome || "participante"}`);
+        button.addEventListener("click", () => abrirDiagnostico(workshopId, participanteId));
+        button.addEventListener("keydown", evento => {
+          if (evento.key === "Enter" || evento.key === " ") abrirDiagnostico(workshopId, participanteId);
         });
-        return { media: count ? (soma / count) : null, count, distribuicao };
-      });
 
-      // Calcular média geral
-      const mediasValidas = medias.filter(m => m.media !== null);
-      const mediaGeral = mediasValidas.length ? mediasValidas.reduce((a, m) => a + m.media, 0) / mediasValidas.length : null;
-
-      function classMedia(v) {
-        if (!v) return null;
-        if (v >= 4.5) return 'ms';
-        if (v >= 3.5) return 'sa';
-        if (v >= 2.5) return 'in';
-        if (v >= 1.5) return 'fr';
-        return 'cr';
-      }
-
-      // Coletar observações
-      const obs = [];
-      equipes.forEach(eq => {
-        comps.forEach(c => {
-          const resp = data[eq]?.[`comp_${c.num}`];
-          if (resp?.observacao && resp.observacao.trim()) {
-            obs.push({ equipe: resp.equipe || eq, comp: c.nome, texto: resp.observacao, percepcao: resp.percepcao });
-          }
-        });
-      });
-
-      // Montar HTML
-      let html = '';
-
-      // Resumo
-      html += `<div class="resumo-grid">
-    <div class="resumo-card"><div class="resumo-num">${equipes.length}</div><div class="resumo-label">Equipes respondendo</div></div>
-    <div class="resumo-card"><div class="resumo-num">${mediasValidas.length * equipes.length > 0 ? medias.filter(m => m.count > 0).length : 0}</div><div class="resumo-label">Componentes avaliados</div></div>
-    <div class="resumo-card"><div class="resumo-num" style="color:${mediaGeral ? percCor[classMedia(mediaGeral)] : '#8899bb'}">${mediaGeral ? mediaGeral.toFixed(1) : '—'}</div><div class="resumo-label">Média geral (1–5)</div></div>
-    <div class="resumo-card"><div class="resumo-num">${obs.length}</div><div class="resumo-label">Observações registradas</div></div>
-  </div>`;
-
-      // Tabela por equipe
-      html += `<div class="secao-titulo">Percepção por equipe e componente</div>
-  <div class="tabela-wrap"><table>
-    <thead><tr>
-      <th>Equipe</th>
-      ${comps.map(c => `<th class="comp-th">${c.num}</th>`).join('')}
-    </tr></thead>
-    <tbody>`;
-
-      equipes.forEach(eq => {
-        const nomeEq = data[eq]?.[`comp_01`]?.equipe || eq;
-        html += `<tr><td class="equipe-td">${nomeEq}</td>`;
-        comps.forEach(c => {
-          const resp = data[eq]?.[`comp_${c.num}`];
-          if (resp?.percepcao) {
-            const cls = resp.percepcao;
-            html += `<td><div class="celula" style="background:${percCor[cls]};color:${percFonte[cls]}">${cls.toUpperCase()}</div></td>`;
-          } else {
-            html += `<td><div class="celula vazia">—</div></td>`;
-          }
-        });
-        html += `</tr>`;
-      });
-
-      // Linha de média
-      html += `<tr style="border-top:2px solid #2a3a5a">
-    <td class="equipe-td" style="color:#C4920A">Média</td>`;
-      medias.forEach(m => {
-        if (m.media) {
-          const cls = classMedia(m.media);
-          html += `<td><div class="celula" style="background:${percCor[cls]};color:${percFonte[cls]}">${m.media.toFixed(1)}</div></td>`;
-        } else {
-          html += `<td><div class="celula vazia">—</div></td>`;
+        const participant = document.createElement("span");
+        participant.className = "participant";
+        participant.appendChild(criarTexto("strong", "", participante.nome || "Participante sem nome"));
+        participant.appendChild(criarTexto("span", "", `Workshop ${workshopId}`));
+        button.appendChild(participant);
+        button.appendChild(criarTexto("span", "business", participante.contextoNome || "Contexto não informado"));
+        button.appendChild(criarTexto("span", "date", formatarData(data)));
+        button.appendChild(criarTexto("span", "maturity", Number.isFinite(percentual) ? `${percentual}%` : "—"));
+        button.appendChild(criarTexto("span", `status ${concluido ? "done" : "progress"}`, concluido ? "Concluído" : "Em andamento"));
+        const ftControl = document.createElement("span");
+        ftControl.className = "ft-control";
+        ftControl.appendChild(criarTexto("span", `ft-status ${liberado ? "released" : "locked"}`, liberado ? "🟢 Liberado" : "🔒 Bloqueado"));
+        if (!liberado) {
+          const releaseButton = criarTexto("button", "release-button", "Liberar FT View");
+          releaseButton.type = "button";
+          releaseButton.disabled = !participante.diagnostico;
+          releaseButton.addEventListener("click", evento => liberarFtView(evento, workshopId, participanteId));
+          ftControl.appendChild(releaseButton);
         }
+        button.appendChild(ftControl);
+        list.appendChild(button);
       });
-      html += `</tr></tbody></table></div>`;
+    }
 
-      // Grid de componentes
-      html += `<div class="secao-titulo">Distribuição por componente</div><div class="comp-grid">`;
-      comps.forEach((c, i) => {
-        const m = medias[i];
-        const total = m.count || 1;
-        html += `<div class="comp-card" style="border-top:3px solid ${c.cor}">
-      <div class="comp-card-num">${c.num} · ${c.grupo}</div>
-      <div class="comp-card-nome">${c.nome}</div>`;
-
-        ['ms', 'sa', 'in', 'fr', 'cr'].forEach(k => {
-          const pct = m.count ? Math.round((m.distribuicao[k] / total) * 100) : 0;
-          if (pct > 0) {
-            html += `<div class="barra-wrap">
-          <div class="barra-label"><span>${percLabel[k]}</span><span>${m.distribuicao[k]} equipe(s)</span></div>
-          <div class="barra"><div class="barra-fill" style="width:${pct}%;background:${percCor[k]}"></div></div>
-        </div>`;
-          }
-        });
-
-        if (m.media) {
-          const cls = classMedia(m.media);
-          html += `<div class="media-badge" style="background:${percCor[cls]};color:${percFonte[cls]}">Média: ${m.media.toFixed(1)} — ${percLabel[cls]}</div>`;
-        } else {
-          html += `<div class="media-badge" style="background:#1a2744;color:#8899bb">Sem respostas ainda</div>`;
-        }
-        html += `</div>`;
-      });
-      html += `</div>`;
-
-      // Observações
-      if (obs.length) {
-        html += `<div class="secao-titulo">Observações registradas pelas equipes</div><div class="obs-lista">`;
-        obs.forEach(o => {
-          const cor = o.percepcao ? percCor[o.percepcao] : '#333';
-          html += `<div class="obs-item" style="border-left-color:${cor}">
-        <div class="obs-item-header">
-          <span class="obs-equipe">👥 ${o.equipe}</span>
-          <span class="obs-comp">📌 ${o.comp}</span>
-        </div>
-        <div class="obs-texto">${o.texto}</div>
-      </div>`;
-        });
-        html += `</div>`;
-        conteudo.innerHTML = html;
-        window.gerarRelatorioWorkshop = gerarRelatorioWorkshop;
-      };
-
-  </script>
-  <script type="module">
-      import { appName } from "./js/firebase.js";
-      import { gerarRelatorioWorkshop } from "./js/report.js";
-
-      console.log(appName);
-
-      window.gerarRelatorioWorkshop = gerarRelatorioWorkshop;
+    onValue(ref(db, "workshops"), snapshot => renderizar(snapshot.val() || {}), error => {
+      console.error(error);
+      count.textContent = "Falha na leitura";
+      list.replaceChildren(criarTexto("div", "error", "Não foi possível carregar os diagnósticos do Firebase."));
+    });
   </script>
 </body>
-
 </html>

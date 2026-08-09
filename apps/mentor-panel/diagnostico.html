@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório AS-IS — Painel do Mentor</title>
+  <style id="asis-styles"></style>
+  <style>
+    .mentor-toolbar { max-width:540px; margin:0 auto; padding:16px 16px 0; }
+    .mentor-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .mentor-back { border:0; background:none; color:#566274; cursor:pointer; font:13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .mentor-ft-status { color:#6f7782; font:700 11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; white-space:nowrap; }
+    .mentor-ft-status.released { color:#27723a; }
+    .mentor-state { max-width:540px; margin:28px auto; padding:24px; border:1px solid #e0ddd5; border-radius:12px; background:#fff; color:#666; font:13px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; text-align:center; }
+    @media print { .mentor-toolbar { display:none; } }
+  </style>
+</head>
+<body>
+  <nav class="mentor-toolbar">
+    <button class="mentor-back" type="button" id="voltar">← Voltar ao Painel do Mentor</button>
+    <span class="mentor-ft-status" id="ft-view-status">FT View · 🔒 Bloqueado</span>
+  </nav>
+  <div class="mentor-state" id="estado">Carregando relatório…</div>
+  <main class="page" id="relatorio" hidden>
+    <section class="screen active" id="screen-resultado">
+      <div class="hub-header">
+        <div class="eyebrow">Projeto Nova Economia · BT Model</div>
+        <h1>Diagnóstico AS-IS</h1>
+        <p>Fotografia atual do contexto analisado</p>
+      </div>
+      <div id="resultado-content"></div>
+      <div class="footer">Projeto Nova Economia · ASIS v2.0</div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
+      authDomain: "btmodel-asis.firebaseapp.com",
+      databaseURL: "https://btmodel-asis-default-rtdb.firebaseio.com",
+      projectId: "btmodel-asis",
+      storageBucket: "btmodel-asis.firebasestorage.app",
+      messagingSenderId: "177492900543",
+      appId: "1:177492900543:web:8d7c3c3bd623464aefa40a"
+    };
+
+    const estado = document.getElementById("estado");
+    const relatorio = document.getElementById("relatorio");
+    const ftViewStatus = document.getElementById("ft-view-status");
+    document.getElementById("voltar").addEventListener("click", () => window.location.href = "./index.html");
+
+    function mostrarErro(mensagem) {
+      estado.textContent = mensagem;
+      estado.hidden = false;
+      relatorio.hidden = true;
+    }
+
+    function sanitizarRelatorio(html) {
+      const template = document.createElement("template");
+      template.innerHTML = html;
+      template.content.querySelectorAll("script,iframe,object,embed").forEach(elemento => elemento.remove());
+      template.content.querySelectorAll("*").forEach(elemento => {
+        [...elemento.attributes].forEach(atributo => {
+          if (atributo.name.toLowerCase().startsWith("on")) elemento.removeAttribute(atributo.name);
+        });
+      });
+      return template.content.cloneNode(true);
+    }
+
+    function mostrarEstadoFtView(liberado) {
+      ftViewStatus.textContent = liberado ? "FT View · 🟢 Liberado" : "FT View · 🔒 Bloqueado";
+      ftViewStatus.classList.toggle("released", liberado);
+      const botaoAcesso = document.querySelector("#resultado-content .mentor-wait-btn");
+      const botaoInformativo = document.querySelector("#resultado-content .ft-view-button");
+      if (botaoAcesso) {
+        botaoAcesso.textContent = liberado ? "Abrir FT View" : "AGUARDANDO LIBERAÇÃO DO MENTOR";
+        botaoAcesso.disabled = true;
+        botaoAcesso.classList.toggle("ft-view-ready", liberado);
+      }
+      if (botaoInformativo) botaoInformativo.textContent = liberado ? "🟢 FT View liberado" : "🔒 Desbloquear FT View";
+    }
+
+    async function carregar() {
+      const params = new URLSearchParams(window.location.search);
+      const workshopId = params.get("workshop");
+      const participanteId = params.get("participante");
+      if (!workshopId || !participanteId) {
+        mostrarErro("Diagnóstico não identificado.");
+        return;
+      }
+
+      try {
+        const db = getDatabase(initializeApp(firebaseConfig));
+        const participanteRef = ref(db, `workshops/${workshopId}/participantes/${participanteId}`);
+        const snapshot = await get(participanteRef);
+
+        if (!snapshot.exists()) {
+          mostrarErro("O diagnóstico selecionado não foi encontrado.");
+          return;
+        }
+
+        const participante = snapshot.val();
+        const html = participante.diagnostico?.relatorioFinal?.html;
+        const css = participante.diagnostico?.relatorioFinal?.css;
+        if (!html) {
+          mostrarErro(participante.status === "concluido"
+            ? "Este diagnóstico foi concluído antes da persistência do relatório final. Abra novamente o resultado no AS-IS para gravá-lo."
+            : "Este diagnóstico ainda está em andamento e não possui relatório final.");
+          return;
+        }
+
+        document.getElementById("asis-styles").textContent = css || "";
+        document.getElementById("resultado-content").replaceChildren(sanitizarRelatorio(html));
+        mostrarEstadoFtView(participante.diagnostico?.ftViewLiberado === true);
+        onValue(ref(db, `workshops/${workshopId}/participantes/${participanteId}/diagnostico/ftViewLiberado`), statusSnapshot => {
+          mostrarEstadoFtView(statusSnapshot.val() === true);
+        });
+        document.title = `Relatório AS-IS — ${participante.nome || "Participante"}`;
+        estado.hidden = true;
+        relatorio.hidden = false;
+      } catch (error) {
+        console.error(error);
+        mostrarErro("Não foi possível recuperar o relatório do Firebase.");
+      }
+    }
+
+    carregar();
+  </script>
+</body>
+</html>

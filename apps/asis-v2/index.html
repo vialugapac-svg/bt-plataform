@@ -6,7 +6,7 @@
 <title>Projeto Nova Economia — Diagnóstico AS IS</title>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
@@ -24,6 +24,7 @@
   window._dbRef = ref;
   window._dbSet = set;
   window._dbGet = get;
+  window._dbUpdate = update;
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -131,24 +132,96 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 
 
-.result-summary { background:#fff; border:1px solid #e0ddd5; border-radius:14px; padding:18px; margin-bottom:12px; text-align:center; }
-.result-score { font-size:44px; font-weight:700; color:#1a2744; line-height:1; margin:8px 0 4px; }
-.result-label { font-size:12px; color:#777; }
-.model-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:12px; }
-.model-card { border-radius:12px; padding:14px; color:#fff; min-height:96px; display:flex; flex-direction:column; justify-content:space-between; }
-.model-card .model-num { font-size:11px; opacity:.8; }
-.model-card .model-name { font-size:14px; font-weight:700; margin:5px 0; }
-.model-card .model-score { font-size:12px; opacity:.95; }
-.result-list { background:#fff; border:1px solid #e0ddd5; border-radius:12px; padding:16px 18px; margin-bottom:12px; }
-.result-list h3 { font-size:14px; color:#1a2744; margin-bottom:10px; }
-.result-list ul { padding-left:18px; font-size:13px; color:#555; line-height:1.7; }
-.result-note { background:#F2F5F9; border:1px solid #D6E0EE; color:#42536A; border-radius:11px; padding:13px 15px; font-size:13px; line-height:1.55; margin-bottom:12px; }
+.result-summary { position:relative; overflow:hidden; background:linear-gradient(135deg,#16233f 0%,#263b63 100%); border:1px solid #25395f; border-radius:18px; padding:30px 22px; margin-bottom:12px; text-align:center; box-shadow:0 10px 28px rgba(26,39,68,.14); }
+.result-summary::after { content:""; position:absolute; width:180px; height:180px; border-radius:50%; right:-80px; top:-100px; border:34px solid rgba(255,255,255,.04); }
+.result-score { position:relative; z-index:1; font-size:64px; font-weight:800; letter-spacing:-.05em; color:#fff; line-height:.95; margin:14px 0 12px; }
+.result-label { position:relative; z-index:1; font-size:12px; color:#bdc9df; line-height:1.5; }
+.result-summary .result-label:first-child { color:#fff; font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+.result-level { position:relative; z-index:1; display:inline-block; border:1px solid rgba(255,255,255,.22); border-radius:20px; padding:5px 12px; color:#eef3fb; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.priority-card { background:#fff; border:1px solid #dedbd3; border-left:4px solid #C62828; border-radius:14px; padding:17px 18px; margin-bottom:14px; box-shadow:0 4px 16px rgba(26,39,68,.035); break-inside:avoid; }
+.priority-card h2 { color:#1a2744; font-size:11px; letter-spacing:.09em; margin-bottom:11px; text-transform:uppercase; }
+.priority-list { display:flex; flex-direction:column; gap:8px; list-style:none; }
+.priority-list li { display:flex; align-items:center; justify-content:space-between; gap:12px; color:#3d4654; font-size:13px; line-height:1.35; }
+.priority-list strong { color:#9b2929; font-size:12px; white-space:nowrap; }
+.model-panel { background:#fff; border:1px solid #dedbd3; border-radius:16px; padding:18px; margin-bottom:16px; box-shadow:0 4px 16px rgba(26,39,68,.04); }
+.panel-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:14px; }
+.panel-heading h2 { color:#1a2744; font-size:17px; line-height:1.2; }
+.panel-heading p { color:#858585; font-size:11px; text-align:right; }
+.model-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.model-card { position:relative; overflow:hidden; border-radius:12px; padding:15px; color:#fff; min-height:108px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); break-inside:avoid; }
+.model-card::after { content:""; position:absolute; width:70px; height:70px; border-radius:50%; right:-28px; bottom:-34px; background:rgba(255,255,255,.09); }
+.model-card .model-num { font-size:10px; font-weight:600; letter-spacing:.06em; opacity:.85; text-transform:uppercase; }
+.model-card .model-name { position:relative; z-index:1; font-size:14px; font-weight:700; line-height:1.25; margin:8px 0; }
+.model-card .model-score { position:relative; z-index:1; font-size:12px; font-weight:600; opacity:.96; }
+.result-list { background:#fff; border:1px solid #dedbd3; border-radius:14px; padding:18px 20px; margin-bottom:12px; box-shadow:0 4px 16px rgba(26,39,68,.035); break-inside:avoid; }
+.result-list h3 { display:flex; align-items:center; gap:8px; font-size:15px; color:#1a2744; margin-bottom:12px; }
+.result-list h3::before { content:""; width:8px; height:8px; border-radius:50%; background:#2E7D32; }
+.result-list.result-critical h3::before { background:#C62828; }
+.result-list ul { list-style:none; padding-left:0; font-size:13px; color:#555; line-height:1.55; }
+.result-list li { padding:8px 0; border-top:1px solid #efede7; }
+.result-list li:first-child { border-top:0; padding-top:0; }
+.result-note { background:#F2F5F9; border:1px solid #D6E0EE; color:#42536A; border-radius:12px; padding:15px 17px; font-size:13px; line-height:1.6; margin-bottom:16px; break-inside:avoid; }
+.result-section { background:#fff; border:1px solid #dedbd3; border-radius:14px; padding:20px; margin-bottom:14px; box-shadow:0 4px 16px rgba(26,39,68,.035); break-inside:avoid; }
+.result-section h2 { font-size:17px; color:#1a2744; margin-bottom:11px; letter-spacing:-.01em; }
+.result-section p { font-size:13px; color:#555; line-height:1.7; }
+.executive-section { border-top:4px solid #1B4F9B; }
+.executive-level { display:inline-block; margin-bottom:10px; padding:5px 11px; border-radius:20px; background:#EAF0F8; color:#244266; font-size:10px; font-weight:750; letter-spacing:.07em; text-transform:uppercase; }
+.executive-blocks { display:grid; gap:9px; }
+.executive-block { background:#faf9f6; border:1px solid #ebe8e0; border-radius:11px; padding:13px 14px; }
+.executive-block h3 { color:#1a2744; font-size:13px; margin-bottom:5px; }
+.executive-block p { font-size:12px; line-height:1.55; }
+.highlights-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.highlight-card { position:relative; background:#faf9f6; border:1px solid #e8e5dd; border-radius:12px; padding:14px; min-height:94px; }
+.highlight-card::before { content:""; display:block; width:24px; height:3px; border-radius:2px; background:#1B4F9B; margin-bottom:11px; }
+.highlight-card.highlight-strong::before { background:#2E7D32; }
+.highlight-card.highlight-critical::before { background:#C62828; }
+.highlight-label { display:block; color:#818181; font-size:9px; font-weight:700; letter-spacing:.07em; line-height:1.4; margin-bottom:6px; text-transform:uppercase; }
+.highlight-value { display:block; color:#1a2744; font-size:14px; font-weight:700; line-height:1.35; }
+.journey-text { white-space:pre-line; }
+.mentor-wait-btn, .mentor-wait-btn:disabled { display:block; width:100%; padding:15px; border:1px solid #c9d1dc; border-radius:12px; background:#e8ebef; color:#7a8491; font-size:13px; font-weight:700; letter-spacing:.04em; cursor:not-allowed; font-family:inherit; opacity:1; }
+.mentor-wait-btn.ft-view-ready { border-color:#1a2744; background:#1a2744; color:#fff; cursor:pointer; }
+.result-sync-status { margin:0 0 12px; padding:12px 14px; border:1px solid #d5dde9; border-radius:11px; background:#f2f5f9; color:#526074; font-size:12px; font-weight:700; text-align:center; }
+.result-sync-status.ready { border-color:#c9dfcf; background:#edf7ef; color:#2c6b3a; }
+.result-sync-status.error { border-color:#e5c3c3; background:#fff3f3; color:#8e3030; }
+.ft-wait-message { margin:12px 0; padding:16px; border:1px solid #d5dde9; border-radius:12px; background:#edf1f7; color:#526074; font-size:13px; line-height:1.7; text-align:center; white-space:pre-line; }
+.ft-view-lock { padding:20px; margin:14px 0; background:#edf1f7; border:1px solid #d5dde9; border-radius:14px; text-align:center; break-inside:avoid; }
+.ft-view-button, .ft-view-button:disabled { width:100%; padding:14px; border:0; border-radius:10px; background:#aeb8c6; color:#fff; font-family:inherit; font-size:14px; font-weight:750; cursor:not-allowed; opacity:1; }
+.ft-view-lock p { color:#6f7987; font-size:11px; line-height:1.5; margin-top:9px; }
+.final-message { padding:18px 4px 4px; color:#526074; font-size:12px; line-height:1.7; text-align:center; white-space:pre-line; break-inside:avoid; }
 .result-btn-wrap { display:none; margin-top:14px; }
 .result-btn-wrap.show { display:block; }
 .result-legend { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 14px; justify-content:center; }
 .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:#666; }
 .legend-dot { width:11px; height:11px; border-radius:3px; }
 @media (min-width: 521px) { .model-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width: 520px) {
+  #screen-resultado .hub-header { padding:18px 16px; }
+  .result-summary { padding:27px 16px; }
+  .result-score { font-size:60px; }
+  .highlights-grid { grid-template-columns:1fr; }
+  .highlight-card { min-height:auto; }
+  .panel-heading { display:block; }
+  .panel-heading p { margin-top:4px; text-align:left; }
+  .result-section, .model-panel { padding:16px; }
+  .model-grid { grid-template-columns:1fr 1fr; gap:8px; }
+  .model-card { min-height:100px; padding:13px; }
+}
+@page { size:A4; margin:12mm; }
+@media print {
+  body { background:#fff; color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .page { max-width:none; padding:0; }
+  #screen-resultado { display:block !important; }
+  #screen-equipe, #screen-home, #screen-ficha, .back-btn, .footer, .mentor-wait-btn { display:none !important; }
+  .hub-header { border-radius:10px; margin-bottom:10px; padding:16px 20px; }
+  .context-tag, .result-summary, .result-section, .model-panel, .result-list, .result-note { margin-bottom:9px; box-shadow:none; }
+  .result-summary { padding:18px; }
+  .result-score { font-size:44px; }
+  .result-section { padding:15px 17px; }
+  .model-panel { padding:14px; }
+  .model-grid { grid-template-columns:repeat(3,1fr); gap:7px; }
+  .model-card { min-height:88px; padding:11px; }
+  .result-list { padding:14px 17px; }
+}
 
 </style>
 </head>
@@ -185,6 +258,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
       <input class="equipe-input" id="contexto-input" type="text" placeholder="Selecione primeiro o tipo de contexto" maxlength="120" style="margin-top:10px" />
 
+      <label for="setor-input" style="margin-top:16px">Qual é o principal setor da empresa ou atuação profissional analisada?</label>
+      <select class="equipe-input" id="setor-input" required>
+        <option value="">Selecione o principal setor</option>
+        <option value="Contabilidade">Contabilidade</option>
+        <option value="Saúde">Saúde</option>
+        <option value="Educação">Educação</option>
+        <option value="Indústria">Indústria</option>
+        <option value="Comércio">Comércio</option>
+        <option value="Agronegócio">Agronegócio</option>
+        <option value="Construção">Construção</option>
+        <option value="Tecnologia">Tecnologia</option>
+        <option value="Logística">Logística</option>
+        <option value="Serviços Financeiros">Serviços Financeiros</option>
+        <option value="Outro">Outro</option>
+      </select>
+
       <label class="context-confirm">
         <input id="confirmacao-contexto" type="checkbox" />
         <span>Confirmo que responderei aos 11 componentes considerando apenas este contexto e sua realidade atual.</span>
@@ -209,7 +298,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
     </div>
     <div class="comp-list" id="comp-list"></div>
-    <div class="result-btn-wrap" id="result-btn-wrap"><button class="equipe-ok" onclick="abrirResultado()">Ver meu Diagnóstico AS IS →</button></div>
+    <div class="result-btn-wrap" id="result-btn-wrap"><button class="equipe-ok" onclick="abrirResultado()">Ver Resultado do Diagnóstico</button></div>
     <div class="footer">Projeto Nova Economia · ASIS v2.0</div>
   </div>
 
@@ -225,10 +314,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <button class="back-btn" onclick="voltarHomeResultado()">← Voltar aos componentes</button>
     <div class="hub-header">
       <div class="eyebrow">Projeto Nova Economia · BT Model</div>
-      <h1>Seu Diagnóstico AS IS</h1>
-      <p>Retrato atual do contexto analisado</p>
+      <h1>Diagnóstico AS-IS</h1>
+      <p>Fotografia atual do contexto analisado</p>
     </div>
     <div id="resultado-content"></div>
+    <div class="result-sync-status" id="result-sync-status" hidden></div>
     <div class="footer">Projeto Nova Economia · ASIS v2.0</div>
   </div>
 

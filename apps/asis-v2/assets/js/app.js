@@ -169,6 +169,7 @@ let workshop = "";
 let email = "";
 let contextoTipo = "";
 let contextoNome = "";
+let setor = "";
 let participanteId = "";
 let concluidos = new Set();
 let respostas = {};
@@ -197,6 +198,7 @@ async function confirmarEquipe() {
   const nomeVal = document.getElementById('nome-input').value.trim().replace(/\s+/g, ' ');
   const emailVal = document.getElementById('email-input').value.trim().toLowerCase();
   const contextoVal = document.getElementById('contexto-input').value.trim().replace(/\s+/g, ' ');
+  const setorVal = document.getElementById('setor-input').value;
   const confirmado = document.getElementById('confirmacao-contexto').checked;
 
   if (workshopVal.length < 5) { alert("Informe o código válido da Imersão."); return; }
@@ -204,43 +206,49 @@ async function confirmarEquipe() {
   if (!emailValido(emailVal)) { alert("Informe um endereço de e-mail válido."); return; }
   if (!contextoTipo) { alert("Escolha o contexto que será analisado."); return; }
   if (contextoVal.length < 3) { alert("Informe o nome do contexto que será analisado."); return; }
+  if (!setorVal) { alert("Selecione o principal setor da empresa ou atuação profissional analisada."); return; }
   if (!confirmado) { alert("Confirme o contexto antes de iniciar."); return; }
+  if (!window._db || !window._dbRef || !window._dbGet || !window._dbSet || !window._dbUpdate) {
+    alert("O sistema está indisponível no momento. Verifique sua internet e tente novamente.");
+    return;
+  }
 
   workshop = workshopVal;
   equipe = nomeVal;
   email = emailVal;
   contextoNome = contextoVal;
+  setor = setorVal;
   participanteId = normalizarChave(workshop + ":" + email);
-  localStorage.setItem("asis_session", JSON.stringify({ workshop, equipe, email, contextoTipo, contextoNome, participanteId }));
+  localStorage.setItem("asis_session", JSON.stringify({ workshop, equipe, email, contextoTipo, contextoNome, setor, participanteId }));
 
   try {
-    if (window._db && window._dbRef && window._dbGet) {
-      const base = `workshops/${workshop}/participantes/${participanteId}`;
-      const snap = await window._dbGet(window._dbRef(window._db, base));
-      if (snap.exists()) {
-        const dados = snap.val();
-        contextoTipo = dados.contextoTipo || contextoTipo;
-        contextoNome = dados.contextoNome || contextoNome;
-        respostas = (dados.asis && dados.asis.componentes) || {};
-        concluidos = new Set(
-          Object.keys(respostas)
-            .filter(k => respostas[k] && respostas[k].concluido)
-            .map(k => parseInt(k, 10))
-        );
-      } else {
-        await window._dbSet(window._dbRef(window._db, base), {
-          nome: equipe,
-          email,
-          contextoTipo,
-          contextoNome,
-          status: "iniciado",
-          progresso: 0,
-          componentesConcluidos: 0,
-          versaoAplicacao: "ASIS-2.0",
-          iniciadoEm: new Date().toISOString(),
-          ultimoAcessoEm: new Date().toISOString()
-        });
-      }
+    const base = `workshops/${workshop}/participantes/${participanteId}`;
+    const snap = await window._dbGet(window._dbRef(window._db, base));
+    if (snap.exists()) {
+      const dados = snap.val();
+      await window._dbSet(window._dbRef(window._db, base + "/setor"), setor);
+      contextoTipo = dados.contextoTipo || contextoTipo;
+      contextoNome = dados.contextoNome || contextoNome;
+      respostas = (dados.asis && dados.asis.componentes) || {};
+      concluidos = new Set(
+        Object.keys(respostas)
+          .filter(k => respostas[k] && respostas[k].concluido)
+          .map(k => parseInt(k, 10))
+      );
+    } else {
+      await window._dbSet(window._dbRef(window._db, base), {
+        nome: equipe,
+        email,
+        contextoTipo,
+        contextoNome,
+        setor,
+        status: "iniciado",
+        progresso: 0,
+        componentesConcluidos: 0,
+        versaoAplicacao: "ASIS-2.0",
+        iniciadoEm: new Date().toISOString(),
+        ultimoAcessoEm: new Date().toISOString()
+      });
     }
   } catch (e) {
     console.error(e);
@@ -372,7 +380,9 @@ function salvarPercepcao(compIdx, cls) {
 }
 
 function salvarFirebase(compIdx) {
-  if (!window._db || !window._dbRef || !window._dbSet || !participanteId) return;
+  if (!window._db || !window._dbRef || !window._dbSet || !participanteId) {
+    return Promise.reject(new Error("Firebase indisponível."));
+  }
   const obs = document.getElementById('obs-' + compIdx);
   if (!respostas[compIdx]) respostas[compIdx] = {};
   respostas[compIdx].observacao = obs ? obs.value : "";
@@ -384,13 +394,21 @@ function salvarFirebase(compIdx) {
   respostas[compIdx].numComponente = comps[compIdx].num;
   respostas[compIdx].timestamp = new Date().toISOString();
 
+  const badge = document.getElementById('salvo-badge');
+  if (badge) {
+    badge.textContent = "Salvando...";
+    badge.classList.add('show');
+  }
   const r = window._dbRef(window._db, `workshops/${workshop}/participantes/${participanteId}/asis/componentes/${compIdx}`);
-  window._dbSet(r, respostas[compIdx]).then(() => {
-    const badge = document.getElementById('salvo-badge');
+  return window._dbSet(r, respostas[compIdx]).then(() => {
     if (badge) {
+      badge.textContent = "✓ Dados salvos em tempo real";
       badge.classList.add('show');
       setTimeout(() => badge.classList.remove('show'), 2000);
     }
+  }).catch(error => {
+    if (badge) badge.textContent = "Não foi possível salvar.";
+    throw error;
   });
 }
 
@@ -404,18 +422,41 @@ async function concluir(i) {
     return;
   }
   const obs = document.getElementById('obs-' + i);
+  const botaoConcluir = document.querySelector('.concluir-btn');
   if (obs) respostas[i].observacao = obs.value;
   respostas[i].concluido = true;
-  salvarFirebase(i);
-  concluidos.add(i);
-
-  if (window._db && window._dbRef && window._dbSet && participanteId) {
-    const base = `workshops/${workshop}/participantes/${participanteId}`;
-    window._dbSet(window._dbRef(window._db, base + "/progresso"), Math.round((concluidos.size / 11) * 100));
-    window._dbSet(window._dbRef(window._db, base + "/componentesConcluidos"), concluidos.size);
-    window._dbSet(window._dbRef(window._db, base + "/ultimoAcessoEm"), new Date().toISOString());
+  if (botaoConcluir) {
+    botaoConcluir.disabled = true;
+    botaoConcluir.textContent = "Salvando...";
   }
-  if (concluidos.size === 11) abrirResultado(); else voltarHome();
+  try {
+    await salvarFirebase(i);
+    concluidos.add(i);
+
+    if (window._db && window._dbRef && window._dbUpdate && participanteId) {
+      const base = `workshops/${workshop}/participantes/${participanteId}`;
+      await window._dbUpdate(window._dbRef(window._db, base), {
+        progresso: Math.round((concluidos.size / 11) * 100),
+        componentesConcluidos: concluidos.size,
+        ultimoAcessoEm: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    respostas[i].concluido = false;
+    if (botaoConcluir) {
+      botaoConcluir.disabled = false;
+      botaoConcluir.textContent = "✓ Concluído — voltar ao menu";
+    }
+    alert("Não foi possível salvar a conclusão. Verifique sua internet e tente novamente.");
+    return;
+  }
+
+  if (concluidos.size === 11) {
+    abrirResultado();
+  } else {
+    voltarHome();
+  }
 }
 
 function voltarHome() {
@@ -427,6 +468,14 @@ function voltarHome() {
 }
 
 
+function atualizarEstadoResultado(texto, tipo = "") {
+  const estado = document.getElementById("result-sync-status");
+  if (!estado) return;
+  estado.hidden = false;
+  estado.textContent = texto;
+  estado.className = `result-sync-status ${tipo}`.trim();
+}
+
 function abrirResultado() {
   if (concluidos.size < 11) {
     alert("Conclua os 11 componentes para visualizar o diagnóstico.");
@@ -435,6 +484,7 @@ function abrirResultado() {
 
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-resultado').classList.add('active');
+  atualizarEstadoResultado("Salvando...");
 
   const itens = comps.map((c,i) => {
     const score = pontuacaoComponente(i);
@@ -444,6 +494,24 @@ function abrirResultado() {
   const media = itens.reduce((s,x) => s + x.score, 0) / itens.length;
   const fortes = [...itens].sort((a,b) => b.score-a.score).slice(0,3);
   const atencao = [...itens].sort((a,b) => a.score-b.score).slice(0,3);
+  const maiorDestaque = [...itens].sort((a,b) => b.score-a.score)[0];
+  const menorDestaque = [...itens].sort((a,b) => a.score-b.score)[0];
+  const resumoExecutivo = media >= 4.5 ? {
+    nivel: "Alta",
+    texto: "O contexto analisado demonstra elevada consistência em seus componentes e uma base madura para sustentar sua evolução. As práticas atuais revelam integração, clareza e capacidade de gerar resultados de forma confiável. O próximo movimento é preservar os pontos fortes enquanto se identificam oportunidades de inovação e expansão."
+  } : media >= 3.5 ? {
+    nivel: "Boa",
+    texto: "O diagnóstico indica uma estrutura saudável, com fundamentos bem estabelecidos e resultados positivos na maior parte dos componentes. Há condições favoráveis para avançar com segurança, embora alguns aspectos ainda possam ganhar consistência. O aperfeiçoamento desses pontos ampliará a solidez e a capacidade de evolução do contexto analisado."
+  } : media >= 2.5 ? {
+    nivel: "Intermediária",
+    texto: "O contexto analisado apresenta fundamentos relevantes, mas ainda convive com oscilações entre seus componentes. Existem práticas que já contribuem para os resultados, ao lado de aspectos que precisam de maior integração e regularidade. O diagnóstico oferece uma base clara para priorizar melhorias e construir uma evolução mais consistente."
+  } : media >= 1.5 ? {
+    nivel: "Baixa",
+    texto: "O diagnóstico revela uma estrutura ainda pouco consolidada, com fragilidades que limitam a previsibilidade dos resultados. Alguns elementos estão presentes, porém demandam maior clareza, organização e conexão entre si. Este cenário representa uma oportunidade concreta para estabelecer prioridades e fortalecer progressivamente o contexto analisado."
+  } : {
+    nivel: "Muito Baixa",
+    texto: "O contexto analisado apresenta fundamentos iniciais e um nível elevado de vulnerabilidade entre seus componentes. A ausência de práticas consistentes reduz a capacidade de sustentar resultados e direcionar decisões. O diagnóstico torna visíveis os pontos essenciais que precisam ser estruturados para iniciar uma jornada segura de transformação."
+  };
   const tipo = contextoTipo === "negocio" ? "Negócio analisado" : "Atuação analisada";
 
   document.getElementById('resultado-content').innerHTML = `
@@ -453,10 +521,51 @@ function abrirResultado() {
       <span style="display:block;margin-top:4px">${equipe}</span>
     </div>
     <div class="result-summary">
-      <div class="result-label">Índice geral do diagnóstico</div>
+      <div class="result-label">Maturidade Geral</div>
       <div class="result-score">${Math.round((media/5)*100)}%</div>
-      <div class="result-label">${classificacaoDiagnostico(media)} · média ${media.toFixed(1)} de 5</div>
+      <div class="result-level">Nível: ${classificacaoDiagnostico(media)}</div>
     </div>
+    <section class="priority-card">
+      <h2>Prioridades</h2>
+      <ol class="priority-list">
+        ${atencao.map(x => `<li><span>${x.c.nome}</span><strong>${x.score.toFixed(1)} de 5</strong></li>`).join("")}
+      </ol>
+    </section>
+    <section class="result-section executive-section">
+      <h2>Resumo Executivo</h2>
+      <div class="executive-level">${resumoExecutivo.nivel}</div>
+      <div class="executive-blocks">
+        <div class="executive-block">
+          <h3>✅ Pontos fortes</h3>
+          <p>${fortes.map(x => x.c.nome).join(", ")} concentram os melhores resultados do diagnóstico atual.</p>
+        </div>
+        <div class="executive-block">
+          <h3>⚠ Pontos de atenção</h3>
+          <p>${atencao.map(x => x.c.nome).join(", ")} apresentam as menores pontuações e merecem atenção prioritária.</p>
+        </div>
+        <div class="executive-block">
+          <h3>🎯 Próximo passo recomendado</h3>
+          <p>Utilize os componentes prioritários como referência para interpretar as oportunidades de transformação na próxima etapa do Workshop.</p>
+        </div>
+      </div>
+    </section>
+    <section class="result-section">
+      <h2>Principais Destaques</h2>
+      <div class="highlights-grid">
+        <div class="highlight-card highlight-strong">
+          <span class="highlight-label">Componente com maior nota</span>
+          <span class="highlight-value">${maiorDestaque.c.nome} · ${maiorDestaque.score.toFixed(1)}</span>
+        </div>
+        <div class="highlight-card highlight-critical">
+          <span class="highlight-label">Componente com menor nota</span>
+          <span class="highlight-value">${menorDestaque.c.nome} · ${menorDestaque.score.toFixed(1)}</span>
+        </div>
+        <div class="highlight-card">
+          <span class="highlight-label">Média geral</span>
+          <span class="highlight-value">${media.toFixed(1)} de 5</span>
+        </div>
+      </div>
+    </section>
     <div class="result-legend">
       <div class="legend-item"><span class="legend-dot" style="background:#2E7D32"></span>Muito saudável</div>
       <div class="legend-item"><span class="legend-dot" style="background:#7CB342"></span>Saudável</div>
@@ -464,47 +573,159 @@ function abrirResultado() {
       <div class="legend-item"><span class="legend-dot" style="background:#EF6C00"></span>Frágil</div>
       <div class="legend-item"><span class="legend-dot" style="background:#C62828"></span>Crítico</div>
     </div>
-    <div class="model-grid">
-      ${itens.map(x => `
-        <div class="model-card" style="background:${x.cor}">
-          <div class="model-num">Componente ${x.c.num}</div>
-          <div class="model-name">${x.c.nome}</div>
-          <div class="model-score">${x.score.toFixed(1)} · ${x.classe}</div>
-        </div>
-      `).join("")}
-    </div>
-    <div class="result-list"><h3>Componentes mais fortes</h3><ul>
+    <section class="model-panel">
+      <div class="panel-heading">
+        <h2>Painel dos Componentes</h2>
+        <p>Visão consolidada das 11 dimensões analisadas</p>
+      </div>
+      <div class="model-grid">
+        ${itens.map(x => `
+          <div class="model-card" style="background:${x.cor}">
+            <div class="model-num">Componente ${x.c.num}</div>
+            <div class="model-name">${x.c.nome}</div>
+            <div class="model-score">${x.score.toFixed(1)} · ${x.classe}</div>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+    <div class="result-list result-strong"><h3>Componentes mais fortes</h3><ul>
       ${fortes.map(x => `<li><strong>${x.c.nome}</strong> — ${x.score.toFixed(1)} · ${x.classe}</li>`).join("")}
     </ul></div>
-    <div class="result-list"><h3>Componentes que exigem maior atenção</h3><ul>
+    <div class="result-list result-critical"><h3>Componentes que exigem maior atenção</h3><ul>
       ${atencao.map(x => `<li><strong>${x.c.nome}</strong> — ${x.score.toFixed(1)} · ${x.classe}</li>`).join("")}
     </ul></div>
     <div class="result-note">
       Este resultado representa o <strong>AS IS</strong>: a fotografia de como seu negócio ou sua atuação profissional funciona hoje. Ele ainda não define o futuro desejado nem apresenta um plano de transformação.
     </div>
-    <button class="equipe-ok" onclick="alert('O próximo passo será liberado pelo facilitador durante a apresentação do FT Model.')">
-      Aguardar orientação para o FT Model
-    </button>
+    <section class="result-section">
+      <h2>Próxima etapa da Jornada</h2>
+      <p class="journey-text">Você concluiu o Diagnóstico AS-IS.\n\nNa próxima etapa do Workshop você aprenderá o FT Model.\n\nApós essa apresentação o Mentor liberará automaticamente a visualização do impacto das transformações sobre seu modelo de negócio.</p>
+    </section>
+    <button class="mentor-wait-btn" id="ft-view-access-button" type="button" disabled>SALVANDO...</button>
+    <p class="ft-wait-message" id="ft-wait-message" hidden>Seu diagnóstico foi enviado ao mentor.\n\nPermaneça nesta tela.\n\nO botão será liberado automaticamente após a aula do FT Model.</p>
+    <p class="final-message">Este diagnóstico representa apenas a fotografia do estado atual (AS-IS).\n\nDurante o Workshop você aprenderá a interpretar este resultado sob a ótica da Nova Economia utilizando o FT View e o Future of Transformation Model.</p>
   `;
 
-  if (window._db && window._dbRef && window._dbSet && participanteId) {
+  if (window._db && window._dbRef && window._dbUpdate && participanteId) {
+    const pontosFortes = fortes.map(x => ({
+      numero: x.c.num,
+      nome: x.c.nome,
+      pontuacao: Number(x.score.toFixed(2)),
+      classificacao: x.classe
+    }));
+    const pontosAtencao = atencao.map(x => ({
+      numero: x.c.num,
+      nome: x.c.nome,
+      pontuacao: Number(x.score.toFixed(2)),
+      classificacao: x.classe
+    }));
     const diagnostico = {
+      setor,
       mediaGeral: Number(media.toFixed(2)),
       percentualGeral: Math.round((media/5)*100),
       classificacaoGeral: classificacaoDiagnostico(media),
       componentes: Object.fromEntries(itens.map(x => [x.c.num, {
         nome: x.c.nome,
         pontuacao: Number(x.score.toFixed(2)),
-        classificacao: x.classe
+        classificacao: x.classe,
+        insight: respostas[x.i]?.observacao || ""
       }])),
+      respostas: Object.fromEntries(itens.map(x => [x.c.num, {
+        referencias: respostas[x.i]?.refs || {},
+        percepcao: respostas[x.i]?.percepcao || "",
+        percepcaoValor: respostas[x.i]?.percepcaoValor || 0,
+        insight: respostas[x.i]?.observacao || "",
+        concluido: respostas[x.i]?.concluido === true,
+        timestamp: respostas[x.i]?.timestamp || ""
+      }])),
+      resumoExecutivo: {
+        nivel: resumoExecutivo.nivel,
+        textoInstitucional: resumoExecutivo.texto,
+        pontosFortes,
+        pontosAtencao,
+        proximoPasso: "Utilize os componentes prioritários como referência para interpretar as oportunidades de transformação na próxima etapa do Workshop."
+      },
+      destaques: {
+        maiorPontuacao: pontosFortes[0],
+        menorPontuacao: pontosAtencao[0]
+      },
+      relatorioFinal: {
+        versao: "ASIS-2.1",
+        html: document.getElementById('resultado-content').innerHTML,
+        css: [...document.querySelectorAll('head style')].map(style => style.textContent).join("\n")
+      },
       geradoEm: new Date().toISOString()
     };
     const base = `workshops/${workshop}/participantes/${participanteId}`;
-    window._dbSet(window._dbRef(window._db, base + "/diagnostico"), diagnostico);
-    window._dbSet(window._dbRef(window._db, base + "/status"), "concluido");
+    const diagnosticoRef = window._dbRef(window._db, base + "/diagnostico");
+    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js")
+      .then(({ runTransaction }) => runTransaction(
+        window._dbRef(window._db, base + "/diagnostico/ftViewLiberado"),
+        valorAtual => typeof valorAtual === "boolean" ? valorAtual : false
+      ))
+      .then(() => Promise.all([
+        window._dbUpdate(diagnosticoRef, diagnostico),
+        window._dbUpdate(window._dbRef(window._db, base), {
+          status: "concluido",
+          ultimoAcessoEm: new Date().toISOString()
+        })
+      ]))
+      .then(() => {
+        atualizarEstadoResultado("Diagnóstico enviado ao mentor.", "ready");
+        const mensagemEspera = document.getElementById("ft-wait-message");
+        const botaoAcesso = document.getElementById("ft-view-access-button");
+        if (mensagemEspera) mensagemEspera.hidden = false;
+        if (botaoAcesso) botaoAcesso.textContent = "Aguardando liberação.";
+        observarLiberacaoFtView();
+      })
+      .catch(error => {
+        console.error("Não foi possível persistir o relatório final.", error);
+        atualizarEstadoResultado("Não foi possível enviar o diagnóstico ao mentor. Verifique sua internet e tente novamente.", "error");
+        const botaoAcesso = document.getElementById("ft-view-access-button");
+        if (botaoAcesso) botaoAcesso.textContent = "ENVIO NÃO CONCLUÍDO";
+      });
+  } else {
+    atualizarEstadoResultado("Não foi possível enviar o diagnóstico ao mentor. Verifique sua internet e tente novamente.", "error");
   }
   window.scrollTo(0,0);
 }
+
+async function observarLiberacaoFtView() {
+  const conteudo = document.getElementById("resultado-content");
+  const botaoAcesso = document.getElementById("ft-view-access-button");
+  if (!conteudo || !botaoAcesso || !window._db || !window._dbRef || !participanteId) return;
+  const mensagemEspera = document.getElementById("ft-wait-message");
+
+  if (typeof conteudo._cancelarFtView === "function") conteudo._cancelarFtView();
+
+  try {
+    const { onValue } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js");
+    const referencia = window._dbRef(window._db, `workshops/${workshop}/participantes/${participanteId}/diagnostico/ftViewLiberado`);
+    conteudo._cancelarFtView = onValue(referencia, snapshot => {
+      const liberado = snapshot.val() === true;
+      botaoAcesso.disabled = !liberado;
+      botaoAcesso.textContent = liberado ? "Abrir FT View" : "Aguardando liberação.";
+      botaoAcesso.classList.toggle("ft-view-ready", liberado);
+      atualizarEstadoResultado(liberado ? "FT View liberado." : "Diagnóstico enviado ao mentor.", "ready");
+      if (mensagemEspera) mensagemEspera.hidden = liberado;
+    }, error => {
+      console.error("Não foi possível consultar a liberação do FT View.", error);
+      atualizarEstadoResultado("Não foi possível consultar a liberação. Verifique sua internet e tente novamente.", "error");
+    });
+  } catch (error) {
+    console.error("Não foi possível iniciar a consulta do FT View.", error);
+    atualizarEstadoResultado("Não foi possível consultar a liberação. Verifique sua internet e tente novamente.", "error");
+  }
+}
+
+document.addEventListener("click", event => {
+  const botaoAcesso = event.target.closest("#ft-view-access-button");
+  if (!botaoAcesso || botaoAcesso.disabled) return;
+  const params = new URLSearchParams({ workshop, participante: participanteId });
+  const url = `./ft-view.html?${params.toString()}`;
+
+  window.location.href = url;
+});
 
 function voltarHomeResultado() {
   document.getElementById('screen-resultado').classList.remove('active');
@@ -525,11 +746,13 @@ function restaurarSessaoLocal() {
     email = sessao.email || "";
     contextoTipo = sessao.contextoTipo || "";
     contextoNome = sessao.contextoNome || "";
+    setor = sessao.setor || "";
     participanteId = sessao.participanteId || "";
     document.getElementById("workshop-input").value = workshop;
     document.getElementById("nome-input").value = equipe;
     document.getElementById("email-input").value = email;
     document.getElementById("contexto-input").value = contextoNome;
+    document.getElementById("setor-input").value = setor;
     const btn = document.querySelector(`.context-option[data-context="${contextoTipo}"]`);
     if (btn) btn.classList.add("selected");
   } catch (e) {
