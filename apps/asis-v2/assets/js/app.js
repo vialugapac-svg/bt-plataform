@@ -657,19 +657,13 @@ function abrirResultado() {
       geradoEm: new Date().toISOString()
     };
     const base = `workshops/${workshop}/participantes/${participanteId}`;
-    const diagnosticoRef = window._dbRef(window._db, base + "/diagnostico");
-    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js")
-      .then(({ runTransaction }) => runTransaction(
-        window._dbRef(window._db, base + "/diagnostico/ftViewLiberado"),
-        valorAtual => typeof valorAtual === "boolean" ? valorAtual : false
-      ))
-      .then(() => Promise.all([
-        window._dbUpdate(diagnosticoRef, diagnostico),
-        window._dbUpdate(window._dbRef(window._db, base), {
-          status: "concluido",
-          ultimoAcessoEm: new Date().toISOString()
-        })
-      ]))
+    const atualizacoes = Object.fromEntries(
+      Object.entries(diagnostico).map(([chave, valor]) => [`diagnostico/${chave}`, valor])
+    );
+    atualizacoes.status = "concluido";
+    atualizacoes.ultimoAcessoEm = new Date().toISOString();
+
+    window._dbUpdate(window._dbRef(window._db, base), atualizacoes)
       .then(() => {
         atualizarEstadoResultado("Diagnóstico enviado ao mentor.", "ready");
         const mensagemEspera = document.getElementById("ft-wait-message");
