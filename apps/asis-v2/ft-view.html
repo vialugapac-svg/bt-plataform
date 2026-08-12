@@ -71,7 +71,7 @@
       </header>
 
       <section class="narrative-card sector-card">
-        <h2>Alguns movimentos para observar no seu setor</h2>
+        <h2>Alguns movimentos para observar na sua Área de atuação</h2>
         <span class="sector-label">Setor</span>
         <strong class="sector-name" id="sector-name"></strong>
         <p class="sector-intro">Estes são alguns movimentos estruturais que podem ajudar a ampliar sua reflexão durante o Workshop.</p>
@@ -123,7 +123,7 @@
 
           <article class="priority-group preparation">
             <h3>AMPLIAR A OBSERVAÇÃO</h3>
-            <p>Componentes sugeridos para observar possíveis efeitos das mudanças do setor.</p>
+            <p>Componentes sugeridos para observar possíveis efeitos das mudanças na Área de atuação.</p>
             <ul class="priority-components"><li>Propósito</li><li>Processos</li><li>Ativos</li></ul>
           </article>
 
@@ -149,7 +149,7 @@
         <h2>O QUE VOCÊ ACABOU DE CONCLUIR</h2>
         <ul class="completion-list">
           <li><span class="completion-check">✓</span><span>Você observou como o contexto analisado está hoje.</span></li>
-          <li><span class="completion-check">✓</span><span>Você conheceu movimentos que podem influenciar o seu setor.</span></li>
+          <li><span class="completion-check">✓</span><span>Você conheceu movimentos que podem influenciar sua Área de atuação.</span></li>
           <li><span class="completion-check">✓</span><span>Você percorreu uma hipótese inicial de reorganização utilizada para validação do MVP.</span></li>
           <li><span class="completion-check">✓</span><span>Você recebeu uma sequência sugerida para apoiar sua reflexão.</span></li>
           <li><span class="completion-check">✓</span><span>Agora pode aprofundar suas decisões no FMIF e no PTIF, exclusivamente no Workbook.</span></li>
@@ -163,7 +163,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-    import { SECTOR_TRANSFORMATION } from "../shared-discernment/sector-transformation.js";
+    import { SECTOR_TRANSFORMATION, FT_KNOWLEDGE_BASE } from "../shared-discernment/ft-knowledge-base.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
@@ -197,16 +197,44 @@
 
     function renderSector(sectorName) {
       const sector = SECTOR_TRANSFORMATION.find(item => item.nome === sectorName)
-        || SECTOR_TRANSFORMATION.find(item => item.id === "outro");
+        || SECTOR_TRANSFORMATION.find(item => item.id === "outros")
+        || SECTOR_TRANSFORMATION[0];
       document.getElementById("sector-name").textContent = sector.nome;
-      document.getElementById("infrastructure-list").replaceChildren(
-        ...sector.infraestruturas.map(name => {
+
+      const list = document.getElementById("infrastructure-list");
+      list.replaceChildren();
+
+      // Infraestrutura em foco: sempre Blockchain/Web3 (explain text provided by KB)
+      const foco = sector.infraestruturaFoco || { name: "Blockchain", explain: "Blockchain/Web3 merece atenção." };
+      const focoCard = document.createElement("div");
+      focoCard.className = "infrastructure-item";
+      focoCard.style.border = "2px solid #1B4F9B";
+      focoCard.style.background = "#eef4fb";
+      focoCard.style.padding = "12px";
+      focoCard.style.borderRadius = "10px";
+      focoCard.innerHTML = `<strong>${foco.name}</strong><div style=\"font-size:12px;color:#3e5069;margin-top:6px;\">${foco.explain}</div>`;
+      list.appendChild(focoCard);
+
+      // Demais infraestruturas aparecem como 'Outros movimentos relevantes'
+      const outros = sector.outrosMovimentos || sector.infraestruturas?.filter(n => n.toLowerCase() !== 'blockchain') || [];
+      if (outros && outros.length) {
+        const label = document.createElement('div');
+        label.style.width = '100%';
+        label.style.marginTop = '10px';
+        label.style.marginBottom = '6px';
+        label.style.color = '#526074';
+        label.style.fontSize = '11px';
+        label.style.fontWeight = '800';
+        label.textContent = 'Outros movimentos relevantes';
+        list.appendChild(label);
+
+        outros.forEach(name => {
           const card = document.createElement("span");
           card.className = "infrastructure-item";
           card.textContent = name;
-          return card;
-        })
-      );
+          list.appendChild(card);
+        });
+      }
     }
 
     function highlightStaticComponents(modelHost) {

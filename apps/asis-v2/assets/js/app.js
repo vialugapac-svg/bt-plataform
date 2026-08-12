@@ -206,7 +206,7 @@ async function confirmarEquipe() {
   if (!emailValido(emailVal)) { alert("Informe um endereço de e-mail válido."); return; }
   if (!contextoTipo) { alert("Escolha o contexto que será analisado."); return; }
   if (contextoVal.length < 3) { alert("Informe o nome do contexto que será analisado."); return; }
-  if (!setorVal) { alert("Selecione o principal setor da empresa ou atuação profissional analisada."); return; }
+  if (!setorVal) { alert("Selecione a Área de atuação da empresa ou atuação profissional analisada."); return; }
   if (!confirmado) { alert("Confirme o contexto antes de iniciar."); return; }
   if (!window._db || !window._dbRef || !window._dbGet || !window._dbSet || !window._dbUpdate) {
     alert("O sistema está indisponível no momento. Verifique sua internet e tente novamente.");
