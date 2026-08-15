@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FT View — Conversa sobre transformação</title>
+  <title>Relatório FT completo</title>
   <style>
     :root {
       color-scheme: light;
@@ -51,6 +51,26 @@
       font-size: 13px;
       line-height: 1.7;
       text-align: center;
+    }
+
+    .report-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .report-back {
+      color: #566274;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .report-back:hover {
+      color: var(--brand);
+      text-decoration: underline;
     }
 
     .ft-header {
@@ -580,54 +600,6 @@
       background: #fff;
     }
 
-    .action-card {
-      display: grid;
-      gap: 14px;
-      margin-top: 14px;
-      padding: 18px;
-      border: 1px solid #e2dfd8;
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .primary-action {
-      display: block;
-      padding: 18px 20px;
-      border-radius: 16px;
-      background: var(--brand);
-      color: #fff;
-      text-decoration: none;
-      box-shadow: var(--shadow);
-    }
-
-    .primary-action strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 18px;
-      line-height: 1.2;
-    }
-
-    .primary-action span {
-      display: block;
-      color: #d6ddee;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .secondary-action {
-      color: #526074;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.7;
-      text-decoration: none;
-      align-self: start;
-    }
-
-    .secondary-action:hover {
-      color: var(--brand);
-      text-decoration: underline;
-    }
-
     .blockchain-primary {
       display: inline-flex;
       align-items: center;
@@ -749,15 +721,18 @@
     <div class="ft-state" id="state">Carregando FT View…</div>
 
     <div id="content" hidden>
+      <nav class="report-toolbar">
+        <a class="report-back" id="report-back-link" href="./ft-view.html">← Voltar ao FT View Workshop</a>
+      </nav>
       <header class="ft-header">
-        <div class="eyebrow">FT View Workshop</div>
-        <h1>O que tudo isso significa para o seu negócio diante das transformações em curso?</h1>
-        <p>Esta é uma leitura executiva do seu AS-IS. O FT View não cria um novo diagnóstico: ele reorganiza as evidências para mostrar onde olhar primeiro, o que pode estar emergindo e qual é a postura mais prudente agora.</p>
+        <div class="eyebrow">Relatório FT completo</div>
+        <h1>Entender como chegamos a esta leitura</h1>
+        <p>Esta é a camada de aprofundamento do FT View. Ela preserva a explicabilidade completa da leitura: evidências do AS-IS, tensões, forças, oportunidade, sinais relacionados à capacidade, origem, possibilidades Blockchain e próximo passo prudente.</p>
       </header>
 
       <div class="story-host" id="story-host"></div>
 
-      <footer class="footer-note">Se quiser aprofundar a explicabilidade desta leitura, o Relatório FT completo permanece disponível sob demanda, em uma experiência separada.</footer>
+      <footer class="footer-note">Este relatório existe para transparência e aprofundamento. A experiência principal do Workshop permanece no FT View Workshop.</footer>
     </div>
   </main>
 
@@ -1003,14 +978,6 @@
       return uniqueComponentsByNum(items).slice(0, limit).map(item => componentName(runtime, item.componentNum)).join(", ");
     }
 
-    function joinNaturalLanguage(values) {
-      const items = (values || []).filter(Boolean);
-      if (items.length === 0) return "";
-      if (items.length === 1) return items[0];
-      if (items.length === 2) return `${items[0]} e ${items[1]}`;
-      return `${items.slice(0, -1).join(", ")} e ${items[items.length - 1]}`;
-    }
-
     function firstRelevantEvidence(result) {
       return (result.businessOpportunityEvidence || [])[0] || null;
     }
@@ -1070,33 +1037,17 @@
       return "As evidências ainda não formam um sinal forte o bastante para priorizar uma oportunidade de negócio dominante.";
     }
 
-    function workshopOpportunityDetail(context) {
-      const { componentes, engineResult, runtime } = context;
-      const evidence = firstRelevantEvidence(engineResult);
-      if (!engineResult.businessOpportunity || !evidence) return "";
-
-      const strengthNames = strongestComponents(componentes).slice(0, 2).map(item => item.nome);
-      const evidenceName = componentName(runtime, evidence.componentNum);
-      const strengthsText = joinNaturalLanguage(strengthNames);
-
-      if (strengthsText) {
-        return `Isso não significa que ${evidenceName} seja sua maior força hoje. ${strengthsText} continuam aparecendo como forças do modelo atual. Aqui, ${evidenceName} ganhou destaque porque ajudou o FT View a perceber onde pode existir novo valor.`;
-      }
-
-      return `${evidenceName} ganhou destaque aqui não por ser automaticamente a maior força do modelo, mas porque ajudou o FT View a revelar onde pode existir novo valor.`;
-    }
-
     function originWorkshopText(origin) {
       if (origin === "INTERNAL") {
-        return "Essa oportunidade parece nascer principalmente de um sinal que já existe no seu modelo.";
+        return "A principal oportunidade parece nascer mais de dentro do seu modelo atual do que de uma mudança externa dominante.";
       }
       if (origin === "EXTERNAL") {
-        return "Seu modelo está forte, mas mudanças no ambiente podem começar a abrir novas possibilidades.";
+        return "A principal oportunidade parece ganhar força porque o ambiente e a infraestrutura estão mudando ao redor do seu negócio.";
       }
       if (origin === "MIXED") {
-        return "A oportunidade já existe no seu modelo — e uma transformação externa pode ampliá-la.";
+        return "Existe uma oportunidade real no seu modelo atual, mas ela parece ser ampliada por uma transformação externa relevante.";
       }
-      return "Ainda não há evidências suficientes para determinar de onde pode surgir a oportunidade mais relevante.";
+      return "Ainda não há evidência suficiente para dizer se a principal força desta leitura vem mais de dentro do modelo ou do ambiente externo.";
     }
 
     function confidenceWorkshopText(confidence) {
@@ -1105,37 +1056,23 @@
       return "aparece apenas como um sinal inicial a explorar";
     }
 
-    function shortBlockchainContext(areaRecord) {
-      const foco = areaRecord.infraestruturaFoco || {};
-      if (foco.contextoCurto) return foco.contextoCurto;
-      const explain = foco.explain || "";
-      const firstSentence = explain.split(" — ")[0].trim();
-      return firstSentence || "Novas infraestruturas digitais estão tornando possível que registros, ativos e transações sejam verificáveis e programáveis.";
-    }
-
     function primaryBlockchainText(context) {
       const { areaRecord, engineResult, runtime } = context;
       const primary = (engineResult.blockchainPossibilities || [])[0];
       if (!primary) {
         return {
-          lead: "Uma possibilidade a explorar.",
           headline: "Nenhuma possibilidade Blockchain ganhou destaque nesta leitura.",
-          context: "",
-          confidence: "",
-          support: "Neste momento, o FT View não identifica uma possibilidade principal suficientemente distinta para colocar em primeiro plano.",
+          body: "Neste momento, o FT View não identifica uma possibilidade principal suficientemente distinta para colocar em primeiro plano.",
           secondary: []
         };
       }
       const support = (primary.supportingEvidence || [])[0];
       const supportText = support
-        ? `Isso conversa especialmente com sinais em ${componentName(runtime, support.componentNum)}.`
-        : "Por enquanto, isso permanece apenas como uma hipótese de infraestrutura a investigar.";
+        ? `Isso se conecta especialmente aos sinais em ${componentName(runtime, support.componentNum)}.`
+        : "Por enquanto, isso permanece como uma hipótese geral de infraestrutura a investigar.";
       return {
-        lead: primary.confidence === "low" ? "Uma possibilidade a explorar." : "Uma possibilidade que merece atenção.",
         headline: primary.name,
-        context: shortBlockchainContext(areaRecord),
-        confidence: `${primary.name} ${confidenceWorkshopText(primary.confidence)}.`,
-        support: supportText,
+        body: `Na área de ${areaRecord.nome}, ${primary.name.toLowerCase()} ${confidenceWorkshopText(primary.confidence)}. ${supportText}`,
         secondary: (engineResult.blockchainPossibilities || []).slice(1, 3).map(item => item.name)
       };
     }
@@ -1154,7 +1091,9 @@
         return "O mais prudente agora é observar o que está mudando, formular hipóteses e escolher onde aprofundar, sem assumir uma resposta precoce.";
       }
       if (entryDoor === "EXPERIMENTAR") {
-        return "Já existe base suficiente para testar uma hipótese em pequena escala.";
+        return leverageName
+          ? `Já existe base suficiente para testar uma hipótese em pequena escala, apoiando-se principalmente em ${leverageName}.`
+          : "Já existe base suficiente para testar uma hipótese em pequena escala, mas ainda sem assumir oferta plena ou movimento mais robusto.";
       }
       if (entryDoor === "OFERECER") {
         return "A leitura sugere evidência suficiente para estruturar uma oferta mais clara, sem pular diretamente para uma aposta maior do que o necessário.";
@@ -1163,18 +1102,6 @@
         return "A combinação entre oportunidade e capacidade parece forte o bastante para sustentar uma iniciativa mais estruturada.";
       }
       return (context.entryResult.entryReasons || [])[0] || "A postura prudente depende da combinação entre evidências, oportunidade e capacidade atual.";
-    }
-
-    function basesForAdvancingText(context) {
-      const { engineResult, runtime } = context;
-      const bases = uniqueComponentsByNum(engineResult.leverages || []).slice(0, 2).map(item => componentName(runtime, item.componentNum));
-      return joinNaturalLanguage(bases);
-    }
-
-    function attentionBeforeScalingText(context) {
-      const { engineResult, runtime } = context;
-      const primary = uniqueComponentsByNum(engineResult.tensions || [])[0] || uniqueComponentsByNum(engineResult.attentionPoints || [])[0];
-      return primary ? componentName(runtime, primary.componentNum) : "";
     }
 
     function currentParticipantQuery() {
@@ -1200,10 +1127,10 @@
       }
     }
 
-    function updateReportLink() {
-      const reportLink = document.getElementById("report-full-link");
-      if (!reportLink) return;
-      reportLink.href = `./ft-view-report.html${currentParticipantQuery()}`;
+    function updateBackLink() {
+      const backLink = document.getElementById("report-back-link");
+      if (!backLink) return;
+      backLink.href = `./ft-view.html${currentParticipantQuery()}`;
     }
 
     function opportunityEvidenceText(runtime, item) {
@@ -1426,25 +1353,29 @@
       const { areaRecord, componentes, engineResult, entryResult, runtime } = context;
       const strengths = strongestComponents(componentes);
       const weaknesses = weakestComponents(componentes);
+      const topEvidence = firstRelevantEvidence(engineResult);
       const blockchain = primaryBlockchainText(context);
       const strengthNames = strengths.slice(0, 2).map(item => item.nome);
-      const primaryAttention = weaknesses[0]?.nome || "";
-      const basesText = basesForAdvancingText(context);
-      const validateText = attentionBeforeScalingText(context);
+      const weaknessNames = weaknesses.slice(0, 2).map(item => item.nome);
+
+      const insightPills = [
+        strengthNames.length ? `<span class="insight-pill"><strong>Forças</strong>${escapeHtml(strengthNames.join(" · "))}</span>` : "",
+        weaknessNames.length ? `<span class="insight-pill"><strong>Tensões</strong>${escapeHtml(weaknessNames.join(" · "))}</span>` : "",
+        `<span class="insight-pill"><strong>Próximo movimento</strong>${escapeHtml(entryResult.entryDoor || "—")}</span>`
+      ].filter(Boolean).join("");
 
       const opportunityBlock = engineResult.businessOpportunity
         ? `
           <div class="opportunity-hero">
             <h3>${escapeHtml(engineResult.businessOpportunity)}</h3>
-            <p>O que o FT View percebeu</p>
-            <div class="evidence-inline">${escapeHtml(`O FT View cruzou as evidências do seu AS-IS e identificou em ${workshopOpportunityReason(context).replace(" foi a evidência mais claramente associada a esta leitura de negócio.", "")} o sinal mais relevante para esta oportunidade.`)}</div>
-            <div class="evidence-inline">${escapeHtml(workshopOpportunityDetail(context))}</div>
+            <p>Esta é a principal leitura de negócio destacada pelo FT View nesta etapa.</p>
+            <div class="evidence-inline">${escapeHtml(workshopOpportunityReason(context))}</div>
           </div>
         `
         : `
           <div class="opportunity-hero">
             <h3>Ainda não há evidência suficiente para priorizar uma oportunidade dominante.</h3>
-            <p>O FT View ainda não encontrou um sinal forte o bastante para destacar uma direção específica.</p>
+            <p>Isso não significa ausência de oportunidades. Significa apenas que o AS-IS ainda não sustenta uma direção principal com segurança.</p>
             <div class="evidence-inline">${escapeHtml(workshopOpportunityReason(context))}</div>
           </div>
         `;
@@ -1452,17 +1383,14 @@
       return `
         <div class="workshop-stack">
           <section class="story-card workshop-card workshop-hero">
-            <div class="workshop-lead">A. O que seu negócio mostra hoje?</div>
+            <div class="workshop-lead">A. O que seu AS-IS está revelando?</div>
             <span class="workshop-highlight">${escapeHtml(workshopSummaryHeadline(context))}</span>
-            <p class="workshop-copy">Este é o retrato do seu modelo hoje.</p>
-            <div class="insight-strip">
-              ${strengthNames.length ? `<span class="insight-pill"><strong>Forças atuais</strong>${escapeHtml(joinNaturalLanguage(strengthNames))}</span>` : ""}
-              ${primaryAttention ? `<span class="insight-pill"><strong>Principal ponto de atenção</strong>${escapeHtml(primaryAttention)}</span>` : ""}
-            </div>
+            <p class="workshop-copy">${escapeHtml(workshopSummaryBody(context))}</p>
+            <div class="insight-strip">${insightPills}</div>
           </section>
 
           <section class="story-card workshop-card workshop-opportunity">
-            <div class="workshop-lead">B. Onde pode existir uma oportunidade?</div>
+            <div class="workshop-lead">B. Onde está a oportunidade?</div>
             ${opportunityBlock}
           </section>
 
@@ -1470,19 +1398,16 @@
             <div class="workshop-lead">C. O que está mudando ao redor do seu negócio?</div>
             <div class="origin-hero">
               <h3>${escapeHtml(originWorkshopText(engineResult.opportunityOrigin))}</h3>
-              <p>O FT View agora confronta os sinais do seu negócio com as mudanças do ambiente.</p>
+              <p>Esta leitura conecta o seu AS-IS à aula do FT Model sem transformar Blockchain na origem automática da oportunidade.</p>
             </div>
           </section>
 
           <section class="story-card workshop-card workshop-blockchain">
             <div class="workshop-lead">D. Onde a Blockchain pode contribuir?</div>
             <div class="blockchain-hero">
-              <p>${escapeHtml(blockchain.lead)}</p>
+              <p>${escapeHtml(areaRecord.infraestruturaFoco?.explain || "Blockchain/Web3 merece atenção nesta leitura do Workshop.")}</p>
               <div class="blockchain-primary">${escapeHtml(blockchain.headline)}</div>
-              <p>${escapeHtml(blockchain.context)}</p>
-              <p>${escapeHtml(blockchain.confidence)}</p>
-              <p>${escapeHtml(blockchain.support)}</p>
-              <div class="evidence-inline">Possibilidade para explorar — não é uma recomendação de implementação.</div>
+              <p>${escapeHtml(blockchain.body)}</p>
               ${blockchain.secondary.length ? `<div class="secondary-inline">${blockchain.secondary.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>` : ""}
             </div>
           </section>
@@ -1492,24 +1417,90 @@
             <div class="next-hero">
               <div class="entry-door-badge ${escapeHtml(entryDoorClass(entryResult.entryDoor))}">${escapeHtml(entryResult.entryDoor || "SEM LEITURA")}</div>
               <h3>${escapeHtml(workshopNextMoveText(entryResult.entryDoor, context))}</h3>
-              ${basesText ? `<div class="evidence-inline">${escapeHtml(`Você pode se apoiar principalmente em: ${basesText}`)}</div>` : ""}
-              ${validateText ? `<div class="evidence-inline">${escapeHtml(`Antes de ampliar, valide: ${validateText}`)}</div>` : ""}
+              <p>${escapeHtml((entryResult.entryReasons || [])[0] || "Esta é a postura mais prudente retornada pelo motor para esta combinação de evidências.")}</p>
             </div>
           </section>
 
-          <section class="story-card action-card">
-            <a class="primary-action" id="fmif-primary-action" href="javascript:void(0)" aria-disabled="true">
-              <strong>Continuar para o FMIF →</strong>
-              <span>Você identificou onde olhar. Agora vamos avaliar o quanto seu modelo está preparado para avançar nessa direção.</span>
-            </a>
-            <a class="secondary-action" id="report-full-link" href="./ft-view-report.html">Ver Relatório FT completo</a>
+          <section class="story-card transition-card">
+            <h3>O que vem depois?</h3>
+            <p>Você identificou onde olhar. Agora o FMIF ajudará a avaliar o quanto seu modelo está preparado para avançar nessa direção. Depois, o PTIF transformará essa leitura em planejamento.</p>
           </section>
+
+          <details class="story-card details-card">
+            <summary>
+              <div>
+                Ver Relatório FT completo
+                <span>Entender como chegamos a esta leitura, com evidências, tensões, forças, justificativas, possibilidades e cadeia de raciocínio.</span>
+              </div>
+            </summary>
+            <div class="details-body">
+              <section class="lens-card">
+                <div class="eyebrow">Lente metodológica</div>
+                <p>O FT Model observa como transformações relevantes podem entrar pela infraestrutura e se propagar por processos, informação, competências e valor. Aqui, essa lente é usada apenas para reinterpretar o que o seu AS-IS já mostrou.</p>
+              </section>
+
+              <section class="flow-card">
+                <h2>Como esta leitura foi construída</h2>
+                <p>O FT View mostra explicitamente a cadeia de raciocínio para evitar um salto direto das respostas do AS-IS para Blockchain.</p>
+                <div class="reasoning-chain" aria-label="Cadeia de raciocínio do FT View">
+                  <span class="chain-step">AS-IS</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Evidências</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Tensões</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Business Opportunity</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Capacidade</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Origem</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Blockchain Possibilities</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Entry Door</span>
+                  <span class="chain-arrow">→</span>
+                  <span class="chain-step">Próximo passo</span>
+                </div>
+              </section>
+              ${buildDetailedSections(context)}
+            </div>
+          </details>
         </div>
       `;
     }
 
     function buildHtmlSections(context) {
-      return buildWorkshopSections(context);
+      return `
+        <section class="lens-card">
+          <div class="eyebrow">Lente metodológica</div>
+          <p>O FT Model observa como transformações relevantes podem entrar pela infraestrutura e se propagar por processos, informação, competências e valor. Aqui, essa lente é usada apenas para reinterpretar o que o seu AS-IS já mostrou.</p>
+        </section>
+
+        <section class="flow-card">
+          <h2>Como esta leitura foi construída</h2>
+          <p>O relatório completo mantém explícita a cadeia de raciocínio para tornar transparente como o FT View saiu das evidências do AS-IS até a leitura de negócio e o próximo passo prudente.</p>
+          <div class="reasoning-chain" aria-label="Cadeia de raciocínio do FT View">
+            <span class="chain-step">AS-IS</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Evidências</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Tensões</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Business Opportunity</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Capacidade</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Origem</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Blockchain Possibilities</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Entry Door</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-step">Próximo passo</span>
+          </div>
+        </section>
+        ${buildDetailedSections(context)}
+      `;
     }
 
     async function buildFtContext(participant) {
@@ -1542,7 +1533,7 @@
       const context = await buildFtContext(participant);
       storyHost.innerHTML = buildHtmlSections(context);
       rememberParticipantPayload(participant);
-      updateReportLink();
+      updateBackLink();
       state.hidden = true;
       content.hidden = false;
       return context;
@@ -1557,7 +1548,7 @@
         if (!workshopId || !participanteId) {
           const previewParticipant = restoreParticipantPayload();
           if (!previewParticipant) {
-            showError("Abra o FT View a partir do resultado do AS-IS ou utilize o renderizador de pré-visualização desta página.");
+            showError("Abra o Relatório FT a partir do FT View Workshop ou utilize o renderizador de pré-visualização desta página.");
             return;
           }
           await renderFromParticipant(previewParticipant);
@@ -1581,7 +1572,7 @@
         await renderFromParticipant(participant);
       } catch (error) {
         console.error(error);
-        showError("Não foi possível carregar o FT View.");
+        showError("Não foi possível carregar o Relatório FT completo.");
       }
     }
 

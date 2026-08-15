@@ -107,7 +107,7 @@ const comps = [
       pergunta:"Como é a experiência de quem se relaciona com minha atuação profissional?",
       refs:["Compreendo a jornada de quem procura meu trabalho","Meus pontos de contato são claros e coerentes","As pessoas sabem o que esperar da minha atuação","Existe acompanhamento após a entrega inicial","Busco compreender a experiência de quem atendo","Conheço pontos de frustração ou abandono nessa jornada"]
     }},
-  { num:"10", nome:"Custos / Externalidades", grupo:"Quanto", cor: COR.quanto,
+  { num:"10", nome:"Custos e Externalidades Negativas", grupo:"Quanto", cor: COR.quanto,
     negocio:{
       def:"Os recursos consumidos para operar e os efeitos positivos ou negativos produzidos pelo negócio em seu entorno.",
       pergunta:"Quais custos sustentam este negócio e quais impactos indiretos ele produz?",
@@ -118,7 +118,7 @@ const comps = [
       pergunta:"Quais custos sustentam minha atuação profissional e quais impactos ela produz em mim e nos outros?",
       refs:["Conheço os principais custos da minha atuação","Administro bem meu tempo, energia e recursos financeiros","Reconheço impactos negativos gerados pela forma como trabalho","Busco reduzir desgastes e efeitos indesejados","Meus investimentos profissionais estão alinhados às prioridades","Existe equilíbrio sustentável entre trabalho, resultado e vida pessoal"]
     }},
-  { num:"11", nome:"Receitas e Prosperidade", grupo:"Quanto", cor: COR.quanto,
+  { num:"11", nome:"Receitas e Impactos Positivos", grupo:"Quanto", cor: COR.quanto,
     negocio:{
       def:"As receitas, a sustentabilidade, a continuidade e a prosperidade gerada pelo negócio para os envolvidos.",
       pergunta:"Quais resultados econômicos e formas de prosperidade este negócio gera hoje?",
