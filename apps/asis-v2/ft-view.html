@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FT View — Conversa sobre transformação</title>
+  <title>FT VIEW</title>
   <style>
     :root {
       color-scheme: light;
@@ -590,6 +590,95 @@
       background: #fff;
     }
 
+    .territory-decision-stack {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .territory-primary-card,
+    .territory-secondary-card {
+      padding: 14px;
+      border: 1px solid #d9e3ef;
+      border-radius: 14px;
+      background: #eef4fb;
+    }
+
+    .territory-secondary-card {
+      border-color: #e2dfd8;
+      background: #fff;
+    }
+
+    .territory-card-lead {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #c9d7eb;
+      background: #fff;
+      color: #1b4f9b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .territory-name {
+      margin: 10px 0 8px;
+      color: var(--brand);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .territory-choice-note {
+      margin: 0;
+      color: #5d6877;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .territory-choice-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .territory-choice-button {
+      border: 1px solid #cfd8e4;
+      border-radius: 12px;
+      background: #fff;
+      color: #334259;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .territory-choice-button.is-recommended {
+      border-color: #b8cce5;
+    }
+
+    .territory-choice-button.is-active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .selected-territory-inline {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d9e1ea;
+      background: #f4f6f9;
+      color: #4f5c70;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
     .primary-action {
       display: block;
       padding: 18px 20px;
@@ -741,6 +830,16 @@
       .lens-card {
         padding: 18px;
       }
+
+      .territory-choice-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .territory-choice-button {
+        width: 100%;
+        text-align: left;
+      }
     }
   </style>
 </head>
@@ -750,9 +849,18 @@
 
     <div id="content" hidden>
       <header class="ft-header">
-        <div class="eyebrow">FT View Workshop</div>
-        <h1>O que tudo isso significa para o seu negócio diante das transformações em curso?</h1>
-        <p>Esta é uma leitura executiva do seu AS-IS. O FT View não cria um novo diagnóstico: ele reorganiza as evidências para mostrar onde olhar primeiro, o que pode estar emergindo e qual é a postura mais prudente agora.</p>
+        <div class="eyebrow">Do diagnóstico à experimentação</div>
+        <h1>FT VIEW</h1>
+        <p>Seu AS-IS mostrou como o negócio está hoje. Agora o FT View usa essas evidências para sugerir onde começar a experimentar a Blockchain como nova infraestrutura, o que testar e o que medir.</p>
+        <div class="reasoning-chain" style="margin-top:14px;">
+          <span class="chain-step">AS-IS</span>
+          <span class="chain-arrow">→</span>
+          <span class="chain-step">ONDE TESTAR</span>
+          <span class="chain-arrow">→</span>
+          <span class="chain-step">O QUE FAZER</span>
+          <span class="chain-arrow">→</span>
+          <span class="chain-step">O QUE MEDIR</span>
+        </div>
       </header>
 
       <div class="story-host" id="story-host"></div>
@@ -785,7 +893,11 @@
       ["blockchain-kb-opportunities", new URL("../shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
       ["profile-adapter", new URL("../shared-discernment/profile-adapter.js", import.meta.url)],
       ["opportunity-engine", new URL("../shared-discernment/opportunity-engine.js", import.meta.url)],
-      ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)]
+      ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)],
+      ["blockchain-adherence-matrix", new URL("../shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
+      ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
+      ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
+      ["territory-engine", new URL("../shared-discernment/territory-engine.js", import.meta.url)]
     ]);
 
     let ftRuntimePromise = null;
@@ -843,7 +955,10 @@
           blockchainKb: evaluateModule("blockchain-kb-opportunities"),
           profileAdapter: evaluateModule("profile-adapter"),
           opportunityEngine: evaluateModule("opportunity-engine"),
-          entryEngine: evaluateModule("entry-engine")
+          entryEngine: evaluateModule("entry-engine"),
+          evidenceInterpreter: evaluateModule("evidence-interpreter"),
+          territoryContext: evaluateModule("territory-context"),
+          territoryEngine: evaluateModule("territory-engine")
         };
       })();
 
@@ -1206,6 +1321,236 @@
       reportLink.href = `./ft-view-report.html${currentParticipantQuery()}`;
     }
 
+    function signalFamilyLabel(runtime, familyId) {
+      const match = (runtime.evidenceInterpreter?.SIGNAL_FAMILIES || []).find(item => item.id === familyId);
+      return match?.label || familyId;
+    }
+
+    function adherenceLevelText(level) {
+      if (level === "MUITO_ALTA") return "muito alta";
+      if (level === "MEDIA_ALTA") return "média/alta";
+      if (level === "ALTA") return "alta";
+      if (level === "BAIXA_MEDIA") return "baixa/média";
+      if (level === "MEDIA") return "média";
+      return "baixa";
+    }
+
+    function territoryBadgeClass(type) {
+      if (type === "RECOMENDADO") return "offer";
+      if (type === "ALTERNATIVO") return "explore";
+      return "prepare";
+    }
+
+    function territoryTypeLabel(type) {
+      if (type === "RECOMENDADO") return "Território recomendado";
+      if (type === "ALTERNATIVO") return "Território alternativo";
+      return "Território exploratório";
+    }
+
+    function confidenceNarrative(level) {
+      if (level === "ALTA") {
+        return "Alta confiança: AS-IS, aderência à nova infraestrutura e evidências registradas convergem de forma clara.";
+      }
+      if (level === "MODERADA") {
+        return "Confiança moderada: há convergência suficiente para começar a aprender, ainda sem transformar isso em certeza excessiva.";
+      }
+      return "Leitura exploratória: o FT View encontrou aderência para experimentar, mas ainda não encontrou evidências suficientes para afirmar uma aplicação específica.";
+    }
+
+    function evidenceOriginText(territory) {
+      if (!territory?.evidenceUsed?.length) {
+        return "Até aqui, o AS-IS não trouxe evidências textuais suficientes para sustentar uma aplicação específica neste território.";
+      }
+      return "As evidências abaixo vieram do seu próprio AS-IS e ajudaram o FT View a justificar por que este território é um bom ponto de partida.";
+    }
+
+    function familyLabels(runtime, familyIds, limit = 3) {
+      return (familyIds || []).slice(0, limit).map(item => signalFamilyLabel(runtime, item));
+    }
+
+    function territoryHypothesisText(context, territory) {
+      const { runtime } = context;
+      const hypotheses = familyLabels(runtime, territory?.signals?.adherence?.signalFamilies || [], 3);
+      const hypothesisText = joinNaturalLanguage(hypotheses);
+      const componentNameText = territory?.componentName || "este território";
+      const adherenceText = adherenceLevelText(territory?.signals?.adherence?.level);
+
+      if (!territory?.evidenceUsed?.length) {
+        return `Seu AS-IS ainda não contém evidências suficientes para indicar uma aplicação específica. Como ${componentNameText} possui aderência ${adherenceText} à nova infraestrutura, ${hypothesisText || "algumas hipóteses de experimentação"} podem ser investigadas em um primeiro experimento.`;
+      }
+
+      return `Seu AS-IS traz sinais iniciais neste território, mas eles ainda funcionam mais como hipótese de aprendizagem do que como oportunidade comprovada. ${hypothesisText || "As hipóteses ligadas a este território"} podem orientar um primeiro teste pequeno.`;
+    }
+
+    function territoryEvidenceHtml(context, territory) {
+      const { runtime } = context;
+      if (!territory?.evidenceUsed?.length) {
+        return `
+          <div class="subtle-note">
+            <strong>Evidências do seu AS-IS</strong>
+            <p style="margin-top:8px;">Nenhum trecho do AS-IS sustentou uma aplicação específica neste território. O FT View está propondo uma hipótese de experimentação com base na aderência do componente à nova infraestrutura.</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="subtle-note">
+          <strong>Evidências do seu AS-IS</strong>
+          <ul class="evidence-list" style="margin-top:10px;">
+            ${territory.evidenceUsed.slice(0, 5).map(item => `
+              <li>
+                <strong>${escapeHtml(item.componentName)}</strong> · ${escapeHtml(signalFamilyLabel(runtime, item.familyId))}
+                <br><span>“${escapeHtml(item.snippet)}”</span>
+              </li>
+            `).join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    function territoryCardHtml(context, territory, label) {
+      const { runtime } = context;
+      const isExploratory = territory?.territoryType === "EXPLORATORIO";
+      const familyHints = familyLabels(runtime, territory?.signals?.adherence?.signalFamilies || [], 3);
+      const gaps = familyLabels(runtime, territory?.evidenceGaps || [], 3);
+
+      return `
+        <article class="info-box ${label === "ALTERNATIVO" ? "box-accent-purple" : "box-accent-blue"}">
+          <div class="context-strip">
+            <span class="entry-door-badge ${escapeHtml(territoryBadgeClass(label || territory.territoryType))}">${escapeHtml(territoryTypeLabel(label || territory.territoryType))}</span>
+          </div>
+          <h3>${escapeHtml(territory.componentName)}</h3>
+          <p>${escapeHtml(confidenceNarrative(territory.confidenceLevel))}</p>
+          <div class="evidence-inline"><strong>Por que começar aqui?</strong> ${escapeHtml((territory.reasons || [])[0] || "")}</div>
+          <div class="evidence-inline"><strong>Cruzamento aplicado:</strong> AS-IS + aderência à nova infraestrutura + evidências registradas.</div>
+          ${isExploratory ? `<div class="subtle-note" style="margin-top:12px;">${escapeHtml(territoryHypothesisText(context, territory))}</div>` : ""}
+          ${territoryEvidenceHtml(context, territory)}
+          ${familyHints.length ? `<div class="secondary-inline">${familyHints.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>` : ""}
+          ${gaps.length ? `<div class="evidence-inline">Ainda faltam evidências mais claras sobre: ${escapeHtml(joinNaturalLanguage(gaps))}.</div>` : ""}
+        </article>
+      `;
+    }
+
+    function maturityHeadline(context) {
+      const strengths = strongestComponents(context.componentes);
+      const weaknesses = weakestComponents(context.componentes);
+
+      if (strengths.length >= 3 && weaknesses.length === 0) {
+        return "Seu AS-IS mostra um negócio com base consistente para aprender sem perder o controle da operação.";
+      }
+      if (weaknesses.length >= 3 && strengths.length === 0) {
+        return "Seu AS-IS mostra um negócio que ainda precisa fortalecer algumas bases importantes.";
+      }
+      if (strengths.length && weaknesses.length) {
+        return "Seu AS-IS mostra forças reais, mas também revela pontos que merecem atenção antes de ampliar mudanças.";
+      }
+      if (strengths.length) {
+        return "Seu AS-IS mostra uma base estável, com espaço para observar novos aprendizados.";
+      }
+      return "Seu AS-IS mostra um retrato útil do negócio hoje, mesmo sem forças ou tensões dominantes muito nítidas.";
+    }
+
+    function summaryText(context) {
+      const resumo = context.participant?.diagnostico?.resumoExecutivo?.textoInstitucional;
+      if (resumo) return resumo;
+      return shortBlockchainContext(context.areaRecord);
+    }
+
+    function territoryFocusLabels(context, territory, limit = 3) {
+      return familyLabels(context.runtime, territory?.signals?.adherence?.signalFamilies || [], limit)
+        .map(label => label.toLowerCase());
+    }
+
+    function territoryFocusText(context, territory) {
+      return joinNaturalLanguage(territoryFocusLabels(context, territory));
+    }
+
+    function territoryShortActionText(context, territory) {
+      const focusText = territoryFocusText(context, territory);
+      const componentNameText = territory?.componentName || "este território";
+
+      if (territory?.territoryType === "EXPLORATORIO") {
+        return `Seu AS-IS ainda não traz evidências suficientes para apontar uma aplicação específica. Por isso, ${componentNameText} aparece como um território sugerido para investigação e aprendizagem.`;
+      }
+
+      return `A combinação das evidências do seu AS-IS indica ${componentNameText} como um território promissor para o primeiro experimento. Procure uma situação real do negócio que envolva ${focusText || "um ponto relevante deste território"}.`;
+    }
+
+    function territoryEvidenceSentence(context, territory) {
+      if (!territory?.evidenceUsed?.length) return "";
+      const evidenceLabels = Array.from(new Set((territory.evidenceUsed || []).map(item => signalFamilyLabel(context.runtime, item.familyId).toLowerCase())));
+      return `Essa indicação também considera evidências que você registrou sobre ${joinNaturalLanguage(evidenceLabels.slice(0, 3))}.`;
+    }
+
+    function shouldShowAlternativeTerritory(territory) {
+      return !!territory;
+    }
+
+    function territoryHypothesisCompact(context, territory) {
+      const focusText = territoryFocusText(context, territory);
+      return `Como ${territory.componentName} possui aderência ${adherenceLevelText(territory.signals?.adherence?.level)} à nova infraestrutura, ${focusText || "algumas hipóteses"} podem ser investigadas em um primeiro experimento.`;
+    }
+
+    function territoryDisplayName(territory) {
+      if (!territory) return "";
+      return `${territory.componentId} — ${territory.componentName}`;
+    }
+
+    function territoryCoreReason(territory) {
+      return (territory?.reasons || []).find(Boolean) || confidenceNarrative(territory?.confidenceLevel);
+    }
+
+    function territoryByComponentId(territoryResult, componentId) {
+      if (!territoryResult || !componentId) return null;
+
+      if (territoryResult.recommendedTerritory?.componentId === componentId) {
+        return territoryResult.recommendedTerritory;
+      }
+      if (territoryResult.alternativeTerritory?.componentId === componentId) {
+        return territoryResult.alternativeTerritory;
+      }
+
+      const analysis = (territoryResult.componentAnalyses || []).find(item => item.componentId === componentId);
+      if (!analysis) return null;
+      return {
+        componentId: analysis.componentId,
+        componentName: analysis.componentName,
+        score: analysis.score,
+        territoryType: analysis.territoryType,
+        confidenceLevel: analysis.confidenceLevel,
+        structuredSignal: analysis.structuredSignal,
+        adherenceSignal: analysis.adherenceSignal,
+        textualEvidenceRaw: analysis.textualEvidenceRaw,
+        textualEvidenceCapped: analysis.textualEvidenceCapped,
+        priorityScore: analysis.priorityScore,
+        reasons: analysis.reasons,
+        evidenceUsed: analysis.evidenceUsed,
+        evidenceGaps: analysis.evidenceGaps,
+        suggestedExperiment: analysis.suggestedExperiment,
+        observationCriteria: analysis.observationCriteria,
+        signals: {
+          need: analysis.need,
+          adherence: {
+            level: analysis.adherence?.level,
+            capabilities: analysis.adherence?.capabilities,
+            signalFamilies: analysis.adherence?.signalFamilies
+          },
+          evidence: {
+            level: analysis.evidence?.level,
+            matchedFamilies: analysis.evidence?.matchedFamilies
+          }
+        }
+      };
+    }
+
+    function selectedTerritoryFromContext(context, recommended, alternative) {
+      const selectedId = context.selectedTerritoryId || recommended?.componentId;
+      const selected = territoryByComponentId(context.territoryResult, selectedId);
+      if (selected) return selected;
+      if (recommended) return recommended;
+      return alternative || null;
+    }
+
     function opportunityEvidenceText(runtime, item) {
       const name = componentName(runtime, item.componentNum);
       if ((item.value || 0) <= 2) {
@@ -1423,84 +1768,113 @@
     }
 
     function buildWorkshopSections(context) {
-      const { areaRecord, componentes, engineResult, entryResult, runtime } = context;
-      const strengths = strongestComponents(componentes);
-      const weaknesses = weakestComponents(componentes);
-      const blockchain = primaryBlockchainText(context);
-      const strengthNames = strengths.slice(0, 2).map(item => item.nome);
-      const primaryAttention = weaknesses[0]?.nome || "";
-      const basesText = basesForAdvancingText(context);
-      const validateText = attentionBeforeScalingText(context);
-
-      const opportunityBlock = engineResult.businessOpportunity
-        ? `
-          <div class="opportunity-hero">
-            <h3>${escapeHtml(engineResult.businessOpportunity)}</h3>
-            <p>O que o FT View percebeu</p>
-            <div class="evidence-inline">${escapeHtml(`O FT View cruzou as evidências do seu AS-IS e identificou em ${workshopOpportunityReason(context).replace(" foi a evidência mais claramente associada a esta leitura de negócio.", "")} o sinal mais relevante para esta oportunidade.`)}</div>
-            <div class="evidence-inline">${escapeHtml(workshopOpportunityDetail(context))}</div>
-          </div>
-        `
-        : `
-          <div class="opportunity-hero">
-            <h3>Ainda não há evidência suficiente para priorizar uma oportunidade dominante.</h3>
-            <p>O FT View ainda não encontrou um sinal forte o bastante para destacar uma direção específica.</p>
-            <div class="evidence-inline">${escapeHtml(workshopOpportunityReason(context))}</div>
-          </div>
-        `;
+      const { territoryResult } = context;
+      const recommended = territoryResult.recommendedTerritory;
+      const alternative = shouldShowAlternativeTerritory(territoryResult.alternativeTerritory)
+        ? territoryResult.alternativeTerritory
+        : null;
+      const selectedTerritory = selectedTerritoryFromContext(context, recommended, alternative);
+      const selectedExperiment = selectedTerritory?.suggestedExperiment || territoryResult.suggestedExperiment;
+      const selectedObservationCriteria = selectedTerritory?.observationCriteria || territoryResult.observationCriteria || [];
+      const evidenceSentence = territoryEvidenceSentence(context, recommended);
+      const selectedEvidenceSentence = territoryEvidenceSentence(context, selectedTerritory);
+      const recommendedIsSelected = selectedTerritory?.componentId === recommended?.componentId;
+      const alternativeIsSelected = selectedTerritory?.componentId === alternative?.componentId;
 
       return `
         <div class="workshop-stack">
+          <section class="story-card">
+            <div class="section-step">Importante</div>
+            <div class="subtle-note" style="margin-top:0;">
+              <strong>IMPORTANTE</strong><br>
+              O FT View não substitui as oportunidades de melhoria identificadas no seu AS-IS. Você pode trabalhar essas melhorias independentemente da Blockchain. Aqui, o objetivo é outro: identificar, a partir do seu AS-IS, um bom ponto para começar a experimentar a nova infraestrutura.
+            </div>
+          </section>
+
           <section class="story-card workshop-card workshop-hero">
-            <div class="workshop-lead">A. O que seu negócio mostra hoje?</div>
-            <span class="workshop-highlight">${escapeHtml(workshopSummaryHeadline(context))}</span>
-            <p class="workshop-copy">Este é o retrato do seu modelo hoje.</p>
-            <div class="insight-strip">
-              ${strengthNames.length ? `<span class="insight-pill"><strong>Forças atuais</strong>${escapeHtml(joinNaturalLanguage(strengthNames))}</span>` : ""}
-              ${primaryAttention ? `<span class="insight-pill"><strong>Principal ponto de atenção</strong>${escapeHtml(primaryAttention)}</span>` : ""}
+            <div class="workshop-lead">1. Onde testar?</div>
+            <div class="territory-decision-stack">
+              <article class="territory-primary-card">
+                <span class="territory-card-lead">Recomendação principal</span>
+                <div class="territory-name">${escapeHtml(territoryDisplayName(recommended))}</div>
+                <p class="workshop-copy">${escapeHtml(territoryShortActionText(context, recommended))}</p>
+                <div class="evidence-inline"><strong>Recomendado pelo FT View</strong></div>
+                <div class="evidence-inline">${escapeHtml(territoryCoreReason(recommended))}</div>
+                ${evidenceSentence ? `<div class="evidence-inline">${escapeHtml(evidenceSentence)}</div>` : ""}
+                ${recommended.territoryType === "EXPLORATORIO"
+                  ? `<div class="subtle-note">${escapeHtml(territoryHypothesisCompact(context, recommended))}</div>`
+                  : `<div class="evidence-inline">Partimos das evidências do seu AS-IS para sugerir este primeiro território de experimentação.</div>`}
+              </article>
+              ${alternative ? `
+              <article class="territory-secondary-card">
+                <span class="territory-card-lead">Outra possibilidade identificada</span>
+                <div class="territory-name" style="font-size:18px;">${escapeHtml(territoryDisplayName(alternative))}</div>
+                <p class="territory-choice-note">${escapeHtml(territoryCoreReason(alternative))}</p>
+                ${territoryEvidenceSentence(context, alternative)
+                  ? `<div class="evidence-inline">${escapeHtml(territoryEvidenceSentence(context, alternative))}</div>`
+                  : ""}
+              </article>
+              <p class="territory-choice-note">O FT View recomenda um ponto de partida, mas a decisão é sua. Escolha qual hipótese faz mais sentido testar primeiro na realidade do seu negócio.</p>
+              <div class="territory-choice-actions">
+                <button
+                  type="button"
+                  class="territory-choice-button is-recommended ${recommendedIsSelected ? "is-active" : ""}"
+                  data-territory-select="${escapeHtml(recommended.componentId)}"
+                  aria-pressed="${recommendedIsSelected ? "true" : "false"}"
+                >
+                  Começar por ${escapeHtml(recommended.componentName)}
+                </button>
+                <button
+                  type="button"
+                  class="territory-choice-button ${alternativeIsSelected ? "is-active" : ""}"
+                  data-territory-select="${escapeHtml(alternative.componentId)}"
+                  aria-pressed="${alternativeIsSelected ? "true" : "false"}"
+                >
+                  Explorar ${escapeHtml(alternative.componentName)}
+                </button>
+              </div>
+              ` : ""}
             </div>
           </section>
 
           <section class="story-card workshop-card workshop-opportunity">
-            <div class="workshop-lead">B. Onde pode existir uma oportunidade?</div>
-            ${opportunityBlock}
+            <div class="workshop-lead">2. O que fazer?</div>
+            <h3>${escapeHtml(selectedExperiment?.title || "Experimento inicial")}</h3>
+            <p class="section-copy">${escapeHtml(selectedExperiment?.description || "Escolha um fluxo real e pequeno ligado ao território selecionado.")}</p>
+            <ul class="evidence-list" style="margin-top:10px;">
+              ${(selectedExperiment?.steps || []).map(step => `<li>${escapeHtml(step)}</li>`).join("")}
+            </ul>
+            <div class="subtle-note">O objetivo não é implementar Blockchain. É produzir evidência própria para descobrir se essa nova infraestrutura melhora algo relevante no seu negócio.</div>
+            <div class="secondary-inline">
+              ${(selectedExperiment?.safeguards || []).map(item => `<span>${escapeHtml(item)}</span>`).join("")}
+            </div>
+            <div class="selected-territory-inline">Hipótese selecionada para este experimento: <strong>${escapeHtml(territoryDisplayName(selectedTerritory))}</strong>.</div>
           </section>
 
           <section class="story-card workshop-card workshop-origin">
-            <div class="workshop-lead">C. O que está mudando ao redor do seu negócio?</div>
-            <div class="origin-hero">
-              <h3>${escapeHtml(originWorkshopText(engineResult.opportunityOrigin))}</h3>
-              <p>O FT View agora confronta os sinais do seu negócio com as mudanças do ambiente.</p>
+            <div class="workshop-lead">3. O que medir?</div>
+            <h3>Como comparar o estado atual com o primeiro experimento</h3>
+            <p class="section-copy">Registre a situação atual antes do teste. Depois repita a medição durante o experimento e compare.</p>
+            <ul class="tag-list" style="margin-top:12px;">
+              ${(selectedObservationCriteria || []).map(item => `<li class="tag"><span>${escapeHtml(item)}</span></li>`).join("")}
+            </ul>
+            <div class="reasoning-chain" style="margin-top:14px;">
+              <span class="chain-step">ANTES</span>
+              <span class="chain-arrow">→</span>
+              <span class="chain-step">EXPERIMENTO</span>
+              <span class="chain-arrow">→</span>
+              <span class="chain-step">DEPOIS</span>
             </div>
-          </section>
-
-          <section class="story-card workshop-card workshop-blockchain">
-            <div class="workshop-lead">D. Onde a Blockchain pode contribuir?</div>
-            <div class="blockchain-hero">
-              <p>${escapeHtml(blockchain.lead)}</p>
-              <div class="blockchain-primary">${escapeHtml(blockchain.headline)}</div>
-              <p>${escapeHtml(blockchain.context)}</p>
-              <p>${escapeHtml(blockchain.confidence)}</p>
-              <p>${escapeHtml(blockchain.support)}</p>
-              <div class="evidence-inline">Possibilidade para explorar — não é uma recomendação de implementação.</div>
-              ${blockchain.secondary.length ? `<div class="secondary-inline">${blockchain.secondary.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>` : ""}
-            </div>
-          </section>
-
-          <section class="story-card workshop-card workshop-next">
-            <div class="workshop-lead">E. Qual é o próximo movimento mais prudente?</div>
-            <div class="next-hero">
-              <div class="entry-door-badge ${escapeHtml(entryDoorClass(entryResult.entryDoor))}">${escapeHtml(entryResult.entryDoor || "SEM LEITURA")}</div>
-              <h3>${escapeHtml(workshopNextMoveText(entryResult.entryDoor, context))}</h3>
-              ${basesText ? `<div class="evidence-inline">${escapeHtml(`Você pode se apoiar principalmente em: ${basesText}`)}</div>` : ""}
-              ${validateText ? `<div class="evidence-inline">${escapeHtml(`Antes de ampliar, valide: ${validateText}`)}</div>` : ""}
-            </div>
+            <div class="evidence-inline">Esses critérios são propostos pelo FT View para ajudar você a perceber se o experimento fez diferença.</div>
+            ${selectedEvidenceSentence ? `<div class="selected-territory-inline">${escapeHtml(selectedEvidenceSentence)}</div>` : ""}
           </section>
 
           <section class="story-card action-card">
+            <p style="margin-bottom:12px;">Agora você tem uma hipótese concreta: onde testar a Blockchain, o que fazer e o que medir.</p>
+            <p style="margin-bottom:16px;">Leve esta hipótese para o FMIF para avaliar sua capacidade de avançar. Depois, o PTIF ajudará a transformar o aprendizado em plano.</p>
             <a class="primary-action" id="fmif-primary-action" href="javascript:void(0)" aria-disabled="true">
               <strong>Continuar para o FMIF →</strong>
-              <span>Você identificou onde olhar. Agora vamos avaliar o quanto seu modelo está preparado para avançar nessa direção.</span>
+              <span>Avance com este território, o experimento sugerido e os critérios de medição.</span>
             </a>
             <a class="secondary-action" id="report-full-link" href="./ft-view-report.html">Ver Relatório FT completo</a>
           </section>
@@ -1514,38 +1888,52 @@
 
     async function buildFtContext(participant) {
       const runtime = await getFtRuntime();
-      const diagnostico = participant?.diagnostico || {};
-      const componentes = normalizeDiagnosticoComponentes(diagnostico, runtime);
+      const territoryContext = runtime.territoryContext.buildTerritoryContext(participant);
+      const componentes = Object.fromEntries((territoryContext.components || []).map(component => [component.componentId, {
+        nome: component.componentName,
+        pontuacao: component.score
+      }]));
 
       if (!Object.keys(componentes).length) {
         throw new Error("As evidências estruturadas do AS-IS não estão disponíveis.");
       }
 
-      const areaRecord = areaRecordFromLabel(diagnostico.setor || participant?.setor);
-      const diagnosticoForEngine = {
-        componentes: Object.fromEntries(Object.entries(componentes).map(([num, value]) => [num, { pontuacao: value.pontuacao }]))
-      };
-      const profile = mapParticipantProfile(participant, runtime);
-      const engineResult = runtime.opportunityEngine.evaluateOpportunities(diagnosticoForEngine, areaRecord.id, profile);
-      const entryResult = runtime.entryEngine.decideEntryDoor(engineResult, diagnosticoForEngine);
+      const areaRecord = areaRecordFromLabel(territoryContext.areaLabel || participant?.setor);
+      const territoryResult = runtime.territoryEngine.evaluateTerritories(territoryContext);
 
       return {
         runtime,
+        participant,
         areaRecord,
         componentes,
-        engineResult,
-        entryResult
+        territoryContext,
+        territoryResult
       };
     }
 
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
+      context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildHtmlSections(context);
+      bindTerritoryChoiceHandlers(context);
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
       content.hidden = false;
       return context;
+    }
+
+    function bindTerritoryChoiceHandlers(context) {
+      const buttons = storyHost.querySelectorAll("[data-territory-select]");
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const territoryId = button.getAttribute("data-territory-select");
+          if (!territoryId || territoryId === context.selectedTerritoryId) return;
+          context.selectedTerritoryId = territoryId;
+          storyHost.innerHTML = buildHtmlSections(context);
+          bindTerritoryChoiceHandlers(context);
+        });
+      });
     }
 
     async function loadFtView() {
