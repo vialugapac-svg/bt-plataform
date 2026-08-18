@@ -52,6 +52,20 @@
     const ftViewStatus = document.getElementById("ft-view-status");
     document.getElementById("voltar").addEventListener("click", () => window.location.href = "./index.html");
 
+    function ftViewUrl(workshopId, participanteId) {
+      const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
+      return `../asis-v2/ft-view.html?${params.toString()}`;
+    }
+
+    function bindFtViewAccessButton(workshopId, participanteId) {
+      const botaoAcesso = document.getElementById("ft-view-access-button");
+      if (!botaoAcesso) return;
+      botaoAcesso.onclick = () => {
+        if (botaoAcesso.disabled) return;
+        window.location.href = ftViewUrl(workshopId, participanteId);
+      };
+    }
+
     function mostrarErro(mensagem) {
       estado.textContent = mensagem;
       estado.hidden = false;
@@ -77,7 +91,7 @@
       const botaoInformativo = document.querySelector("#resultado-content .ft-view-button");
       if (botaoAcesso) {
         botaoAcesso.textContent = liberado ? "Abrir FT View" : "AGUARDANDO LIBERAÇÃO DO MENTOR";
-        botaoAcesso.disabled = true;
+        botaoAcesso.disabled = !liberado;
         botaoAcesso.classList.toggle("ft-view-ready", liberado);
       }
       if (botaoInformativo) botaoInformativo.textContent = liberado ? "🟢 FT View liberado" : "🔒 Desbloquear FT View";
@@ -114,6 +128,7 @@
 
         document.getElementById("asis-styles").textContent = css || "";
         document.getElementById("resultado-content").replaceChildren(sanitizarRelatorio(html));
+        bindFtViewAccessButton(workshopId, participanteId);
         mostrarEstadoFtView(participante.diagnostico?.ftViewLiberado === true);
         onValue(ref(db, `workshops/${workshopId}/participantes/${participanteId}/diagnostico/ftViewLiberado`), statusSnapshot => {
           mostrarEstadoFtView(statusSnapshot.val() === true);
