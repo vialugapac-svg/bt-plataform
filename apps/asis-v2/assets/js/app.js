@@ -165,7 +165,8 @@ function pontuacaoComponente(i) {
 }
 
 let equipe = "";
-let workshop = "";
+let workshop = "";     // valor exibido ao participante
+let workshopId = "";   // chave segura para paths do Firebase (sem / . # $ [ ])
 let email = "";
 let contextoTipo = "";
 let contextoNome = "";
@@ -176,6 +177,12 @@ let respostas = {};
 
 function normalizarChave(valor) {
   return valor.toLowerCase().replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+// Remove caracteres inválidos em chaves do Realtime Database.
+// O valor original (workshop) é preservado para exibição; workshopId é a chave segura.
+function sanitizarWorkshopId(valor) {
+  return valor.replace(/[\u0000-\u001F\u007F\/\.\#\$\[\]]/g, "-");
 }
 
 function selecionarContexto(btn, tipo) {
@@ -214,15 +221,16 @@ async function confirmarEquipe() {
   }
 
   workshop = workshopVal;
+  workshopId = sanitizarWorkshopId(workshopVal);
   equipe = nomeVal;
   email = emailVal;
   contextoNome = contextoVal;
   setor = setorVal;
-  participanteId = normalizarChave(workshop + ":" + email);
-  localStorage.setItem("asis_session", JSON.stringify({ workshop, equipe, email, contextoTipo, contextoNome, setor, participanteId }));
+  participanteId = normalizarChave(workshopId + ":" + email);
+  localStorage.setItem("asis_session", JSON.stringify({ workshop, workshopId, equipe, email, contextoTipo, contextoNome, setor, participanteId }));
 
   try {
-    const base = `workshops/${workshop}/participantes/${participanteId}`;
+    const base = `workshops/${workshopId}/participantes/${participanteId}`;
     const snap = await window._dbGet(window._dbRef(window._db, base));
     if (snap.exists()) {
       const dados = snap.val();
@@ -399,7 +407,7 @@ function salvarFirebase(compIdx) {
     badge.textContent = "Salvando...";
     badge.classList.add('show');
   }
-  const r = window._dbRef(window._db, `workshops/${workshop}/participantes/${participanteId}/asis/componentes/${compIdx}`);
+  const r = window._dbRef(window._db, `workshops/${workshopId}/participantes/${participanteId}/asis/componentes/${compIdx}`);
   return window._dbSet(r, respostas[compIdx]).then(() => {
     if (badge) {
       badge.textContent = "✓ Dados salvos em tempo real";
@@ -434,7 +442,7 @@ async function concluir(i) {
     concluidos.add(i);
 
     if (window._db && window._dbRef && window._dbUpdate && participanteId) {
-      const base = `workshops/${workshop}/participantes/${participanteId}`;
+      const base = `workshops/${workshopId}/participantes/${participanteId}`;
       await window._dbUpdate(window._dbRef(window._db, base), {
         progresso: Math.round((concluidos.size / 11) * 100),
         componentesConcluidos: concluidos.size,
@@ -656,7 +664,7 @@ function abrirResultado() {
       },
       geradoEm: new Date().toISOString()
     };
-    const base = `workshops/${workshop}/participantes/${participanteId}`;
+    const base = `workshops/${workshopId}/participantes/${participanteId}`;
     const atualizacoes = Object.fromEntries(
       Object.entries(diagnostico).map(([chave, valor]) => [`diagnostico/${chave}`, valor])
     );
@@ -694,7 +702,7 @@ async function observarLiberacaoFtView() {
 
   try {
     const { onValue } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js");
-    const referencia = window._dbRef(window._db, `workshops/${workshop}/participantes/${participanteId}/diagnostico/ftViewLiberado`);
+    const referencia = window._dbRef(window._db, `workshops/${workshopId}/participantes/${participanteId}/diagnostico/ftViewLiberado`);
     conteudo._cancelarFtView = onValue(referencia, snapshot => {
       const liberado = snapshot.val() === true;
       botaoAcesso.disabled = !liberado;
@@ -715,7 +723,7 @@ async function observarLiberacaoFtView() {
 document.addEventListener("click", event => {
   const botaoAcesso = event.target.closest("#ft-view-access-button");
   if (!botaoAcesso || botaoAcesso.disabled) return;
-  const params = new URLSearchParams({ workshop, participante: participanteId });
+  const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
   const url = `./ft-view.html?${params.toString()}`;
 
   window.location.href = url;
@@ -736,6 +744,7 @@ function restaurarSessaoLocal() {
     const sessao = JSON.parse(raw);
     if (!sessao || !sessao.contextoTipo) return;
     workshop = sessao.workshop || "";
+    workshopId = sessao.workshopId || sanitizarWorkshopId(workshop);
     equipe = sessao.equipe || "";
     email = sessao.email || "";
     contextoTipo = sessao.contextoTipo || "";
