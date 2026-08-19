@@ -599,7 +599,7 @@ function abrirResultado() {
     <div class="result-list result-strong"><h3>Componentes mais fortes</h3><ul>
       ${fortes.map(x => `<li><strong>${x.c.nome}</strong> — ${x.score.toFixed(1)} · ${x.classe}</li>`).join("")}
     </ul></div>
-    <div class="result-list result-critical"><h3>Componentes que exigem maior atenção</h3><ul>
+    <div class="result-list result-critical"><h3>Componentes com maior oportunidade de evolução</h3><ul>
       ${atencao.map(x => `<li><strong>${x.c.nome}</strong> — ${x.score.toFixed(1)} · ${x.classe}</li>`).join("")}
     </ul></div>
     <div class="result-note">
@@ -607,7 +607,7 @@ function abrirResultado() {
     </div>
     <section class="result-section">
       <h2>Próxima etapa da Jornada</h2>
-      <p class="journey-text">Você concluiu o Diagnóstico AS-IS.\n\nNa próxima etapa do Workshop você aprenderá o FT Model.\n\nApós essa apresentação o Mentor liberará automaticamente a visualização do impacto das transformações sobre seu modelo de negócio.</p>
+      <p class="journey-text">Após a liberação do mentor, o FT View usará as evidências do seu AS-IS para sugerir onde começar a experimentar a Blockchain como nova infraestrutura, o que testar e o que medir.</p>
     </section>
     <button class="mentor-wait-btn" id="ft-view-access-button" type="button" disabled>SALVANDO...</button>
     <p class="ft-wait-message" id="ft-wait-message" hidden>Seu diagnóstico foi enviado ao mentor.\n\nPermaneça nesta tela.\n\nO botão será liberado automaticamente após a aula do FT Model.</p>
