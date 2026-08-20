@@ -190,9 +190,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .final-message { padding:18px 4px 4px; color:#526074; font-size:12px; line-height:1.7; text-align:center; white-space:pre-line; break-inside:avoid; }
 .result-btn-wrap { display:none; margin-top:14px; }
 .result-btn-wrap.show { display:block; }
+.asis-print-btn { display:block; width:100%; margin:0 0 10px; padding:13px 14px; border:1px solid #d6dbe4; border-radius:11px; background:#fff; color:#314760; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+.asis-print-btn:hover { background:#f5f7fa; }
 .result-legend { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 14px; justify-content:center; }
 .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:#666; }
 .legend-dot { width:11px; height:11px; border-radius:3px; }
+.percepcao-grid, .evidencias-grid { display:grid; gap:10px; }
+.percepcao-card, .evidencia-card { border:1px solid #ece8df; border-radius:11px; background:#faf9f6; padding:12px 13px; }
+.percepcao-card h3, .evidencia-card h3 { font-size:13px; color:#1a2744; margin-bottom:6px; }
+.percepcao-card p, .evidencia-card p { font-size:12px; line-height:1.6; color:#4f5661; }
+.percepcao-insight { margin-top:6px; color:#3f4e63; }
+.evidencia-meta { color:#777; font-size:11px; margin-bottom:5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
 @media (min-width: 521px) { .model-grid { grid-template-columns:repeat(3,1fr); } }
 @media (max-width: 520px) {
   #screen-resultado .hub-header { padding:18px 16px; }
@@ -211,7 +219,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   body { background:#fff; color:#111; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .page { max-width:none; padding:0; }
   #screen-resultado { display:block !important; }
-  #screen-equipe, #screen-home, #screen-ficha, .back-btn, .footer, .mentor-wait-btn { display:none !important; }
+  #screen-equipe, #screen-home, #screen-ficha, .back-btn, .footer, .mentor-wait-btn, .asis-print-btn { display:none !important; }
   .hub-header { border-radius:10px; margin-bottom:10px; padding:16px 20px; }
   .context-tag, .result-summary, .result-section, .model-panel, .result-list, .result-note { margin-bottom:9px; box-shadow:none; }
   .result-summary { padding:18px; }
@@ -261,8 +269,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <label for="setor-input" style="margin-top:16px">Qual é a Área de atuação da empresa ou atuação profissional analisada?</label>
       <select class="equipe-input" id="setor-input" required>
         <option value="">Selecione a Área de atuação</option>
-        <option value="Escritório Contábil/Contador">Escritório Contábil/Contador</option>
-        <option value="Profissional Liberal">Profissional Liberal</option>
+        <option value="Contabilidade e Serviços Contábeis">Contabilidade e Serviços Contábeis</option>
+        <option value="Indústria">Indústria</option>
+        <option value="Comércio / Varejo">Comércio / Varejo</option>
+        <option value="Serviços">Serviços</option>
+        <option value="Tecnologia / Negócios Digitais">Tecnologia / Negócios Digitais</option>
+        <option value="Agronegócio">Agronegócio</option>
         <option value="Outros">Outros</option>
       </select>
 

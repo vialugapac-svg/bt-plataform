@@ -133,13 +133,15 @@ const comps = [
 
 const postits = { ms:"#43A047", sa:"#7CB342", in:"#FDD835", fr:"#FB8C00", cr:"#E53935" };
 const postNames = {
-  ms:"Muito saudável — post-it verde escuro · escreva a observação antes de colar",
-  sa:"Saudável — post-it verde claro · escreva a observação antes de colar",
-  in:"Instável — post-it amarelo · escreva a observação antes de colar",
-  fr:"Frágil — post-it laranja · escreva a observação antes de colar",
-  cr:"Crítico — post-it vermelho · escreva a observação antes de colar"
+  ms:"Registre sua percepção no Workbook. Cole no componente a cor correspondente à percepção que você acabou de selecionar.",
+  sa:"Registre sua percepção no Workbook. Cole no componente a cor correspondente à percepção que você acabou de selecionar.",
+  in:"Registre sua percepção no Workbook. Cole no componente a cor correspondente à percepção que você acabou de selecionar.",
+  fr:"Registre sua percepção no Workbook. Cole no componente a cor correspondente à percepção que você acabou de selecionar.",
+  cr:"Registre sua percepção no Workbook. Cole no componente a cor correspondente à percepção que você acabou de selecionar."
 };
 const percValor = { ms:5, sa:4, in:3, fr:2, cr:1 };
+// Percepção inicial: 3 opções (posição antes das refs)
+const percInicialValor = { sa:3, in:2, cr:1 };
 const refValor = { sim:5, parcial:3, nao:1 };
 
 function corDiagnostico(valor) {
@@ -162,6 +164,45 @@ function pontuacaoComponente(i) {
   const valores = Object.values(r.refs).map(v => refValor[v] || 0);
   if (!valores.length) return 0;
   return valores.reduce((a,b) => a+b, 0) / valores.length;
+}
+
+function percepcaoInicialCompativel(resposta) {
+  const key = String(resposta?.percepcaoInicial || resposta?.percepcao || '').trim().toLowerCase();
+  if (key === 'sa' || key === 'in' || key === 'cr') return key;
+  if (key === 'ms') return 'sa';
+  if (key === 'fr') return 'cr';
+  return '';
+}
+
+function labelPercepcaoInicial(percepcaoKey) {
+  if (percepcaoKey === 'sa') return 'Saudável';
+  if (percepcaoKey === 'in') return 'Instável';
+  if (percepcaoKey === 'cr') return 'Crítico';
+  return 'Não informado';
+}
+
+function categoriaLeituraAsIs(score) {
+  const classe = classificacaoDiagnostico(score);
+  if (classe === 'Muito saudável' || classe === 'Saudável') return 'sa';
+  if (classe === 'Instável') return 'in';
+  return 'cr';
+}
+
+function textoDivergencia(percepcaoKey, leituraKey) {
+  if (percepcaoKey === leituraKey) return '';
+  if (percepcaoKey === 'sa' && (leituraKey === 'in' || leituraKey === 'cr')) {
+    return 'Suas respostas indicam uma situação que merece mais atenção do que sua percepção inicial sugeria.';
+  }
+  if (percepcaoKey === 'in' && leituraKey === 'cr') {
+    return 'Suas respostas indicam sinais de criticidade maiores do que sua percepção inicial sugeria.';
+  }
+  if (percepcaoKey === 'cr' && (leituraKey === 'in' || leituraKey === 'sa')) {
+    return 'Suas respostas mostram uma situação mais favorável do que sua percepção inicial sugeria.';
+  }
+  if (percepcaoKey === 'in' && leituraKey === 'sa') {
+    return 'Suas respostas mostram uma situação mais favorável do que sua percepção inicial sugeria.';
+  }
+  return 'Sua percepção inicial e a leitura pelas evidências seguiram direções diferentes, o que gera um insight útil para reflexão.';
 }
 
 let equipe = "";
@@ -324,7 +365,15 @@ function abrirFicha(i) {
       <div class="def-texto">${conteudo.def}</div>
     </div>
     <div class="bloco">
-      <div class="bloco-label">AS-IS — como estamos hoje</div>
+      <div class="perc-wrap perc-inicial-wrap">
+        <div class="perc-label">Antes de analisar este componente, como você percebe a situação atual?</div>
+        <div class="perc-grid perc-inicial-grid">
+          <button class="pb ${percepcaoInicialCompativel(respostas[i]) === 'sa' ? 'sa' : ''}" onclick="selPercInicial(this,'sa',${i})">Saudável</button>
+          <button class="pb ${percepcaoInicialCompativel(respostas[i]) === 'in' ? 'in' : ''}" onclick="selPercInicial(this,'in',${i})">Instável</button>
+          <button class="pb ${percepcaoInicialCompativel(respostas[i]) === 'cr' ? 'cr' : ''}" onclick="selPercInicial(this,'cr',${i})">Crítico</button>
+        </div>
+      </div>
+      <div class="bloco-label" style="margin-top:20px">AS-IS — como estamos hoje</div>
       <div class="pergunta" style="border-left-color:${c.cor.bg}">${conteudo.pergunta}</div>
       ${conteudo.refs.map((r,ri) => `
         <div class="ref-row">
@@ -335,16 +384,6 @@ function abrirFicha(i) {
             <button class="pl n ${respostas[i]?.refs?.[ri] === 'nao' ? 'on' : ''}" onclick="this.closest('.pill-g').querySelectorAll('.pl').forEach(p=>p.classList.remove('on'));this.classList.add('on');salvarRef(${i},${ri},'nao')">Não</button>
           </div>
         </div>`).join('')}
-      <div class="perc-wrap">
-        <div class="perc-label">Sua percepção atual</div>
-        <div class="perc-grid">
-          <button class="pb ${respostas[i]?.percepcao === 'ms' ? 'ms' : ''}" onclick="selP(this,'ms',${i})">Muito saudável</button>
-          <button class="pb ${respostas[i]?.percepcao === 'sa' ? 'sa' : ''}" onclick="selP(this,'sa',${i})">Saudável</button>
-          <button class="pb ${respostas[i]?.percepcao === 'in' ? 'in' : ''}" onclick="selP(this,'in',${i})">Instável</button>
-          <button class="pb ${respostas[i]?.percepcao === 'fr' ? 'fr' : ''}" onclick="selP(this,'fr',${i})">Frágil</button>
-          <button class="pb ${respostas[i]?.percepcao === 'cr' ? 'cr' : ''}" onclick="selP(this,'cr',${i})">Crítico</button>
-        </div>
-      </div>
       <div class="obs-wrap">
         <div class="obs-label">Principal insight ou evidência </div>
         <textarea class="obs-textarea" id="obs-${i}" placeholder="Registre o principal insight, fato ou evidência deste componente.">${respostas[i]?.observacao || ''}</textarea>
@@ -352,13 +391,36 @@ function abrirFicha(i) {
       </div>
       <div class="postit-hint">
         <div class="postit-dot" id="pdot" style="background:#e0ddd5;border-color:#e0ddd5"></div>
-        <span id="ptxt" style="font-size:12px;color:#888">Selecione a percepção para ver a cor do post-it</span>
+        <span id="ptxt" style="font-size:12px;color:#888">Registre sua percepção no Workbook e cole no componente a cor correspondente.</span>
       </div>
       <div class="salvo-badge" id="salvo-badge">✓ Dados salvos em tempo real</div>
     </div>
     <button class="concluir-btn" style="background:${c.cor.bg}" onclick="concluir(${i})">✓ Concluído — voltar ao menu</button>
   `;
+  const percepcaoKey = percepcaoInicialCompativel(respostas[i]);
+  if (percepcaoKey) {
+    const dot = document.getElementById('pdot');
+    const txt = document.getElementById('ptxt');
+    if (dot) {
+      dot.style.background = postits[percepcaoKey];
+      dot.style.borderColor = postits[percepcaoKey];
+    }
+    if (txt) {
+      txt.textContent = postNames[percepcaoKey];
+      txt.style.color = '#444';
+    }
+  }
   window.scrollTo(0,0);
+}
+
+function selPercInicial(btn, cls, i) {
+  btn.closest('.perc-inicial-grid').querySelectorAll('.pb').forEach(b => b.className = 'pb');
+  btn.classList.add(cls);
+  const dot = document.getElementById('pdot');
+  const txt = document.getElementById('ptxt');
+  if (dot) { dot.style.background = postits[cls]; dot.style.borderColor = postits[cls]; }
+  if (txt) { txt.textContent = postNames[cls]; txt.style.color = '#444'; }
+  salvarPercepcaoInicial(i, cls);
 }
 
 function selP(btn, cls, i) {
@@ -375,6 +437,15 @@ function salvarRef(compIdx, refIdx, valor) {
   if (!respostas[compIdx]) respostas[compIdx] = { refs: {} };
   if (!respostas[compIdx].refs) respostas[compIdx].refs = {};
   respostas[compIdx].refs[refIdx] = valor;
+  salvarFirebase(compIdx);
+}
+
+function salvarPercepcaoInicial(compIdx, cls) {
+  if (!respostas[compIdx]) respostas[compIdx] = {};
+  respostas[compIdx].percepcaoInicial = cls;
+  respostas[compIdx].percepcaoInicialValor = percInicialValor[cls] || 0;
+  respostas[compIdx].nomeComponente = comps[compIdx].nome;
+  respostas[compIdx].numComponente = comps[compIdx].num;
   salvarFirebase(compIdx);
 }
 
@@ -425,9 +496,13 @@ async function concluir(i) {
     alert("Responda todas as referências antes de concluir.");
     return;
   }
-  if (!respostas[i].percepcao) {
-    alert("Selecione a percepção atual antes de concluir.");
+  if (!percepcaoInicialCompativel(respostas[i])) {
+    alert("Selecione a percepção inicial antes de concluir.");
     return;
+  }
+  if (!respostas[i].percepcaoInicial) {
+    respostas[i].percepcaoInicial = percepcaoInicialCompativel(respostas[i]);
+    respostas[i].percepcaoInicialValor = percInicialValor[respostas[i].percepcaoInicial] || 0;
   }
   const obs = document.getElementById('obs-' + i);
   const botaoConcluir = document.querySelector('.concluir-btn');
@@ -504,6 +579,31 @@ function abrirResultado() {
   const atencao = [...itens].sort((a,b) => a.score-b.score).slice(0,3);
   const maiorDestaque = [...itens].sort((a,b) => b.score-a.score)[0];
   const menorDestaque = [...itens].sort((a,b) => a.score-b.score)[0];
+  const observacoesRelevantes = itens
+    .map(x => ({
+      componente: x.c.nome,
+      texto: String(respostas[x.i]?.observacao || '').trim(),
+      score: x.score,
+      classe: x.classe
+    }))
+    .filter(item => item.texto)
+    .slice(0, 6);
+  const divergencias = itens
+    .map(x => {
+      const percepcaoKey = percepcaoInicialCompativel(respostas[x.i]);
+      if (!percepcaoKey) return null;
+      const leituraKey = categoriaLeituraAsIs(x.score);
+      if (percepcaoKey === leituraKey) return null;
+      return {
+        componente: x.c.nome,
+        percepcaoKey,
+        leituraKey,
+        leituraClasse: x.classe,
+        score: x.score,
+        texto: textoDivergencia(percepcaoKey, leituraKey)
+      };
+    })
+    .filter(Boolean);
   const resumoExecutivo = media >= 4.5 ? {
     nivel: "Alta",
     texto: "O contexto analisado demonstra elevada consistência em seus componentes e uma base madura para sustentar sua evolução. As práticas atuais revelam integração, clareza e capacidade de gerar resultados de forma confiável. O próximo movimento é preservar os pontos fortes enquanto se identificam oportunidades de inovação e expansão."
@@ -528,6 +628,7 @@ function abrirResultado() {
       <strong>${contextoNome}</strong>
       <span style="display:block;margin-top:4px">${equipe}</span>
     </div>
+    <button class="asis-print-btn" id="asis-print-button" type="button">🖨 Salvar / Imprimir PDF do AS-IS</button>
     <div class="result-summary">
       <div class="result-label">Maturidade Geral</div>
       <div class="result-score">${Math.round((media/5)*100)}%</div>
@@ -602,12 +703,44 @@ function abrirResultado() {
     <div class="result-list result-critical"><h3>Componentes com maior oportunidade de evolução</h3><ul>
       ${atencao.map(x => `<li><strong>${x.c.nome}</strong> — ${x.score.toFixed(1)} · ${x.classe}</li>`).join("")}
     </ul></div>
+    <section class="result-section">
+      <h2>Percepção × Evidências</h2>
+      ${divergencias.length ? `
+        <p style="margin-bottom:10px">As divergências abaixo são sinais úteis para reflexão sobre o contexto analisado.</p>
+        <div class="percepcao-grid">
+          ${divergencias.map(item => `
+            <article class="percepcao-card">
+              <h3>${item.componente}</h3>
+              <p><strong>Percepção inicial:</strong> ${labelPercepcaoInicial(item.percepcaoKey)}</p>
+              <p><strong>Evidências:</strong> ${item.leituraClasse} — ${item.score.toFixed(1)}/5</p>
+              <p class="percepcao-insight">${item.texto}</p>
+            </article>
+          `).join("")}
+        </div>
+      ` : `
+        <p>Sua percepção inicial e a leitura do AS-IS pelas evidências estão alinhadas nos componentes respondidos.</p>
+      `}
+    </section>
+    ${observacoesRelevantes.length ? `
+      <section class="result-section">
+        <h2>Principais evidências registradas</h2>
+        <div class="evidencias-grid">
+          ${observacoesRelevantes.map(item => `
+            <article class="evidencia-card">
+              <h3>${item.componente}</h3>
+              <p class="evidencia-meta">${item.classe} — ${item.score.toFixed(1)}/5</p>
+              <p>${item.texto}</p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    ` : ""}
     <div class="result-note">
       Este resultado representa o <strong>AS IS</strong>: a fotografia de como seu negócio ou sua atuação profissional funciona hoje. Ele ainda não define o futuro desejado nem apresenta um plano de transformação.
     </div>
     <section class="result-section">
       <h2>Próxima etapa da Jornada</h2>
-      <p class="journey-text">Após a liberação do mentor, o FT View usará as evidências do seu AS-IS para sugerir onde começar a experimentar a Blockchain como nova infraestrutura, o que testar e o que medir.</p>
+      <p class="journey-text">Após a liberação do mentor, o FT View utilizará as evidências do seu AS-IS para mostrar onde as transformações da Nova Economia podem encontrar oportunidades no seu contexto e como organizações já estão utilizando essas novas infraestruturas.</p>
     </section>
     <button class="mentor-wait-btn" id="ft-view-access-button" type="button" disabled>SALVANDO...</button>
     <p class="ft-wait-message" id="ft-wait-message" hidden>Seu diagnóstico foi enviado ao mentor.\n\nPermaneça nesta tela.\n\nO botão será liberado automaticamente após a aula do FT Model.</p>
@@ -640,6 +773,8 @@ function abrirResultado() {
       }])),
       respostas: Object.fromEntries(itens.map(x => [x.c.num, {
         referencias: respostas[x.i]?.refs || {},
+        percepcaoInicial: percepcaoInicialCompativel(respostas[x.i]) || "",
+        percepcaoInicialValor: respostas[x.i]?.percepcaoInicialValor || percInicialValor[percepcaoInicialCompativel(respostas[x.i])] || 0,
         percepcao: respostas[x.i]?.percepcao || "",
         percepcaoValor: respostas[x.i]?.percepcaoValor || 0,
         insight: respostas[x.i]?.observacao || "",
@@ -721,6 +856,12 @@ async function observarLiberacaoFtView() {
 }
 
 document.addEventListener("click", event => {
+  const botaoImpressao = event.target.closest("#asis-print-button");
+  if (botaoImpressao) {
+    window.print();
+    return;
+  }
+
   const botaoAcesso = event.target.closest("#ft-view-access-button");
   if (!botaoAcesso || botaoAcesso.disabled) return;
   const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
