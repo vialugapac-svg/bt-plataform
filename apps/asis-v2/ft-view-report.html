@@ -73,6 +73,34 @@
       text-decoration: underline;
     }
 
+    .report-print-btn {
+      background: #1a2744;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .report-print-btn:hover {
+      opacity: 0.88;
+    }
+
+    @media print {
+      .report-toolbar { display: none !important; }
+      .footer-note { display: none !important; }
+      body { background: #fff !important; }
+      .ft-page { padding: 0 !important; }
+      .story-card, .flow-card, .lens-card {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+    }
+
     .ft-header {
       margin-bottom: 14px;
       padding: 24px;
@@ -905,6 +933,7 @@
     <div id="content" hidden>
       <nav class="report-toolbar">
         <a class="report-back" id="report-back-link" href="./ft-view.html">â† Voltar ao FT View Workshop</a>
+        <button class="report-print-btn" onclick="window.print()">&#x1F5A8; Salvar / Imprimir PDF</button>
       </nav>
       <header class="ft-header">
         <div class="eyebrow">RelatÃ³rio FT completo</div>
@@ -939,6 +968,7 @@
 
     const commonJsModulePaths = new Map([
       ["component-dictionary", new URL("../shared-discernment/component-dictionary.js", import.meta.url)],
+      ["blockchain-adherence-matrix", new URL("../shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
       ["blockchain-example-library", new URL("../shared-discernment/blockchain-example-library.js", import.meta.url)],
       ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
       ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
@@ -1645,6 +1675,28 @@
           bindTerritoryChoiceHandlers(context);
         });
       });
+    }
+
+    function currentParticipantQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const workshopId = params.get("workshop");
+      const participanteId = params.get("participante");
+      if (!workshopId || !participanteId) return "";
+      return `?${new URLSearchParams({ workshop: workshopId, participante: participanteId }).toString()}`;
+    }
+
+    function rememberParticipantPayload(participant) {
+      try { sessionStorage.setItem("ft-view-last-participant", JSON.stringify(participant)); } catch {}
+    }
+
+    function restoreParticipantPayload() {
+      try { const raw = sessionStorage.getItem("ft-view-last-participant"); return raw ? JSON.parse(raw) : null; } catch { return null; }
+    }
+
+    function updateBackLink() {
+      const backLink = document.getElementById("report-back-link");
+      if (!backLink) return;
+      backLink.href = `./ft-view.html${currentParticipantQuery()}`;
     }
 
     async function renderFromParticipant(participant) {

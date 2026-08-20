@@ -652,6 +652,7 @@
       background: #fff;
       color: #334259;
       padding: 10px 12px;
+      min-height: 44px;
       font-size: 12px;
       font-weight: 700;
       line-height: 1.45;
@@ -715,6 +716,151 @@
     .secondary-action:hover {
       color: var(--brand);
       text-decoration: underline;
+    }
+
+    .example-link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px 12px;
+      min-height: 44px;
+      border: 1px solid #cfd8e4;
+      border-radius: 10px;
+      background: #fff;
+      color: #25344b;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.45;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+
+    .example-link-button:hover {
+      border-color: #1a2744;
+      color: #1a2744;
+    }
+
+    .example-modal[hidden] { display: none; }
+    .example-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: grid;
+      align-items: end;
+      background: rgba(11, 16, 24, 0.55);
+      padding: 12px;
+    }
+
+    .example-modal__dialog {
+      width: min(720px, 100%);
+      max-height: 88vh;
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border-radius: 16px;
+      border: 1px solid #d8dee7;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .example-modal__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e7eaf0;
+    }
+
+    .example-modal__title {
+      margin: 0;
+      color: var(--brand);
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .example-modal__subtitle {
+      margin: 4px 0 0;
+      color: #667286;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .example-modal__close {
+      border: 1px solid #d4dce7;
+      border-radius: 10px;
+      background: #fff;
+      color: #334259;
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .example-modal__body {
+      overflow: auto;
+      padding: 12px 16px 16px;
+      display: grid;
+      gap: 10px;
+      overscroll-behavior: contain;
+    }
+
+    .example-case-card {
+      border: 1px solid #e4e8ef;
+      border-radius: 12px;
+      background: #fafbfc;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .example-case-label {
+      color: #6f7d91;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .example-case-card h4 {
+      margin: 0;
+      color: #1a2744;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .example-case-row b {
+      color: #1a2744;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .example-case-row p {
+      margin: 4px 0 0;
+      color: #4e5c71;
+      font-size: 12px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .example-case-source {
+      color: #1a4f9b;
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    .example-transition-card {
+      border: 1px solid #dce4ee;
+      border-radius: 12px;
+      background: #eef4fb;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
     }
 
     .blockchain-primary {
@@ -840,6 +986,20 @@
         width: 100%;
         text-align: left;
       }
+
+      .example-modal {
+        padding: 0;
+      }
+
+      .example-modal__dialog {
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 16px 16px 0 0;
+      }
+
+      .example-modal__body {
+        padding: 10px 12px 14px;
+      }
     }
   </style>
 </head>
@@ -857,15 +1017,32 @@
           <span class="chain-arrow">→</span>
           <span class="chain-step">ONDE TESTAR</span>
           <span class="chain-arrow">→</span>
+          <span class="chain-step">ONDE A BLOCKCHAIN PODE CONTRIBUIR</span>
+          <span class="chain-arrow">→</span>
           <span class="chain-step">O QUE FAZER</span>
           <span class="chain-arrow">→</span>
           <span class="chain-step">O QUE MEDIR</span>
+          <span class="chain-arrow">→</span>
+          <span class="chain-step">FMIF</span>
         </div>
       </header>
 
       <div class="story-host" id="story-host"></div>
 
       <footer class="footer-note">Se quiser aprofundar a explicabilidade desta leitura, o Relatório FT completo permanece disponível sob demanda, em uma experiência separada.</footer>
+    </div>
+
+    <div class="example-modal" id="example-library-modal" hidden>
+      <div class="example-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="example-modal-title">
+        <div class="example-modal__header">
+          <div>
+            <h3 class="example-modal__title" id="example-modal-title">Exemplos reais</h3>
+            <p class="example-modal__subtitle" id="example-modal-subtitle"></p>
+          </div>
+          <button type="button" class="example-modal__close" id="example-modal-close" aria-label="Fechar exemplos">×</button>
+        </div>
+        <div class="example-modal__body" id="example-modal-body"></div>
+      </div>
     </div>
   </main>
 
@@ -887,6 +1064,11 @@
     const state = document.getElementById("state");
     const content = document.getElementById("content");
     const storyHost = document.getElementById("story-host");
+    const exampleModal = document.getElementById("example-library-modal");
+    const exampleModalTitle = document.getElementById("example-modal-title");
+    const exampleModalSubtitle = document.getElementById("example-modal-subtitle");
+    const exampleModalBody = document.getElementById("example-modal-body");
+    const exampleModalClose = document.getElementById("example-modal-close");
 
     const commonJsModulePaths = new Map([
       ["component-dictionary", new URL("../shared-discernment/component-dictionary.js", import.meta.url)],
@@ -895,6 +1077,7 @@
       ["opportunity-engine", new URL("../shared-discernment/opportunity-engine.js", import.meta.url)],
       ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)],
       ["blockchain-adherence-matrix", new URL("../shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
+      ["blockchain-example-library", new URL("../shared-discernment/blockchain-example-library.js", import.meta.url)],
       ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
       ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
       ["territory-engine", new URL("../shared-discernment/territory-engine.js", import.meta.url)]
@@ -956,6 +1139,7 @@
           profileAdapter: evaluateModule("profile-adapter"),
           opportunityEngine: evaluateModule("opportunity-engine"),
           entryEngine: evaluateModule("entry-engine"),
+          exampleLibrary: evaluateModule("blockchain-example-library"),
           evidenceInterpreter: evaluateModule("evidence-interpreter"),
           territoryContext: evaluateModule("territory-context"),
           territoryEngine: evaluateModule("territory-engine")
@@ -1388,7 +1572,7 @@
         return `
           <div class="subtle-note">
             <strong>Evidências do seu AS-IS</strong>
-            <p style="margin-top:8px;">Nenhum trecho do AS-IS sustentou uma aplicação específica neste território. O FT View está propondo uma hipótese de experimentação com base na aderência do componente à nova infraestrutura.</p>
+            <p style="margin-top:8px;">Nesta etapa, a recomendação foi sustentada principalmente pelas respostas estruturadas do seu AS-IS e pela aderência deste componente à nova infraestrutura. O experimento ajudará a gerar evidências mais específicas.</p>
           </div>
         `;
       }
@@ -1500,6 +1684,307 @@
       return (territory?.reasons || []).find(Boolean) || confidenceNarrative(territory?.confidenceLevel);
     }
 
+    function formatScore(value) {
+      const num = Number(value);
+      if (!Number.isFinite(num)) return null;
+      return num.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+    }
+
+    function capitalizeSentence(value) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function normalizeLabel(value) {
+      return String(value || "")
+        .replace(/\s+/g, " ")
+        .replace(/\bde\b/gi, "de")
+        .replace(/\be\b/gi, "e")
+        .trim();
+    }
+
+    function dedupePreserveOrder(values) {
+      const seen = new Set();
+      return (values || []).filter(value => {
+        const key = String(value || "").toLowerCase();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function pilotLibraryComponent(runtime, territory) {
+      return runtime.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components?.[territory?.componentId] || null;
+    }
+
+    function normalizeRealCases(cases) {
+      return (cases || []).filter(item =>
+        item
+        && item.name
+        && item.problem
+        && item.howItWorks
+        && item.blockchainRole
+        && item.lesson
+        && item.firstStep
+        && item.sourceUrl
+      );
+    }
+
+    function adherenceItems(context, territory) {
+      const libraryComponent = pilotLibraryComponent(context.runtime, territory);
+      if (libraryComponent?.adherences?.length) {
+        return libraryComponent.adherences.map(adherence => ({
+          id: adherence.id,
+          title: adherence.title,
+          businessDescription: adherence.businessDescription,
+          practicalExample: adherence.practicalExample,
+          firstStepHint: adherence.firstStepHint,
+          realCases: normalizeRealCases(adherence.realCases)
+        }));
+      }
+
+      const capabilities = (territory?.signals?.adherence?.capabilities || []).map(item => capitalizeSentence(normalizeLabel(item)));
+      const familyMap = {
+        "Ativos, propriedade e direitos": "Prova de propriedade e direitos",
+        "Registros e rastreabilidade": "Registros verificáveis e rastreabilidade",
+        "Autenticacao e identidade": "Identidade digital",
+        "Pagamentos e recebimentos": "Pagamentos e recebimentos",
+        "Liquidacao e conciliacao": "Liquidação e conciliação",
+        "Circulacao e transferencia de valor": "Transferência de valor",
+        "Parceiros e fornecedores": "Integração com parceiros"
+      };
+      const familyItems = familyLabels(context.runtime, territory?.signals?.adherence?.signalFamilies || [], 5)
+        .map(label => familyMap[label] || label);
+      return dedupePreserveOrder([...capabilities, ...familyItems]).slice(0, 5).map((item, index) => ({
+        id: `fallback-${index}`,
+        title: item,
+        businessDescription: "Possibilidade de explorar este tipo de melhoria com registro verificável.",
+        practicalExample: "Exemplo: selecionar uma etapa pequena e comparar fluxo atual com fluxo experimental.",
+        firstStepHint: "Comece com um caso pequeno e observável para aprender com segurança.",
+        realCases: []
+      }));
+    }
+
+    function hasRealCase(adherence) {
+      return (adherence?.realCases || []).length > 0;
+    }
+
+    function territoryReflectionPrompt(context, territory) {
+      const libraryComponent = pilotLibraryComponent(context.runtime, territory);
+      return libraryComponent?.transitionPrompt
+        || "Existe algo na sua empresa que hoje depende de conferência manual, arquivo original ou confiança em uma única organização?";
+    }
+
+    function territoryGenericFirstStep(context, territory) {
+      const libraryComponent = pilotLibraryComponent(context.runtime, territory);
+      return libraryComponent?.genericFirstStep
+        || "Escolha um caso pequeno e registre como esse processo funciona hoje antes de testar uma alternativa.";
+    }
+
+    function areaBlockchainContextText(areaRecord) {
+      if (areaRecord?.id === "escritorio_contabil") {
+        return "Em escritórios contábeis, essas possibilidades podem aparecer em situações envolvendo registro, autenticação, transferência, comprovação de ativos, documentos e direitos.";
+      }
+      if (areaRecord?.id === "empresario") {
+        return "Para empresários, essas possibilidades podem aparecer em situações envolvendo contratos, registros confiáveis, relacionamento com parceiros e circulação de valor.";
+      }
+      if (areaRecord?.id === "profissional_liberal") {
+        return "Para profissionais liberais, essas possibilidades podem aparecer em situações envolvendo credenciais, comprovação de autoria, autenticação e entrega de valor ao cliente.";
+      }
+      return "Para esta área de atuação, essas possibilidades podem aparecer em situações envolvendo registros, autenticação, transferência e comprovação de ativos, documentos e direitos.";
+    }
+
+    function buildExperimentIntro(context, territory) {
+      const { areaRecord } = context;
+      const component = territory?.componentName || "este componente";
+      const componentLower = component.charAt(0).toLowerCase() + component.slice(1);
+      const capability = capitalizeSentence((territory?.signals?.adherence?.capabilities || [])[0] || "registros verificáveis");
+      if (territory?.componentId === "05" && areaRecord?.id === "escritorio_contabil") {
+        return "Escolha algo que seu escritório hoje precisa registrar, comprovar ou validar — por exemplo, um documento, contrato, certificado ou comprovante — e teste uma forma de registrar sua existência e autenticidade usando Blockchain, sem substituir o processo atual.";
+      }
+      if (territory?.componentId === "07" && areaRecord?.id === "escritorio_contabil") {
+        return "Escolha uma troca real entre seu escritório e um parceiro — por exemplo, envio de documento, validação de informação ou confirmação entre partes — e teste um registro compartilhado e verificável sem substituir o fluxo atual.";
+      }
+      if (territory?.componentId === "04") {
+        return "Escolha uma etapa real do processo que hoje depende de confirmação manual — por exemplo, validação de documentos, autorização ou conciliação — e teste um fluxo verificável com Blockchain em pequena escala.";
+      }
+      if (territory?.componentId === "06") {
+        return "Escolha um ponto real de relacionamento ou transação com cliente — por exemplo, cobrança, recebimento ou confirmação — e teste um fluxo com registro verificável sem substituir o canal atual.";
+      }
+      if (territory?.componentId === "03") {
+        return "Escolha uma entrega concreta de valor ao cliente — por exemplo, um serviço, credencial ou comprovação — e teste se um registro verificável melhora confiança e autenticidade.";
+      }
+      if (territory?.componentId === "08") {
+        return "Escolha uma interação real com pessoas/clientes — por exemplo, validação de identidade, credencial ou autorização — e teste uma forma verificável de comprovação em pequena escala.";
+      }
+      return `Escolha um caso pequeno e real ligado a ${componentLower} e teste uma forma de aplicar ${capability.toLowerCase()} com infraestrutura Blockchain, sem substituir o processo atual.`;
+    }
+
+    function experimentGoalText() {
+      return "O objetivo não é apenas colocar algo na Blockchain. O objetivo é testar se um registro verificável pode melhorar comprovação, autenticidade, rastreabilidade ou propriedade.";
+    }
+
+    function contributionDetailText(label) {
+      const normalized = String(label || "").toLowerCase();
+      if (normalized.includes("tokeniza")) {
+        return {
+          micro: "Permite representar ativos/direitos de forma digital e verificável.",
+          example: "Exemplo: representar uma fração de direito ou ativo para facilitar comprovação e rastreio."
+        };
+      }
+      if (normalized.includes("prova de propriedade")) {
+        return {
+          micro: "Ajuda a comprovar titularidade e histórico de transferências.",
+          example: "Exemplo: comprovar quem é o titular de um documento ou direito e quando isso mudou."
+        };
+      }
+      if (normalized.includes("registro")) {
+        return {
+          micro: "Cria trilha de registro verificável entre partes.",
+          example: "Exemplo: registrar quando um documento foi emitido, validado e consultado."
+        };
+      }
+      if (normalized.includes("identidade")) {
+        return {
+          micro: "Fortalece autenticação e comprovação de identidade.",
+          example: "Exemplo: validar autoria e autenticidade de uma assinatura/credencial digital."
+        };
+      }
+      if (normalized.includes("custodia")) {
+        return {
+          micro: "Ajuda a controlar guarda e responsabilidade sobre ativos digitais.",
+          example: "Exemplo: definir quem pode acessar, transferir ou validar determinado ativo."
+        };
+      }
+      if (normalized.includes("parceiro") || normalized.includes("multiparte") || normalized.includes("compartilhado")) {
+        return {
+          micro: "Melhora a coordenação de informações entre organizações.",
+          example: "Exemplo: sincronizar validações entre escritório, cliente e parceiro sem retrabalho."
+        };
+      }
+      return {
+        micro: "Pode criar uma forma mais verificável de registrar e validar informações.",
+        example: "Exemplo: testar uma etapa pequena com comparação entre o fluxo atual e o fluxo com registro verificável."
+      };
+    }
+
+    function closeExampleLibraryModal() {
+      if (!exampleModal) return;
+      exampleModal.hidden = true;
+      if (exampleModalBody) exampleModalBody.innerHTML = "";
+    }
+
+    function caseCardHtml(item) {
+      return `
+        <article class="example-case-card">
+          <div class="example-case-label">CASO REAL</div>
+          <h4>${escapeHtml(item.name)}</h4>
+          <div class="example-case-row">
+            <b>O problema</b>
+            <p>${escapeHtml(item.problem)}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Como funciona</b>
+            <p>${escapeHtml(item.howItWorks)}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Papel da Blockchain</b>
+            <p>${escapeHtml(item.blockchainRole)}</p>
+          </div>
+          ${item.result ? `
+          <div class="example-case-row">
+            <b>Resultado</b>
+            <p>${escapeHtml(item.result)}</p>
+          </div>
+          ` : ""}
+          <div class="example-case-row">
+            <b>O que este caso ensina</b>
+            <p>${escapeHtml(item.lesson)}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Primeiro passo</b>
+            <p>${escapeHtml(item.firstStep)}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Fonte</b>
+            <p>
+              ${item.sourceName ? `${escapeHtml(item.sourceName)}${item.year ? ` (${escapeHtml(item.year)})` : ""}<br>` : ""}
+              ${item.sourceType ? `<span>${escapeHtml(item.sourceType)}</span><br>` : ""}
+              <a class="example-case-source" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.sourceUrl)}</a>
+            </p>
+          </div>
+        </article>
+      `;
+    }
+
+    function openExampleLibraryModal(context, selectedTerritory, adherenceId) {
+      const adherences = adherenceItems(context, selectedTerritory);
+      const selectedAdherence = adherences.find(item => item.id === adherenceId);
+      if (!selectedAdherence || !hasRealCase(selectedAdherence)) return;
+
+      if (exampleModalTitle) {
+        exampleModalTitle.textContent = `Exemplos reais — ${selectedAdherence.title}`;
+      }
+      if (exampleModalSubtitle) {
+        exampleModalSubtitle.textContent = `${territoryDisplayName(selectedTerritory)} · ${context.areaRecord?.nome || "Área de atuação"}`;
+      }
+
+      const casesHtml = selectedAdherence.realCases.map(caseCardHtml).join("");
+      const transitionHtml = `
+        <article class="example-transition-card">
+          <div class="example-case-row">
+            <b>O que isso pode significar no seu negócio?</b>
+            <p>${escapeHtml(territoryReflectionPrompt(context, selectedTerritory))}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Primeiro passo possível</b>
+            <p>${escapeHtml(selectedAdherence.firstStepHint || territoryGenericFirstStep(context, selectedTerritory))}</p>
+          </div>
+          <div class="example-case-row">
+            <b>Como começar no seu contexto</b>
+            <p>${escapeHtml(territoryGenericFirstStep(context, selectedTerritory))}</p>
+          </div>
+        </article>
+      `;
+      if (exampleModalBody) {
+        exampleModalBody.innerHTML = `${casesHtml}${transitionHtml}`;
+      }
+      if (exampleModal) {
+        exampleModal.hidden = false;
+      }
+    }
+
+    function bindExampleLibraryButtons(context, selectedTerritory) {
+      storyHost.querySelectorAll("[data-open-examples]").forEach(button => {
+        button.addEventListener("click", () => {
+          const adherenceId = button.getAttribute("data-open-examples");
+          if (!adherenceId) return;
+          openExampleLibraryModal(context, selectedTerritory, adherenceId);
+        });
+      });
+    }
+
+    function buildPrimaryMarketReference(context, territory) {
+      const { runtime, areaRecord } = context;
+      if (!territory || territory.componentId !== context.territoryResult?.recommendedTerritory?.componentId) return null;
+      const area = runtime.blockchainKb?.areas?.[areaRecord?.id];
+      if (!area) return null;
+      const families = area.families || [];
+      for (const family of families) {
+        for (const possibility of (family.possibilities || [])) {
+          const opportunities = possibility?.components?.opportunities || [];
+          const matchesComponent = opportunities.some(item => String(item?.num || "").padStart(2, "0") === territory.componentId);
+          if (!matchesComponent) continue;
+          const reference = possibility.marketReference || possibility.reference || null;
+          if (reference?.name && reference?.what && reference?.relevance && reference?.source) {
+            return reference;
+          }
+        }
+      }
+      return null;
+    }
+
     function territoryByComponentId(territoryResult, componentId) {
       if (!territoryResult || !componentId) return null;
 
@@ -1549,6 +2034,64 @@
       if (selected) return selected;
       if (recommended) return recommended;
       return alternative || null;
+    }
+
+    function territoryOpportunityCopy(territory) {
+      const componentNameText = territory?.componentName || "este componente";
+      const scoreText = formatScore(territory?.score);
+      const statusText = componentScoreLabel(Number(territory?.score || 0));
+      if (territory?.territoryType === "EXPLORATORIO") {
+        return {
+          title: `Comece por ${territoryDisplayName(territory)}`,
+          body: `${scoreText ? `No seu AS-IS, ${componentNameText} recebeu pontuação ${scoreText} (${statusText}). ` : ""}Ao cruzar essa leitura com as possibilidades da nova infraestrutura, o FT View identificou aqui um bom ponto para investigação inicial em pequena escala.`
+        };
+      }
+      return {
+        title: `Comece por ${territoryDisplayName(territory)}`,
+        body: `${scoreText ? `No seu AS-IS, ${componentNameText} recebeu pontuação ${scoreText} (${statusText}). ` : ""}Ao cruzar essa necessidade com as possibilidades da nova infraestrutura, o FT View identificou aqui um bom ponto para um primeiro experimento.`
+      };
+    }
+
+    function territoryEntryDoor(territory) {
+      if (territory?.territoryType === "EXPLORATORIO") {
+        return {
+          label: "EXPLORAR",
+          narrative: "Comece observando e formulando hipóteses antes de ampliar. Registre a situação atual, faça um teste pequeno e use os resultados para decidir o próximo passo."
+        };
+      }
+      return {
+        label: "EXPERIMENTAR",
+        narrative: "Há sinais suficientes para realizar um primeiro teste em pequena escala. Registre como essa atividade funciona hoje, faça o experimento e depois compare os resultados."
+      };
+    }
+
+    function territoryAttentionItems(runtime, territory) {
+      const items = [];
+      if (!territory) return items;
+      if ((territory.textualEvidenceCapped || 0) === 0) {
+        items.push("Ausência de evidência textual específica no AS-IS para este território.");
+      }
+      if (territory.territoryType === "EXPLORATORIO") {
+        items.push("Leitura exploratória: priorize aprendizagem e validação antes de ampliar o movimento.");
+      }
+      const evidenceLevel = territory?.signals?.evidence?.level;
+      if (evidenceLevel === "INICIAL" || evidenceLevel === "AUSENTE" || evidenceLevel === "ENFRAQUECIDA") {
+        items.push(`Nível de evidência textual atual: ${String(evidenceLevel).toLowerCase()}.`);
+      }
+      const families = familyLabels(runtime, territory?.signals?.adherence?.signalFamilies || [], 2);
+      if (families.length) {
+        items.push(`Observe com atenção sinais ligados a ${joinNaturalLanguage(families.map(item => item.toLowerCase()))}.`);
+      }
+      return items;
+    }
+
+    function territoryValidationItems(runtime, territory) {
+      const gaps = familyLabels(runtime, territory?.evidenceGaps || [], 4);
+      if (gaps.length) return gaps;
+      if ((territory?.textualEvidenceCapped || 0) <= 0) {
+        return ["Evidências textuais específicas do componente selecionado."];
+      }
+      return [];
     }
 
     function opportunityEvidenceText(runtime, item) {
@@ -1768,26 +2311,33 @@
     }
 
     function buildWorkshopSections(context) {
-      const { territoryResult } = context;
+      const { territoryResult, areaRecord, runtime } = context;
       const recommended = territoryResult.recommendedTerritory;
       const alternative = shouldShowAlternativeTerritory(territoryResult.alternativeTerritory)
         ? territoryResult.alternativeTerritory
         : null;
       const selectedTerritory = selectedTerritoryFromContext(context, recommended, alternative);
-      const selectedExperiment = selectedTerritory?.suggestedExperiment || territoryResult.suggestedExperiment;
+      const opportunityCopy = territoryOpportunityCopy(selectedTerritory);
+      const contributionItems = adherenceItems(context, selectedTerritory);
+      const selectedExperiment = selectedTerritory?.suggestedExperiment || territoryResult.suggestedExperiment || {};
+      const experimentSafeguards = (selectedExperiment?.safeguards || ["pequeno", "reversível", "observável", "comparável", "seguro para a operação"]).slice(0, 5);
       const selectedObservationCriteria = selectedTerritory?.observationCriteria || territoryResult.observationCriteria || [];
-      const evidenceSentence = territoryEvidenceSentence(context, recommended);
-      const selectedEvidenceSentence = territoryEvidenceSentence(context, selectedTerritory);
+      const observationCriteria = selectedObservationCriteria.length
+        ? selectedObservationCriteria
+        : ["tempo", "custo", "facilidade de auditoria", "segurança operacional"];
       const recommendedIsSelected = selectedTerritory?.componentId === recommended?.componentId;
       const alternativeIsSelected = selectedTerritory?.componentId === alternative?.componentId;
+      const marketReference = recommendedIsSelected ? buildPrimaryMarketReference(context, selectedTerritory) : null;
+      const hasAnyRealCases = contributionItems.some(item => hasRealCase(item));
 
       return `
         <div class="workshop-stack">
           <section class="story-card">
-            <div class="section-step">Importante</div>
-            <div class="subtle-note" style="margin-top:0;">
-              <strong>IMPORTANTE</strong><br>
-              O FT View não substitui as oportunidades de melhoria identificadas no seu AS-IS. Você pode trabalhar essas melhorias independentemente da Blockchain. Aqui, o objetivo é outro: identificar, a partir do seu AS-IS, um bom ponto para começar a experimentar a nova infraestrutura.
+            <div class="section-step">Oportunidade identificada</div>
+            <h2>${escapeHtml(opportunityCopy.title)}</h2>
+            <p class="section-copy">${escapeHtml(opportunityCopy.body)}</p>
+            <div class="evidence-inline">
+              Esta é uma hipótese de experimentação baseada no seu AS-IS. Não é uma recomendação automática de implementação.
             </div>
           </section>
 
@@ -1797,22 +2347,15 @@
               <article class="territory-primary-card">
                 <span class="territory-card-lead">Recomendação principal</span>
                 <div class="territory-name">${escapeHtml(territoryDisplayName(recommended))}</div>
-                <p class="workshop-copy">${escapeHtml(territoryShortActionText(context, recommended))}</p>
-                <div class="evidence-inline"><strong>Recomendado pelo FT View</strong></div>
-                <div class="evidence-inline">${escapeHtml(territoryCoreReason(recommended))}</div>
-                ${evidenceSentence ? `<div class="evidence-inline">${escapeHtml(evidenceSentence)}</div>` : ""}
-                ${recommended.territoryType === "EXPLORATORIO"
-                  ? `<div class="subtle-note">${escapeHtml(territoryHypothesisCompact(context, recommended))}</div>`
-                  : `<div class="evidence-inline">Partimos das evidências do seu AS-IS para sugerir este primeiro território de experimentação.</div>`}
+                <p class="workshop-copy">O FT View recomenda começar por <strong>${escapeHtml(recommended.componentName)}</strong>.</p>
+                <div class="evidence-inline">No seu AS-IS, este componente apareceu como um ponto consistente para iniciar um teste controlado.</div>
               </article>
               ${alternative ? `
               <article class="territory-secondary-card">
                 <span class="territory-card-lead">Outra possibilidade identificada</span>
                 <div class="territory-name" style="font-size:18px;">${escapeHtml(territoryDisplayName(alternative))}</div>
-                <p class="territory-choice-note">${escapeHtml(territoryCoreReason(alternative))}</p>
-                ${territoryEvidenceSentence(context, alternative)
-                  ? `<div class="evidence-inline">${escapeHtml(territoryEvidenceSentence(context, alternative))}</div>`
-                  : ""}
+                <p class="territory-choice-note">O seu AS-IS também revelou sinais relevantes em <strong>${escapeHtml(alternative.componentName)}</strong>. Por isso, esta aparece como outra possibilidade de experimentação.</p>
+                <div class="evidence-inline">Use esta alternativa se ela fizer mais sentido para o momento real do seu negócio.</div>
               </article>
               <p class="territory-choice-note">O FT View recomenda um ponto de partida, mas a decisão é sua. Escolha qual hipótese faz mais sentido testar primeiro na realidade do seu negócio.</p>
               <div class="territory-choice-actions">
@@ -1837,26 +2380,67 @@
             </div>
           </section>
 
-          <section class="story-card workshop-card workshop-opportunity">
-            <div class="workshop-lead">2. O que fazer?</div>
-            <h3>${escapeHtml(selectedExperiment?.title || "Experimento inicial")}</h3>
-            <p class="section-copy">${escapeHtml(selectedExperiment?.description || "Escolha um fluxo real e pequeno ligado ao território selecionado.")}</p>
-            <ul class="evidence-list" style="margin-top:10px;">
-              ${(selectedExperiment?.steps || []).map(step => `<li>${escapeHtml(step)}</li>`).join("")}
-            </ul>
-            <div class="subtle-note">O objetivo não é implementar Blockchain. É produzir evidência própria para descobrir se essa nova infraestrutura melhora algo relevante no seu negócio.</div>
-            <div class="secondary-inline">
-              ${(selectedExperiment?.safeguards || []).map(item => `<span>${escapeHtml(item)}</span>`).join("")}
-            </div>
-            <div class="selected-territory-inline">Hipótese selecionada para este experimento: <strong>${escapeHtml(territoryDisplayName(selectedTerritory))}</strong>.</div>
+          <section class="story-card">
+            <div class="section-step">2. ONDE A BLOCKCHAIN PODE CONTRIBUIR?</div>
+            <article class="info-box box-accent-blue">
+              <div class="context-strip">
+                <span class="context-pill">Área de atuação · ${escapeHtml(areaRecord.nome)}</span>
+                <span class="context-pill">Infraestrutura em foco · ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
+              </div>
+              <h3>Potenciais aderências para ${escapeHtml(selectedTerritory.componentName)}</h3>
+              <ul class="evidence-list" style="margin-top:10px;">
+                ${(contributionItems.length ? contributionItems : [{ title: "Possibilidades iniciais de registro, autenticação e rastreabilidade", businessDescription: "", practicalExample: "", realCases: [] }]).map(item => {
+                  const detail = contributionDetailText(item.title);
+                  return `<li>
+                    <strong>${escapeHtml(item.title)}</strong><br>
+                    ${escapeHtml(item.businessDescription || detail.micro)}<br>
+                    <span>${escapeHtml(item.practicalExample || detail.example)}</span>
+                    ${hasRealCase(item) ? `<button type="button" class="example-link-button" data-open-examples="${escapeHtml(item.id)}">Ver exemplos reais →</button>` : ""}
+                  </li>`;
+                }).join("")}
+              </ul>
+              <p style="margin-top:12px;">${escapeHtml(areaBlockchainContextText(areaRecord))}</p>
+              <div class="evidence-inline">Estas são possibilidades para exploração no Workshop. Não representam recomendação automática de implementação.</div>
+            </article>
+          </section>
+
+          <section class="story-card">
+            <div class="section-step">3. O QUE FAZER?</div>
+            <article class="workshop-card workshop-opportunity" style="margin-bottom:0;">
+              <h3>Experimento sugerido</h3>
+              <p class="section-copy">${escapeHtml(buildExperimentIntro(context, selectedTerritory))}</p>
+              <div class="evidence-inline" style="margin-top:0;">${escapeHtml(experimentGoalText())}</div>
+              <h3 style="margin-top:14px;">Como começar</h3>
+              <ul class="evidence-list" style="margin-top:10px;">
+                <li>Escolha um caso pequeno e real.</li>
+                <li>Registre como funciona hoje.</li>
+                <li>Faça uma versão experimental utilizando a nova infraestrutura.</li>
+                <li>Compare os resultados.</li>
+              </ul>
+              <div class="selected-territory-inline">Hipótese selecionada para este experimento: <strong>${escapeHtml(territoryDisplayName(selectedTerritory))}</strong>.</div>
+              ${hasAnyRealCases ? `<div class="evidence-inline"><strong>Como outras organizações já fizeram algo semelhante?</strong><br>Use “Ver exemplos reais →” nas aderências acima para abrir casos de referência com fonte verificável.</div>` : ""}
+              <div class="secondary-inline">
+                ${experimentSafeguards.map(item => `<span>${escapeHtml(item)}</span>`).join("")}
+              </div>
+              <div class="subtle-note">O objetivo aqui é experimentar e aprender, sem substituir o processo atual nesta etapa.</div>
+            </article>
+            ${marketReference ? `
+            <article class="info-box box-accent-green" style="margin-top:12px;">
+              <h3>REFERÊNCIA DE MERCADO</h3>
+              <p><strong>${escapeHtml(marketReference.name)}</strong></p>
+              <p>${escapeHtml(marketReference.what)}</p>
+              <p><strong>Por que é relevante:</strong> ${escapeHtml(marketReference.relevance)}</p>
+              <p><strong>Fonte:</strong> ${escapeHtml(marketReference.source)}</p>
+            </article>
+            ` : ""}
           </section>
 
           <section class="story-card workshop-card workshop-origin">
-            <div class="workshop-lead">3. O que medir?</div>
-            <h3>Como comparar o estado atual com o primeiro experimento</h3>
-            <p class="section-copy">Registre a situação atual antes do teste. Depois repita a medição durante o experimento e compare.</p>
+            <div class="workshop-lead">4. O que medir?</div>
+            <h3>Antes → Experimento → Depois</h3>
+            <p class="section-copy">Registre como essa situação funciona hoje. Durante o experimento, observe os mesmos critérios. Depois compare os resultados.</p>
             <ul class="tag-list" style="margin-top:12px;">
-              ${(selectedObservationCriteria || []).map(item => `<li class="tag"><span>${escapeHtml(item)}</span></li>`).join("")}
+              ${observationCriteria.map(item => `<li class="tag"><span>${escapeHtml(item)}</span></li>`).join("")}
             </ul>
             <div class="reasoning-chain" style="margin-top:14px;">
               <span class="chain-step">ANTES</span>
@@ -1865,18 +2449,17 @@
               <span class="chain-arrow">→</span>
               <span class="chain-step">DEPOIS</span>
             </div>
-            <div class="evidence-inline">Esses critérios são propostos pelo FT View para ajudar você a perceber se o experimento fez diferença.</div>
-            ${selectedEvidenceSentence ? `<div class="selected-territory-inline">${escapeHtml(selectedEvidenceSentence)}</div>` : ""}
+            <div class="evidence-inline">Esses critérios ajudam você a perceber se o experimento realmente gerou melhoria.</div>
           </section>
 
           <section class="story-card action-card">
-            <p style="margin-bottom:12px;">Agora você tem uma hipótese concreta: onde testar a Blockchain, o que fazer e o que medir.</p>
-            <p style="margin-bottom:16px;">Leve esta hipótese para o FMIF para avaliar sua capacidade de avançar. Depois, o PTIF ajudará a transformar o aprendizado em plano.</p>
+            <p style="margin-bottom:12px;">Agora você tem uma hipótese concreta: onde experimentar, o que testar e como saber se funcionou.</p>
+            <p style="margin-bottom:16px;">Leve esta hipótese para o FMIF para avaliar sua capacidade de avançar.</p>
             <a class="primary-action" id="fmif-primary-action" href="javascript:void(0)" aria-disabled="true">
               <strong>Continuar para o FMIF →</strong>
               <span>Avance com este território, o experimento sugerido e os critérios de medição.</span>
             </a>
-            <a class="secondary-action" id="report-full-link" href="./ft-view-report.html">Ver Relatório FT completo</a>
+            <a class="secondary-action" id="report-full-link" href="./ft-view-report.html">Ver / Salvar Relatório FT completo (PDF)</a>
           </section>
         </div>
       `;
@@ -1913,9 +2496,18 @@
 
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
+      closeExampleLibraryModal();
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildHtmlSections(context);
       bindTerritoryChoiceHandlers(context);
+      bindExampleLibraryButtons(
+        context,
+        selectedTerritoryFromContext(
+          context,
+          context.territoryResult?.recommendedTerritory,
+          shouldShowAlternativeTerritory(context.territoryResult?.alternativeTerritory) ? context.territoryResult?.alternativeTerritory : null
+        )
+      );
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
@@ -1929,9 +2521,19 @@
         button.addEventListener("click", () => {
           const territoryId = button.getAttribute("data-territory-select");
           if (!territoryId || territoryId === context.selectedTerritoryId) return;
+          closeExampleLibraryModal();
           context.selectedTerritoryId = territoryId;
           storyHost.innerHTML = buildHtmlSections(context);
           bindTerritoryChoiceHandlers(context);
+          bindExampleLibraryButtons(
+            context,
+            selectedTerritoryFromContext(
+              context,
+              context.territoryResult?.recommendedTerritory,
+              shouldShowAlternativeTerritory(context.territoryResult?.alternativeTerritory) ? context.territoryResult?.alternativeTerritory : null
+            )
+          );
+          updateReportLink();
         });
       });
     }
@@ -1974,6 +2576,20 @@
     }
 
     window.__ftViewRenderFromParticipantData = async participant => renderFromParticipant(participant);
+
+    if (exampleModalClose) {
+      exampleModalClose.addEventListener("click", closeExampleLibraryModal);
+    }
+    if (exampleModal) {
+      exampleModal.addEventListener("click", event => {
+        if (event.target === exampleModal) closeExampleLibraryModal();
+      });
+    }
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape" && exampleModal && !exampleModal.hidden) {
+        closeExampleLibraryModal();
+      }
+    });
 
     loadFtView();
   </script>
