@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório FT completo</title>
+  <title>RelatÃ³rio FT completo</title>
   <style>
     :root {
       color-scheme: light;
@@ -498,6 +498,188 @@
       border-top: 5px solid #2e7d32;
     }
 
+    .territory-decision-stack {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .territory-primary-card,
+    .territory-secondary-card {
+      padding: 14px;
+      border: 1px solid #d9e3ef;
+      border-radius: 14px;
+      background: #eef4fb;
+    }
+
+    .territory-secondary-card {
+      border-color: #e2dfd8;
+      background: #fff;
+    }
+
+    .territory-card-lead {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #c9d7eb;
+      background: #fff;
+      color: #1b4f9b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .territory-name {
+      margin: 10px 0 8px;
+      color: var(--brand);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .territory-choice-note {
+      margin: 0;
+      color: #5d6877;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .territory-choice-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .territory-choice-button {
+      border: 1px solid #cfd8e4;
+      border-radius: 12px;
+      background: #fff;
+      color: #334259;
+      padding: 10px 12px;
+      min-height: 44px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .territory-choice-button.is-recommended {
+      border-color: #b8cce5;
+    }
+
+    .territory-choice-button.is-active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .selected-territory-inline {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d9e1ea;
+      background: #f4f6f9;
+      color: #4f5c70;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .story-grid,
+    .detail-grid,
+    .case-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .detail-card,
+    .case-card {
+      padding: 16px;
+      border: 1px solid #e2dfd8;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .detail-card h3,
+    .case-card h3 {
+      margin: 0 0 10px;
+      color: var(--brand);
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .detail-card h4,
+    .case-card h4 {
+      margin: 14px 0 8px;
+      color: #23324b;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .case-meta span {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f3f5f8;
+      border: 1px solid #dde3ea;
+      color: #546174;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .case-source-link {
+      color: var(--brand);
+      font-weight: 700;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .case-source-link:hover {
+      text-decoration: underline;
+    }
+
+    .measurement-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .measurement-card {
+      padding: 14px;
+      border: 1px solid #d9e1ea;
+      border-radius: 14px;
+      background: #f8fafc;
+    }
+
+    .measurement-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--brand);
+      font-size: 13px;
+    }
+
+    .measurement-card span {
+      color: #5b6778;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
     .workshop-lead {
       margin-bottom: 10px;
       color: #73829a;
@@ -663,7 +845,7 @@
     }
 
     .details-card summary::after {
-      content: "＋";
+      content: "ï¼‹";
       color: var(--brand);
       font-size: 22px;
       font-weight: 500;
@@ -671,7 +853,7 @@
     }
 
     .details-card[open] summary::after {
-      content: "–";
+      content: "â€“";
     }
 
     .details-body {
@@ -718,21 +900,21 @@
 </head>
 <body>
   <main class="ft-page">
-    <div class="ft-state" id="state">Carregando FT View…</div>
+    <div class="ft-state" id="state">Carregando FT Viewâ€¦</div>
 
     <div id="content" hidden>
       <nav class="report-toolbar">
-        <a class="report-back" id="report-back-link" href="./ft-view.html">← Voltar ao FT View Workshop</a>
+        <a class="report-back" id="report-back-link" href="./ft-view.html">â† Voltar ao FT View Workshop</a>
       </nav>
       <header class="ft-header">
-        <div class="eyebrow">Relatório FT completo</div>
+        <div class="eyebrow">RelatÃ³rio FT completo</div>
         <h1>Entender como chegamos a esta leitura</h1>
-        <p>Esta é a camada de aprofundamento do FT View. Ela preserva a explicabilidade completa da leitura: evidências do AS-IS, tensões, forças, oportunidade, sinais relacionados à capacidade, origem, possibilidades Blockchain e próximo passo prudente.</p>
+        <p>Esta Ã© a camada de aprofundamento do FT View. Ela usa a mesma conclusÃ£o canÃ´nica do Workshop e explica por que esse territÃ³rio foi escolhido, quais evidÃªncias do AS-IS sustentam a leitura e como transformar isso em um primeiro experimento.</p>
       </header>
 
       <div class="story-host" id="story-host"></div>
 
-      <footer class="footer-note">Este relatório existe para transparência e aprofundamento. A experiência principal do Workshop permanece no FT View Workshop.</footer>
+      <footer class="footer-note">Este relatÃ³rio existe para transparÃªncia e aprofundamento. A experiÃªncia principal do Workshop permanece no FT View Workshop.</footer>
     </div>
   </main>
 
@@ -757,10 +939,10 @@
 
     const commonJsModulePaths = new Map([
       ["component-dictionary", new URL("../shared-discernment/component-dictionary.js", import.meta.url)],
-      ["blockchain-kb-opportunities", new URL("../shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
-      ["profile-adapter", new URL("../shared-discernment/profile-adapter.js", import.meta.url)],
-      ["opportunity-engine", new URL("../shared-discernment/opportunity-engine.js", import.meta.url)],
-      ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)]
+      ["blockchain-example-library", new URL("../shared-discernment/blockchain-example-library.js", import.meta.url)],
+      ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
+      ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
+      ["territory-engine", new URL("../shared-discernment/territory-engine.js", import.meta.url)]
     ]);
 
     let ftRuntimePromise = null;
@@ -792,7 +974,7 @@
         await Promise.all([...commonJsModulePaths.entries()].map(async ([key, url]) => {
           const response = await fetch(url);
           if (!response.ok) {
-            throw new Error(`Não foi possível carregar o módulo ${key}.`);
+            throw new Error(`NÃ£o foi possÃ­vel carregar o mÃ³dulo ${key}.`);
           }
           sources.set(key, await response.text());
         }));
@@ -802,7 +984,7 @@
         function evaluateModule(key) {
           if (cache.has(key)) return cache.get(key).exports;
           const source = sources.get(key);
-          if (!source) throw new Error(`Módulo não encontrado: ${key}`);
+          if (!source) throw new Error(`MÃ³dulo nÃ£o encontrado: ${key}`);
 
           const module = { exports: {} };
           cache.set(key, module);
@@ -815,10 +997,10 @@
 
         return {
           componentDictionary: evaluateModule("component-dictionary"),
-          blockchainKb: evaluateModule("blockchain-kb-opportunities"),
-          profileAdapter: evaluateModule("profile-adapter"),
-          opportunityEngine: evaluateModule("opportunity-engine"),
-          entryEngine: evaluateModule("entry-engine")
+          exampleLibrary: evaluateModule("blockchain-example-library"),
+          evidenceInterpreter: evaluateModule("evidence-interpreter"),
+          territoryContext: evaluateModule("territory-context"),
+          territoryEngine: evaluateModule("territory-engine")
         };
       })();
 
@@ -842,11 +1024,11 @@
     }
 
     function componentScoreLabel(score) {
-      if (score >= 5) return "muito saudável";
-      if (score >= 4) return "saudável";
+      if (score >= 5) return "muito saudÃ¡vel";
+      if (score >= 4) return "saudÃ¡vel";
       if (score >= 3) return "neutro";
-      if (score >= 2) return "frágil";
-      return "crítico";
+      if (score >= 2) return "frÃ¡gil";
+      return "crÃ­tico";
     }
 
     function componentCardClass(score) {
@@ -856,14 +1038,14 @@
     }
 
     function scoreNarrative(score) {
-      if (score >= 4) return "aparece como evidência forte no AS-IS";
-      if (score <= 2) return "aparece como ponto de atenção no AS-IS";
+      if (score >= 4) return "aparece como evidÃªncia forte no AS-IS";
+      if (score <= 2) return "aparece como ponto de atenÃ§Ã£o no AS-IS";
       return "permanece sem sinal dominante no AS-IS";
     }
 
     function confidenceLabel(confidence) {
       if (confidence === "high") return "possibilidade fortemente sustentada";
-      if (confidence === "medium") return "possibilidade plausível";
+      if (confidence === "medium") return "possibilidade plausÃ­vel";
       return "sinal inicial";
     }
 
@@ -876,15 +1058,15 @@
 
     function originCopy(origin) {
       if (origin === "INTERNAL") {
-        return "A leitura do motor associa a oportunidade principalmente a tensões, capacidades ou espaços já existentes no próprio modelo de negócio.";
+        return "A leitura do motor associa a oportunidade principalmente a tensÃµes, capacidades ou espaÃ§os jÃ¡ existentes no prÃ³prio modelo de negÃ³cio.";
       }
       if (origin === "EXTERNAL") {
-        return "A leitura do motor associa a oportunidade principalmente à transformação do ambiente e da infraestrutura, sem exigir um problema interno dominante para justificá-la.";
+        return "A leitura do motor associa a oportunidade principalmente Ã  transformaÃ§Ã£o do ambiente e da infraestrutura, sem exigir um problema interno dominante para justificÃ¡-la.";
       }
       if (origin === "MIXED") {
-        return "A leitura do motor combina condições internas do modelo com uma transformação externa capaz de ampliar ou redirecionar a oportunidade.";
+        return "A leitura do motor combina condiÃ§Ãµes internas do modelo com uma transformaÃ§Ã£o externa capaz de ampliar ou redirecionar a oportunidade.";
       }
-      return "As evidências atuais ainda não permitem afirmar uma origem predominante para a oportunidade.";
+      return "As evidÃªncias atuais ainda nÃ£o permitem afirmar uma origem predominante para a oportunidade.";
     }
 
     function entryDoorClass(entryDoor) {
@@ -897,17 +1079,17 @@
     }
 
     function entryDoorCopy(entryDoor) {
-      if (entryDoor === "PREPARAR") return "Fortalecer condições antes de testar uma oportunidade.";
-      if (entryDoor === "EXPLORAR") return "Observar, investigar e formular hipóteses antes de avançar.";
-      if (entryDoor === "EXPERIMENTAR") return "Testar uma hipótese em escala controlada.";
-      if (entryDoor === "OFERECER") return "Estruturar uma oferta com evidência já suficiente para ir ao mercado.";
-      if (entryDoor === "EMPREENDER") return "Estruturar uma iniciativa mais robusta diante de uma combinação forte de oportunidade e capacidade.";
-      return "Leitura prudente não disponível.";
+      if (entryDoor === "PREPARAR") return "Fortalecer condiÃ§Ãµes antes de testar uma oportunidade.";
+      if (entryDoor === "EXPLORAR") return "Observar, investigar e formular hipÃ³teses antes de avanÃ§ar.";
+      if (entryDoor === "EXPERIMENTAR") return "Testar uma hipÃ³tese em escala controlada.";
+      if (entryDoor === "OFERECER") return "Estruturar uma oferta com evidÃªncia jÃ¡ suficiente para ir ao mercado.";
+      if (entryDoor === "EMPREENDER") return "Estruturar uma iniciativa mais robusta diante de uma combinaÃ§Ã£o forte de oportunidade e capacidade.";
+      return "Leitura prudente nÃ£o disponÃ­vel.";
     }
 
     function familyDescription(runtime, areaId, familyId) {
       const families = runtime.blockchainKb?.areas?.[areaId]?.families || [];
-      return families.find(item => item.id === familyId)?.description || "Possibilidade associada à nova infraestrutura em foco.";
+      return families.find(item => item.id === familyId)?.description || "Possibilidade associada Ã  nova infraestrutura em foco.";
     }
 
     function mapParticipantProfile(participant, runtime) {
@@ -960,578 +1142,516 @@
       const tensionNames = uniqueComponentsByNum(result.tensions).map(item => componentName(runtime, item.componentNum));
 
       if (leverageNames.length && tensionNames.length) {
-        return `O motor lê o AS-IS como uma combinação de alavancas em ${leverageNames.join(", ")} e tensões em ${tensionNames.slice(0, 3).join(", ")}.`;
+        return `O motor lÃª o AS-IS como uma combinaÃ§Ã£o de alavancas em ${leverageNames.join(", ")} e tensÃµes em ${tensionNames.slice(0, 3).join(", ")}.`;
       }
       if (leverageNames.length) {
         return `O motor identifica alavancas mais claras em ${leverageNames.join(", ")}.`;
       }
       if (tensionNames.length) {
-        return `O motor lê o AS-IS com predominância de tensões em ${tensionNames.slice(0, 3).join(", ")}.`;
+        return `O motor lÃª o AS-IS com predominÃ¢ncia de tensÃµes em ${tensionNames.slice(0, 3).join(", ")}.`;
       }
       if (strengths.length) {
-        return `O AS-IS mostra componentes relativamente estáveis, mas ainda sem uma tensão ou alavanca dominante para priorização imediata.`;
+        return `O AS-IS mostra componentes relativamente estÃ¡veis, mas ainda sem uma tensÃ£o ou alavanca dominante para priorizaÃ§Ã£o imediata.`;
       }
-      return `O AS-IS permanece sem sinais dominantes claros: nem forças muito destacadas, nem tensões fortes o bastante para definir uma direção prioritária.`;
+      return `O AS-IS permanece sem sinais dominantes claros: nem forÃ§as muito destacadas, nem tensÃµes fortes o bastante para definir uma direÃ§Ã£o prioritÃ¡ria.`;
     }
 
-    function joinComponentNames(items, runtime, limit = 2) {
-      return uniqueComponentsByNum(items).slice(0, limit).map(item => componentName(runtime, item.componentNum)).join(", ");
+    // â”€â”€â”€ CANONICAL TERRITORY HELPERS (shared logic with ft-view.html) â”€â”€â”€â”€â”€â”€â”€â”€
+
+    function signalFamilyLabel(runtime, familyId) {
+      const match = (runtime.evidenceInterpreter?.SIGNAL_FAMILIES || []).find(item => item.id === familyId);
+      return match?.label || familyId;
     }
 
-    function firstRelevantEvidence(result) {
-      return (result.businessOpportunityEvidence || [])[0] || null;
+    function familyLabels(runtime, familyIds, limit = 3) {
+      return (familyIds || []).slice(0, limit).map(id => signalFamilyLabel(runtime, id));
     }
 
-    function workshopSummaryHeadline(context) {
-      const { engineResult, componentes, runtime } = context;
-      const strengths = strongestComponents(componentes);
-      const weaknesses = weakestComponents(componentes);
-
-      if (!engineResult.businessOpportunity && weaknesses.length >= 3 && strengths.length === 0) {
-        return "Seu AS-IS mostra um modelo que ainda precisa ganhar base antes de avançar.";
-      }
-      if (engineResult.businessOpportunity && strengths.length >= 3 && weaknesses.length === 0) {
-        return "Seu AS-IS mostra um modelo forte, com espaço para observar novas frentes de valor.";
-      }
-      if (engineResult.businessOpportunity && strengths.length > 0 && weaknesses.length > 0) {
-        return "Seu AS-IS combina base real para avançar com pontos específicos que ainda pedem atenção.";
-      }
-      if (!engineResult.businessOpportunity && strengths.length > 0 && weaknesses.length > 0) {
-        return "Seu AS-IS mostra sinais mistos: há bases úteis, mas ainda sem uma direção dominante.";
-      }
-      if (!engineResult.businessOpportunity && strengths.length > 0) {
-        return `Seu AS-IS mostra estabilidade em ${joinComponentNames(strengths.map(item => ({ componentNum: item.num })), runtime)}, mas ainda sem uma oportunidade dominante.`;
-      }
-      return "Seu AS-IS ainda não aponta uma direção dominante, mas já mostra onde vale observar com mais atenção.";
+    function joinNaturalLanguage(values) {
+      const items = (values || []).filter(Boolean);
+      if (!items.length) return "";
+      if (items.length === 1) return items[0];
+      if (items.length === 2) return `${items[0]} e ${items[1]}`;
+      return `${items.slice(0, -1).join(", ")} e ${items[items.length - 1]}`;
     }
 
-    function workshopSummaryBody(context) {
-      const { engineResult, componentes, runtime } = context;
-      const strengths = strongestComponents(componentes);
-      const weaknesses = weakestComponents(componentes);
-      const strengthNames = strengths.slice(0, 2).map(item => item.nome);
-      const weaknessNames = weaknesses.slice(0, 2).map(item => item.nome);
-
-      if (strengthNames.length && weaknessNames.length) {
-        return `Hoje, as evidências sugerem forças em ${strengthNames.join(" e ")}, mas também tensões em ${weaknessNames.join(" e ")} que influenciam sua próxima decisão.`;
-      }
-      if (weaknessNames.length) {
-        return `Hoje, o que mais chama atenção são tensões em ${weaknessNames.join(" e ")}. Isso ajuda a explicar por que a leitura pede prudência antes de avançar.`;
-      }
-      if (strengthNames.length) {
-        return `Hoje, o modelo aparece mais consistente em ${strengthNames.join(" e ")}. Isso ajuda a sustentar uma leitura de oportunidade sem fabricar um problema interno.`;
-      }
-      return `As evidências ainda estão dispersas. Por isso, o FT View prioriza clareza sobre onde observar, sem forçar uma conclusão mais assertiva do que o AS-IS permite.`;
+    function formatScore(value) {
+      const num = Number(value);
+      if (!Number.isFinite(num)) return null;
+      return num.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
     }
 
-    function workshopOpportunityReason(context) {
-      const { engineResult, runtime } = context;
-      const evidence = firstRelevantEvidence(engineResult);
-      if (engineResult.businessOpportunity && evidence) {
-        return `${componentName(runtime, evidence.componentNum)} foi a evidência mais claramente associada a esta leitura de negócio.`;
-      }
-      const primaryTension = uniqueComponentsByNum(engineResult.tensions || [])[0];
-      if (primaryTension) {
-        return `As evidências atuais ainda pesam mais em ${componentName(runtime, primaryTension.componentNum)} do que em uma direção clara de oportunidade.`;
-      }
-      return "As evidências ainda não formam um sinal forte o bastante para priorizar uma oportunidade de negócio dominante.";
+    function territoryDisplayName(territory) {
+      if (!territory) return "";
+      return `${territory.componentId} â€” ${territory.componentName}`;
     }
 
-    function originWorkshopText(origin) {
-      if (origin === "INTERNAL") {
-        return "A principal oportunidade parece nascer mais de dentro do seu modelo atual do que de uma mudança externa dominante.";
-      }
-      if (origin === "EXTERNAL") {
-        return "A principal oportunidade parece ganhar força porque o ambiente e a infraestrutura estão mudando ao redor do seu negócio.";
-      }
-      if (origin === "MIXED") {
-        return "Existe uma oportunidade real no seu modelo atual, mas ela parece ser ampliada por uma transformação externa relevante.";
-      }
-      return "Ainda não há evidência suficiente para dizer se a principal força desta leitura vem mais de dentro do modelo ou do ambiente externo.";
+    function territoryCoreReason(territory) {
+      return (territory?.reasons || []).find(Boolean) || "";
     }
 
-    function confidenceWorkshopText(confidence) {
-      if (confidence === "high") return "aparece como uma possibilidade mais sustentada pelas evidências";
-      if (confidence === "medium") return "aparece como uma possibilidade plausível a explorar";
-      return "aparece apenas como um sinal inicial a explorar";
+    function shouldShowAlternativeTerritory(territory) {
+      return !!territory;
     }
 
-    function primaryBlockchainText(context) {
-      const { areaRecord, engineResult, runtime } = context;
-      const primary = (engineResult.blockchainPossibilities || [])[0];
-      if (!primary) {
-        return {
-          headline: "Nenhuma possibilidade Blockchain ganhou destaque nesta leitura.",
-          body: "Neste momento, o FT View não identifica uma possibilidade principal suficientemente distinta para colocar em primeiro plano.",
-          secondary: []
-        };
-      }
-      const support = (primary.supportingEvidence || [])[0];
-      const supportText = support
-        ? `Isso se conecta especialmente aos sinais em ${componentName(runtime, support.componentNum)}.`
-        : "Por enquanto, isso permanece como uma hipótese geral de infraestrutura a investigar.";
-      return {
-        headline: primary.name,
-        body: `Na área de ${areaRecord.nome}, ${primary.name.toLowerCase()} ${confidenceWorkshopText(primary.confidence)}. ${supportText}`,
-        secondary: (engineResult.blockchainPossibilities || []).slice(1, 3).map(item => item.name)
-      };
+    function territoryByComponentId(territoryResult, componentId) {
+      if (!territoryResult || !componentId) return null;
+      if (territoryResult.recommendedTerritory?.componentId === componentId) return territoryResult.recommendedTerritory;
+      if (territoryResult.alternativeTerritory?.componentId === componentId) return territoryResult.alternativeTerritory;
+      return (territoryResult.componentAnalyses || []).find(a => a.componentId === componentId) || null;
     }
 
-    function workshopNextMoveText(entryDoor, context) {
-      const { engineResult, runtime } = context;
-      const tensionName = joinComponentNames(engineResult.tensions || [], runtime, 2);
-      const leverageName = joinComponentNames(engineResult.leverages || [], runtime, 2);
-
-      if (entryDoor === "PREPARAR") {
-        return tensionName
-          ? `Antes de avançar, vale fortalecer bases que hoje limitam a captura de valor, especialmente em ${tensionName}.`
-          : "Antes de avançar, vale fortalecer condições básicas do modelo para não antecipar um movimento maior do que a base atual suporta.";
-      }
-      if (entryDoor === "EXPLORAR") {
-        return "O mais prudente agora é observar o que está mudando, formular hipóteses e escolher onde aprofundar, sem assumir uma resposta precoce.";
-      }
-      if (entryDoor === "EXPERIMENTAR") {
-        return leverageName
-          ? `Já existe base suficiente para testar uma hipótese em pequena escala, apoiando-se principalmente em ${leverageName}.`
-          : "Já existe base suficiente para testar uma hipótese em pequena escala, mas ainda sem assumir oferta plena ou movimento mais robusto.";
-      }
-      if (entryDoor === "OFERECER") {
-        return "A leitura sugere evidência suficiente para estruturar uma oferta mais clara, sem pular diretamente para uma aposta maior do que o necessário.";
-      }
-      if (entryDoor === "EMPREENDER") {
-        return "A combinação entre oportunidade e capacidade parece forte o bastante para sustentar uma iniciativa mais estruturada.";
-      }
-      return (context.entryResult.entryReasons || [])[0] || "A postura prudente depende da combinação entre evidências, oportunidade e capacidade atual.";
+    function selectedTerritoryFromContext(context, recommended, alternative) {
+      const selectedId = context.selectedTerritoryId || recommended?.componentId;
+      return territoryByComponentId(context.territoryResult, selectedId) || recommended || alternative || null;
     }
 
-    function currentParticipantQuery() {
-      const params = new URLSearchParams(window.location.search);
-      const workshopId = params.get("workshop");
-      const participanteId = params.get("participante");
-      if (!workshopId || !participanteId) return "";
-      return `?${new URLSearchParams({ workshop: workshopId, participante: participanteId }).toString()}`;
+    function pilotLibraryComponent(runtime, territory) {
+      return runtime.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components?.[territory?.componentId] || null;
     }
 
-    function rememberParticipantPayload(participant) {
-      try {
-        sessionStorage.setItem("ft-view-last-participant", JSON.stringify(participant));
-      } catch {}
+    function normalizeRealCases(cases) {
+      return (cases || []).filter(item =>
+        item && item.name && item.problem && item.howItWorks &&
+        item.blockchainRole && item.lesson && item.firstStep && item.sourceUrl
+      );
     }
 
-    function restoreParticipantPayload() {
-      try {
-        const raw = sessionStorage.getItem("ft-view-last-participant");
-        return raw ? JSON.parse(raw) : null;
-      } catch {
-        return null;
+    function adherenceItems(context, territory) {
+      const lib = pilotLibraryComponent(context.runtime, territory);
+      if (!lib?.adherences?.length) return [];
+      return lib.adherences.map(a => ({
+        id: a.id,
+        title: a.title,
+        businessDescription: a.businessDescription,
+        practicalExample: a.practicalExample,
+        firstStepHint: a.firstStepHint,
+        realCases: normalizeRealCases(a.realCases)
+      }));
+    }
+
+    function hasRealCase(adherence) {
+      return (adherence?.realCases || []).length > 0;
+    }
+
+    function territoryGenericFirstStep(context, territory) {
+      const lib = pilotLibraryComponent(context.runtime, territory);
+      return lib?.genericFirstStep || "Escolha um caso pequeno e registre como esse processo funciona hoje antes de testar uma alternativa.";
+    }
+
+    function territoryReflectionPrompt(context, territory) {
+      const lib = pilotLibraryComponent(context.runtime, territory);
+      return lib?.transitionPrompt || "Existe algo na sua empresa que hoje depende de conferÃªncia manual, arquivo original ou confianÃ§a em uma Ãºnica organizaÃ§Ã£o?";
+    }
+
+    function territoryEvidenceSentence(context, territory) {
+      if (!territory?.evidenceUsed?.length) return "";
+      const labels = Array.from(new Set(territory.evidenceUsed.map(item =>
+        signalFamilyLabel(context.runtime, item.familyId).toLowerCase()
+      )));
+      return `Essa indicaÃ§Ã£o tambÃ©m considera evidÃªncias que vocÃª registrou sobre ${joinNaturalLanguage(labels.slice(0, 3))}.`;
+    }
+
+    function territoryEvidenceHtml(context, territory) {
+      if (!territory?.evidenceUsed?.length) {
+        return `<div class="subtle-note"><strong>EvidÃªncias do seu AS-IS</strong>
+          <p style="margin-top:8px;">Nesta leitura, a indicaÃ§Ã£o foi sustentada pela combinaÃ§Ã£o entre pontuaÃ§Ã£o do componente, aderÃªncia Ã  infraestrutura em foco e sinais textuais distribuÃ­dos no seu diagnÃ³stico.</p>
+        </div>`;
       }
+      return `<div class="subtle-note"><strong>EvidÃªncias do seu AS-IS</strong>
+        <ul class="evidence-list" style="margin-top:10px;">
+          ${territory.evidenceUsed.slice(0, 5).map(item => `
+            <li>
+              <strong>${escapeHtml(item.componentName)}</strong> Â· ${escapeHtml(signalFamilyLabel(context.runtime, item.familyId))}
+              <br><span>"${escapeHtml(item.snippet)}"</span>
+            </li>
+          `).join("")}
+        </ul>
+      </div>`;
     }
 
-    function updateBackLink() {
-      const backLink = document.getElementById("report-back-link");
-      if (!backLink) return;
-      backLink.href = `./ft-view.html${currentParticipantQuery()}`;
+    // â”€â”€â”€ AREA Ã— TERRITORY CONTEXTUALISATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    function areaWhyItMatters(context, territory) {
+      const areaId = context.areaRecord?.id;
+      const cId = territory?.componentId;
+      if (cId === "05" && areaId === "escritorio_contabil") {
+        return "Em escritÃ³rios contÃ¡beis, Ativos merece atenÃ§Ã£o porque boa parte do trabalho depende de comprovar titularidade, autenticidade e histÃ³rico de movimentaÃ§Ã£o de documentos, direitos e bens. Se a infraestrutura de registro muda, os processos de conferÃªncia e auditoria tambÃ©m mudam.";
+      }
+      if (cId === "07" && areaId === "escritorio_contabil") {
+        return "Em escritÃ³rios contÃ¡beis, Ecossistema merece atenÃ§Ã£o porque o trabalho acontece entre mÃºltiplas partes: clientes, bancos, fornecedores e parceiros. Quando o registro e a liquidaÃ§Ã£o entre organizaÃ§Ãµes mudam, surgem novos fluxos de conciliaÃ§Ã£o e prestaÃ§Ã£o de contas.";
+      }
+      if (cId === "05" && areaId === "empresario") {
+        return "Para empresÃ¡rios, Ativos merece atenÃ§Ã£o porque contratos, recebÃ­veis, estoques e propriedades intelectuais dependem de registro e comprovaÃ§Ã£o. Uma infraestrutura mais verificÃ¡vel pode mudar como esses ativos circulam entre partes.";
+      }
+      if (cId === "07" && areaId === "empresario") {
+        return "Para empresÃ¡rios, Ecossistema merece atenÃ§Ã£o porque relaÃ§Ãµes com fornecedores, distribuidores e parceiros dependem de coordenaÃ§Ã£o e liquidaÃ§Ã£o. Novos trilhos digitais podem reduzir fricÃ§Ã£o nessas trocas.";
+      }
+      if (cId === "05" && areaId === "profissional_liberal") {
+        return "Para profissionais liberais, Ativos merece atenÃ§Ã£o porque credenciais, certificados e comprovaÃ§Ãµes de autoria sÃ£o centrais para construÃ§Ã£o de reputaÃ§Ã£o e entrega de valor.";
+      }
+      if (cId === "07" && areaId === "profissional_liberal") {
+        return "Para profissionais liberais, Ecossistema merece atenÃ§Ã£o porque relacionamentos com clientes, parceiros e plataformas dependem de coordenaÃ§Ã£o e confianÃ§a verificÃ¡vel.";
+      }
+      return `Na sua Ã¡rea, ${territory?.componentName || "este territÃ³rio"} merece atenÃ§Ã£o porque reÃºne sinais do seu AS-IS com possibilidades concretas de experimentaÃ§Ã£o ligadas Ã  infraestrutura em foco.`;
     }
 
-    function opportunityEvidenceText(runtime, item) {
-      const name = componentName(runtime, item.componentNum);
-      if ((item.value || 0) <= 2) {
-        return `<strong>${escapeHtml(name)}</strong> aparece como gap ou tensão relevante nesta leitura.`;
+    function adherenceMeaning(context, territory, adherence) {
+      const areaId = context.areaRecord?.id;
+      const cId = territory?.componentId;
+      if (cId === "05" && areaId === "escritorio_contabil") {
+        if (adherence.id === "tokenizacao") return "Pode surgir em situaÃ§Ãµes onde um direito, recebÃ­vel ou certificado precise ganhar representaÃ§Ã£o digital mais clara para facilitar controle, comprovaÃ§Ã£o ou transferÃªncia entre partes.";
+        if (adherence.id === "prova_propriedade") return "Aparece diretamente no trabalho contÃ¡bil sempre que a titularidade de um documento, bem ou direito precisa ser conferida em auditoria, transferÃªncia ou disputa.";
+        if (adherence.id === "credenciais_verificaveis") return "Relevante em fluxos que dependem de autenticar declaraÃ§Ãµes, certificados ou habilitaÃ§Ãµes sem depender apenas de arquivo enviado por e-mail ou PDF avulso.";
+        if (adherence.id === "custodia_digital") return "Ganha relevÃ¢ncia quando ativos digitais, stablecoins ou tokens entram na rotina financeira de clientes, exigindo novos controles de guarda, acesso e responsabilidade.";
       }
-      if ((item.value || 0) >= 4) {
-        return `<strong>${escapeHtml(name)}</strong> aparece como evidência forte para sustentar esta leitura de negócio.`;
+      if (cId === "07" && areaId === "escritorio_contabil") {
+        if (adherence.id === "registro_compartilhado") return "Aparece em fluxos onde cliente, parceiro e escritÃ³rio precisam consultar a mesma informaÃ§Ã£o, mas hoje cada parte mantÃ©m uma versÃ£o diferente.";
+        if (adherence.id === "rastreabilidade_entre_orgs") return "Relevante quando documentos ou aprovaÃ§Ãµes perdem rastreabilidade ao circular entre mÃºltiplas organizaÃ§Ãµes sem registro comum.";
+        if (adherence.id === "coordenacao_participantes") return "Ãštil em validaÃ§Ãµes recorrentes onde diferentes partes seguem critÃ©rios ou tempos diferentes, gerando retrabalho e divergÃªncia.";
+        if (adherence.id === "liquidacao_organizacoes") return "Diretamente aplicÃ¡vel em operaÃ§Ãµes financeiras entre empresas onde prazo de liquidaÃ§Ã£o, reconciliaÃ§Ã£o e previsibilidade do caixa afetam prestaÃ§Ã£o de contas.";
       }
-      return `<strong>${escapeHtml(name)}</strong> contribui como evidência complementar, ainda sem predomínio isolado.`;
+      return `No seu contexto, ${adherence.title.toLowerCase()} pode representar uma hipÃ³tese ligada a ${territory?.componentName || "este componente"} sem exigir mudanÃ§a completa da operaÃ§Ã£o nesta etapa.`;
     }
 
-    function supportingEvidenceText(runtime, item) {
-      const name = componentName(runtime, item.componentNum);
-      if ((item.value || 0) <= 2) {
-        return `<strong>${escapeHtml(name)}</strong> sustenta esta possibilidade como uma tensão que pode merecer exploração.`;
+    function buildExperimentText(context, territory, adherence) {
+      const areaId = context.areaRecord?.id;
+      const cId = territory?.componentId;
+      if (cId === "05" && areaId === "escritorio_contabil" && adherence?.id === "prova_propriedade") {
+        return "Escolha um processo real de cliente em que exista comprovaÃ§Ã£o de propriedade, transferÃªncia de direito ou conferÃªncia documental. Desenhe como a validaÃ§Ã£o ocorre hoje, identifique conferÃªncias manuais e intermediÃ¡rios e simule como um registro verificÃ¡vel alteraria esse fluxo sem substituir o processo atual.";
       }
-      if ((item.value || 0) >= 4) {
-        return `<strong>${escapeHtml(name)}</strong> sustenta esta possibilidade como força ou capacidade já presente no modelo.`;
+      if (cId === "05" && areaId === "escritorio_contabil" && adherence?.id === "tokenizacao") {
+        return "Escolha um ativo, direito ou recebÃ­vel simples do contexto de um cliente e mapeie como ele Ã© registrado, comprovado e conciliado hoje. Depois, simule como uma representaÃ§Ã£o digital verificÃ¡vel mudaria controle, transferÃªncia e auditoria.";
       }
-      return `<strong>${escapeHtml(name)}</strong> aparece como sinal complementar, ainda em nível exploratório.`;
+      if (cId === "05" && areaId === "escritorio_contabil" && adherence?.id === "custodia_digital") {
+        return "Escolha um fluxo em que a empresa precise guardar ou movimentar um ativo digital e mapeie quem acessa, quem aprova e como a responsabilidade Ã© registrada hoje. Depois, compare com um cenÃ¡rio controlado de custÃ³dia verificÃ¡vel.";
+      }
+      if (cId === "07" && areaId === "escritorio_contabil" && adherence?.id === "liquidacao_organizacoes") {
+        return "Escolha uma operaÃ§Ã£o financeira recorrente entre empresa, cliente, fornecedor ou parceiro. Registre prazos, reconciliaÃ§Ãµes, confirmaÃ§Ãµes e dependÃªncia de janelas bancÃ¡rias atuais e compare esse fluxo com uma alternativa baseada em trilho digital de liquidaÃ§Ã£o.";
+      }
+      if (cId === "07" && areaId === "escritorio_contabil" && adherence?.id === "registro_compartilhado") {
+        return "Escolha uma troca real entre escritÃ³rio, cliente e parceiro onde hoje existam versÃµes diferentes da mesma informaÃ§Ã£o. Registre onde surgem divergÃªncias e simule como um registro compartilhado mudaria o fluxo.";
+      }
+      if (cId === "07" && areaId === "escritorio_contabil" && adherence?.id === "coordenacao_participantes") {
+        return "Escolha uma validaÃ§Ã£o frequente entre organizaÃ§Ãµes, mapeie onde cada parte usa critÃ©rios diferentes e teste como uma regra comum e verificÃ¡vel poderia reduzir retrabalho.";
+      }
+      return adherence?.firstStepHint || territoryGenericFirstStep(context, territory);
     }
 
-    function buildDetailedSections(context) {
-      const {
-        areaRecord,
-        componentes,
-        engineResult,
-        entryResult,
-        runtime
-      } = context;
+    function experimentGoalText(territory, adherence) {
+      if (territory?.componentId === "07" && adherence?.id === "liquidacao_organizacoes") {
+        return "O objetivo nÃ£o Ã© trocar toda a operaÃ§Ã£o financeira. Ã‰ testar se um novo trilho de liquidaÃ§Ã£o pode reduzir tempo, reconciliaÃ§Ã£o e incerteza em um fluxo especÃ­fico.";
+      }
+      return "O objetivo nÃ£o Ã© simplesmente registrar algo na Blockchain. Ã‰ testar se um registro verificÃ¡vel pode melhorar comprovaÃ§Ã£o, rastreabilidade ou movimentaÃ§Ã£o de valor em um caso real.";
+    }
 
-      const strengths = strongestComponents(componentes);
-      const weaknesses = weakestComponents(componentes);
-      const tensionItems = uniqueComponentsByNum([
-        ...(engineResult.tensions || []),
-        ...(engineResult.attentionPoints || [])
-      ]);
-      const leverageItems = uniqueComponentsByNum(engineResult.leverages || []);
-      const allComponents = sortComponentEntries(componentes);
+    function measurementItems(context, territory, adherence) {
+      const base = territory?.observationCriteria?.length
+        ? territory.observationCriteria
+        : ["tempo", "custo", "facilidade de auditoria", "seguranÃ§a operacional"];
+      const specific = [];
+      if (territory?.componentId === "05" && adherence?.id === "prova_propriedade") {
+        specific.push("tempo de conferÃªncia", "nÃºmero de validaÃ§Ãµes manuais", "facilidade de auditoria", "seguranÃ§a documental");
+      } else if (territory?.componentId === "05" && adherence?.id === "tokenizacao") {
+        specific.push("clareza de registro", "facilidade de transferÃªncia", "tempo de conciliaÃ§Ã£o");
+      } else if (territory?.componentId === "07" && adherence?.id === "liquidacao_organizacoes") {
+        specific.push("tempo de liquidaÃ§Ã£o", "reconciliaÃ§Ãµes manuais", "previsibilidade do recebimento", "rastreabilidade");
+      } else if (territory?.componentId === "07" && adherence?.id === "registro_compartilhado") {
+        specific.push("versÃµes divergentes", "tempo de validaÃ§Ã£o", "rastreabilidade");
+      }
+      return Array.from(new Set([...specific, ...base])).slice(0, 6);
+    }
 
-      const strengthsHtml = strengths.length
-        ? strengths.map(item => `<li class="tag"><span>${escapeHtml(item.nome)}</span><span class="tag-meta">${escapeHtml(componentScoreLabel(item.pontuacao))}</span></li>`).join("")
-        : `<li class="tag"><span>Nenhuma força dominante apareceu de forma clara.</span></li>`;
+    function primaryAdherenceForContext(context, territory, adherences) {
+      const areaId = context.areaRecord?.id;
+      const cId = territory?.componentId;
+      const preferred =
+        (cId === "05" && areaId === "escritorio_contabil") ? "prova_propriedade" :
+        (cId === "07" && areaId === "escritorio_contabil") ? "liquidacao_organizacoes" : null;
+      const preferredMatch = preferred && adherences.find(a => a.id === preferred && hasRealCase(a));
+      if (preferredMatch) return preferredMatch;
+      return adherences.find(hasRealCase) || adherences[0] || null;
+    }
 
-      const tensionsHtml = weaknesses.length
-        ? weaknesses.map(item => `<li class="tag"><span>${escapeHtml(item.nome)}</span><span class="tag-meta">${escapeHtml(componentScoreLabel(item.pontuacao))}</span></li>`).join("")
-        : `<li class="tag"><span>Nenhum ponto de atenção dominante apareceu no AS-IS.</span></li>`;
+    // â”€â”€â”€ CASE CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-      const componentsHtml = allComponents.map(item => `
-        <li class="component-card ${componentCardClass(item.pontuacao)}">
-          <strong>${escapeHtml(item.num)} — ${escapeHtml(item.nome)}</strong>
-          <span>${escapeHtml(componentScoreLabel(item.pontuacao))} · ${escapeHtml(scoreNarrative(item.pontuacao))}</span>
-        </li>
-      `).join("");
-
-      const opportunitySection = engineResult.businessOpportunity
-        ? `
-          <div class="opportunity-card box-accent-blue">
-            <h3>Leitura de negócio identificada pelo motor</h3>
-            <div class="opportunity-statement">${escapeHtml(engineResult.businessOpportunity)}</div>
-            <p>Esta é uma leitura de negócio derivada das evidências do AS-IS. Blockchain ainda não entra nesta etapa.</p>
-            <div class="subtle-note">
-              <strong>Evidências que sustentam esta leitura</strong>
-              <ul class="evidence-list" style="margin-top:10px;">
-                ${(engineResult.businessOpportunityEvidence || []).map(item => `<li>${opportunityEvidenceText(runtime, item)}</li>`).join("")}
-              </ul>
-            </div>
-          </div>
-        `
-        : `
-          <div class="opportunity-card box-accent-purple">
-            <h3>Nenhuma oportunidade dominante foi priorizada</h3>
-            <p>Neste momento, as evidências não indicam uma oportunidade de negócio dominante.</p>
-            <div class="subtle-note">Isso não significa ausência de oportunidades. Significa apenas que ainda não há evidência suficiente para priorizar uma direção com segurança.</div>
-          </div>
-        `;
-
-      const leverageHtml = leverageItems.length
-        ? leverageItems.map(item => `<li class="tag"><span>${escapeHtml(componentName(runtime, item.componentNum))}</span><span class="tag-meta">alavanca</span></li>`).join("")
-        : `<li class="tag"><span>Nenhuma alavanca dominante foi identificada nesta leitura.</span></li>`;
-
-      const attentionHtml = tensionItems.length
-        ? tensionItems.map(item => `<li class="tag"><span>${escapeHtml(componentName(runtime, item.componentNum))}</span><span class="tag-meta">atenção</span></li>`).join("")
-        : `<li class="tag"><span>Nenhum limitador dominante foi explicitado pelo motor.</span></li>`;
-
-      const blockchainHtml = (engineResult.blockchainPossibilities || []).slice(0, 3).map(possibility => `
+    function caseCardHtml(adherence, realCase) {
+      return `
         <article class="possibility-card">
           <div class="context-strip">
-            <span class="confidence-pill ${escapeHtml(possibility.confidence)}">${escapeHtml(confidenceLabel(possibility.confidence))}</span>
+            <span class="confidence-pill medium">${escapeHtml(adherence.title)}</span>
+            ${realCase.year ? `<span class="confidence-pill low">${escapeHtml(realCase.year)}</span>` : ""}
           </div>
-          <h3>${escapeHtml(possibility.name)}</h3>
-          <p>${escapeHtml(familyDescription(runtime, areaRecord.id, possibility.id))}</p>
-          ${(possibility.supportingEvidence || []).length
-            ? `<ul class="support-list" style="margin-top:12px;">${possibility.supportingEvidence.map(item => `<li>${supportingEvidenceText(runtime, item)}</li>`).join("")}</ul>`
-            : `<div class="subtle-note">Sem evidências discriminantes adicionais. Nesta leitura, trata-se apenas de um sinal inicial a ser explorado com prudência.</div>`}
-        </article>
-      `).join("");
-
-      return `
-        <section class="story-card">
-          <div class="section-step">1. O que o AS-IS está mostrando</div>
-          <h2>O que o AS-IS está mostrando</h2>
-          <p class="section-copy">${escapeHtml(evidenceSummaryText(engineResult, strengths, weaknesses, runtime))}</p>
-
-          <div class="summary-grid">
-            <article class="info-box box-accent-green">
-              <h3>Principais forças</h3>
-              <p>Componentes do AS-IS que aparecem com sinal mais forte nesta fotografia atual.</p>
-              <ul class="tag-list" style="margin-top:12px;">${strengthsHtml}</ul>
-            </article>
-
-            <article class="info-box box-accent-red">
-              <h3>Pontos de atenção</h3>
-              <p>Componentes do AS-IS que aparecem com maior tensão ou fragilidade nesta fotografia atual.</p>
-              <ul class="tag-list" style="margin-top:12px;">${tensionsHtml}</ul>
-            </article>
+          <h3>${escapeHtml(realCase.name)}</h3>
+          <p><strong>O que aconteceu:</strong> ${escapeHtml(realCase.howItWorks)}</p>
+          <p style="margin-top:8px;"><strong>Papel da Blockchain:</strong> ${escapeHtml(realCase.blockchainRole)}</p>
+          <p style="margin-top:8px;"><strong>Por que importa:</strong> ${escapeHtml(realCase.lesson)}</p>
+          <div class="subtle-note" style="margin-top:10px;">
+            <strong>Fonte:</strong> ${escapeHtml(realCase.sourceName || "Fonte oficial")} Â· ${escapeHtml(realCase.sourceType || "")}
+            <br><a style="color:var(--brand);font-weight:700;word-break:break-word;" href="${escapeHtml(realCase.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(realCase.sourceUrl)}</a>
           </div>
-
-          <ul class="component-grid">${componentsHtml}</ul>
-        </section>
-
-        <section class="story-card">
-          <div class="section-step">2. O que essas evidências podem estar revelando</div>
-          <h2>Existe uma oportunidade?</h2>
-          <p class="section-copy">O FT View não inventa uma oportunidade quando o motor não encontrou evidência suficiente. Esta etapa mostra apenas a leitura de negócio efetivamente produzida pelo engine.</p>
-          ${opportunitySection}
-        </section>
-
-        <section class="story-card">
-          <div class="section-step">3. Capacidade de captura</div>
-          <h2>Temos capacidade para capturá-la?</h2>
-          <p class="section-copy">O motor não expõe uma nota única de capacidade. Por isso, o FT View mostra diretamente os sinais que o próprio engine usa: alavancas, pontos de atenção e justificativas para o próximo passo prudente.</p>
-
-          <div class="signal-grid">
-            <article class="signal-box">
-              <span class="signal-label">Alavancas identificadas</span>
-              <span class="signal-value">${leverageItems.length ? `${leverageItems.length} sinal(is)` : "Sem destaque claro"}</span>
-              <ul class="tag-list">${leverageHtml}</ul>
-            </article>
-
-            <article class="signal-box">
-              <span class="signal-label">Pontos que ainda limitam captura</span>
-              <span class="signal-value">${tensionItems.length ? `${tensionItems.length} ponto(s)` : "Sem limitador dominante"}</span>
-              <ul class="tag-list">${attentionHtml}</ul>
-            </article>
-          </div>
-
-          <div class="three-grid" style="margin-top:12px;">
-            <article class="signal-box">
-              <span class="signal-label">Capacidade operacional</span>
-              <span class="signal-value">${leverageItems.length ? "Há base para agir com prudência" : "Ainda sem base operacional clara"}</span>
-              <small>Esta leitura é mostrada somente pelas alavancas e pelos limitadores efetivamente retornados pelo motor, sem criar uma nova nota agregada.</small>
-            </article>
-            <article class="signal-box">
-              <span class="signal-label">Acesso e mobilização</span>
-              <span class="signal-value">${tensionItems.length ? "Existem condicionantes a considerar" : "Não há limitador dominante explícito"}</span>
-              <small>Quando a capacidade de captura não aparece de forma conclusiva, o FT View preserva a incerteza e evita transformar sinal estrutural em recomendação.</small>
-            </article>
-            <article class="signal-box">
-              <span class="signal-label">Leitura prudente do motor</span>
-              <span class="signal-value">${escapeHtml(entryResult.entryDoor || "Sem leitura")}</span>
-              <small>${escapeHtml((entryResult.entryReasons || [])[0] || "Sem justificativa adicional registrada.")}</small>
-            </article>
-          </div>
-        </section>
-
-        <section class="story-card">
-          <div class="section-step">4. Origem da oportunidade</div>
-          <h2>De onde essa oportunidade parece vir?</h2>
-          <p class="section-copy">Origem não é tecnologia. Ela mostra apenas se o motor lê a oportunidade como predominantemente interna, externa, mista ou ainda indeterminada.</p>
-
-          <article class="origin-card">
-            <div class="origin-badge ${escapeHtml((engineResult.opportunityOrigin || "UNDETERMINED").toLowerCase())}">${escapeHtml(originLabel(engineResult.opportunityOrigin))}</div>
-            <p style="margin-top:12px;">${escapeHtml(originCopy(engineResult.opportunityOrigin))}</p>
-          </article>
-        </section>
-
-        <section class="story-card">
-          <div class="section-step">5. Onde a nova infraestrutura pode contribuir</div>
-          <h2>E a Blockchain?</h2>
-          <p class="section-copy">Estas não são soluções recomendadas. São possibilidades que merecem ser exploradas à luz das evidências do seu modelo.</p>
-
-          <article class="info-box box-accent-blue" style="margin-bottom:12px;">
-            <div class="context-strip">
-              <span class="context-pill">Área de atuação · ${escapeHtml(areaRecord.nome)}</span>
-              <span class="context-pill">Infraestrutura em foco · ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
-            </div>
-            <h3>Por que esta infraestrutura merece atenção?</h3>
-            <p>${escapeHtml(areaRecord.infraestruturaFoco?.explain || "Blockchain/Web3 merece atenção nesta leitura do Workshop.")}</p>
-            ${(areaRecord.outrosMovimentos || []).length
-              ? `<div class="movement-strip">${areaRecord.outrosMovimentos.map(item => `<span class="movement-pill">${escapeHtml(item)}</span>`).join("")}</div>`
-              : ""}
-          </article>
-
-          <div class="blockchain-grid">
-            ${blockchainHtml || `<article class="possibility-card"><h3>Nenhuma possibilidade destacada</h3><p>O motor não retornou possibilidades Blockchain relevantes para esta leitura.</p></article>`}
-          </div>
-        </section>
-
-        <section class="story-card">
-          <div class="section-step">6. Próximo passo</div>
-          <h2>Qual é o próximo passo prudente?</h2>
-          <p class="section-copy">A Entry Door vem diretamente do entry-engine. O FT View não recalcula essa postura na interface.</p>
-
-          <article class="entry-card">
-            <div class="entry-door-badge ${escapeHtml(entryDoorClass(entryResult.entryDoor))}">${escapeHtml(entryResult.entryDoor || "SEM ENTRY DOOR")}</div>
-            <h3>${escapeHtml(entryDoorCopy(entryResult.entryDoor))}</h3>
-            <ul class="reason-list">
-              ${(entryResult.entryReasons || []).map(reason => `<li>${escapeHtml(reason)}</li>`).join("") || "<li>Sem justificativa adicional registrada pelo engine.</li>"}
-            </ul>
-            <div class="method-note">Este é o próximo passo prudente sugerido pelo motor diante da combinação entre evidências, tensões, oportunidade, origem e possibilidades. Ele não substitui o contexto real do participante nem funciona como ordem de implementação.</div>
-          </article>
-        </section>
-      `;
+        </article>`;
     }
 
-    function buildWorkshopSections(context) {
-      const { areaRecord, componentes, engineResult, entryResult, runtime } = context;
-      const strengths = strongestComponents(componentes);
-      const weaknesses = weakestComponents(componentes);
-      const topEvidence = firstRelevantEvidence(engineResult);
-      const blockchain = primaryBlockchainText(context);
-      const strengthNames = strengths.slice(0, 2).map(item => item.nome);
-      const weaknessNames = weaknesses.slice(0, 2).map(item => item.nome);
+    // â”€â”€â”€ COMPONENT GRID HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-      const insightPills = [
-        strengthNames.length ? `<span class="insight-pill"><strong>Forças</strong>${escapeHtml(strengthNames.join(" · "))}</span>` : "",
-        weaknessNames.length ? `<span class="insight-pill"><strong>Tensões</strong>${escapeHtml(weaknessNames.join(" · "))}</span>` : "",
-        `<span class="insight-pill"><strong>Próximo movimento</strong>${escapeHtml(entryResult.entryDoor || "—")}</span>`
-      ].filter(Boolean).join("");
+    function strongestComponentLabels(componentes) {
+      const items = strongestComponents(componentes);
+      if (!items.length) return `<li class="tag"><span>Sem forÃ§a dominante clara nesta fotografia.</span></li>`;
+      return items.map(item => `<li class="tag"><span>${escapeHtml(item.nome)}</span><span class="tag-meta">${escapeHtml(componentScoreLabel(item.pontuacao))}</span></li>`).join("");
+    }
 
-      const opportunityBlock = engineResult.businessOpportunity
-        ? `
-          <div class="opportunity-hero">
-            <h3>${escapeHtml(engineResult.businessOpportunity)}</h3>
-            <p>Esta é a principal leitura de negócio destacada pelo FT View nesta etapa.</p>
-            <div class="evidence-inline">${escapeHtml(workshopOpportunityReason(context))}</div>
-          </div>
-        `
-        : `
-          <div class="opportunity-hero">
-            <h3>Ainda não há evidência suficiente para priorizar uma oportunidade dominante.</h3>
-            <p>Isso não significa ausência de oportunidades. Significa apenas que o AS-IS ainda não sustenta uma direção principal com segurança.</p>
-            <div class="evidence-inline">${escapeHtml(workshopOpportunityReason(context))}</div>
-          </div>
-        `;
+    function weakestComponentLabels(componentes) {
+      const items = weakestComponents(componentes);
+      if (!items.length) return `<li class="tag"><span>Sem ponto crÃ­tico dominante nesta fotografia.</span></li>`;
+      return items.map(item => `<li class="tag"><span>${escapeHtml(item.nome)}</span><span class="tag-meta">${escapeHtml(componentScoreLabel(item.pontuacao))}</span></li>`).join("");
+    }
+
+    function asisPhotographSummary(context) {
+      const strengths = strongestComponents(context.componentes).slice(0, 2).map(i => i.nome);
+      const weaknesses = weakestComponents(context.componentes).slice(0, 2).map(i => i.nome);
+      if (strengths.length && weaknesses.length) {
+        return `Sua fotografia atual combina base mais consistente em ${joinNaturalLanguage(strengths)} com pontos que merecem atenÃ§Ã£o em ${joinNaturalLanguage(weaknesses)}. O Territory Engine usou essa combinaÃ§Ã£o â€” junto com a aderÃªncia de cada componente Ã  nova infraestrutura â€” para identificar onde vale comeÃ§ar a experimentar.`;
+      }
+      if (weaknesses.length) {
+        return `Os sinais mais sensÃ­veis do seu AS-IS aparecem em ${joinNaturalLanguage(weaknesses)}. O Territory Engine considerou essa leitura â€” junto com a aderÃªncia Ã  infraestrutura â€” para propor um ponto de partida prudente.`;
+      }
+      if (strengths.length) {
+        return `Seu AS-IS mostra base mais consistente em ${joinNaturalLanguage(strengths)}. O Territory Engine cruzou essa base com a aderÃªncia de cada componente Ã  nova infraestrutura para identificar onde a experimentaÃ§Ã£o faz mais sentido.`;
+      }
+      return "O AS-IS nÃ£o mostra um Ãºnico sinal dominante. O Territory Engine combinou pontuaÃ§Ã£o dos componentes e aderÃªncia Ã  infraestrutura para propor um ponto de partida onde a experimentaÃ§Ã£o Ã© mais viÃ¡vel.";
+    }
+
+    // â”€â”€â”€ MAIN NARRATIVE BUILDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    function buildReportSections(context) {
+      const { areaRecord, componentes, territoryResult } = context;
+      const recommended = territoryResult.recommendedTerritory;
+      const alternative = shouldShowAlternativeTerritory(territoryResult.alternativeTerritory)
+        ? territoryResult.alternativeTerritory : null;
+      const selected = selectedTerritoryFromContext(context, recommended, alternative);
+      const adherences = adherenceItems(context, selected);
+      const primaryAdherence = primaryAdherenceForContext(context, selected, adherences);
+      const realCaseAdherences = adherences.filter(hasRealCase);
+      const metrics = measurementItems(context, selected, primaryAdherence);
+      const safeguards = (selected?.suggestedExperiment?.safeguards || ["pequeno", "reversÃ­vel", "observÃ¡vel", "comparÃ¡vel", "seguro para a operaÃ§Ã£o"]).slice(0, 5);
+      const recommendedIsSelected = selected?.componentId === recommended?.componentId;
+      const alternativeIsSelected = selected?.componentId === alternative?.componentId;
+
+      // AS-IS component grid
+      const componentsGridHtml = sortComponentEntries(componentes).map(item => `
+        <li class="component-card ${componentCardClass(item.pontuacao)}">
+          <strong>${escapeHtml(item.num)} â€” ${escapeHtml(item.nome)}</strong>
+          <span>${escapeHtml(componentScoreLabel(item.pontuacao))} Â· ${escapeHtml(scoreNarrative(item.pontuacao))}</span>
+        </li>`).join("");
+
+      // Adherence detail cards
+      const adherenceDetailHtml = adherences.length
+        ? adherences.map(a => `
+          <article class="possibility-card">
+            <h3>${escapeHtml(a.title)}</h3>
+            <p>${escapeHtml(adherenceMeaning(context, selected, a))}</p>
+            <div class="subtle-note" style="margin-top:10px;">
+              <strong>Exemplo do que isso significa:</strong> ${escapeHtml(a.practicalExample)}
+            </div>
+            ${hasRealCase(a) ? `<div class="subtle-note" style="margin-top:8px;"><strong>Caso real disponÃ­vel:</strong> ${escapeHtml(a.realCases[0].name)}</div>` : ""}
+          </article>`).join("")
+        : `<article class="possibility-card"><h3>AderÃªncias em desenvolvimento</h3><p>A biblioteca ainda nÃ£o possui aderÃªncias publicadas para este territÃ³rio.</p></article>`;
+
+      // Real cases
+      const casesHtml = realCaseAdherences.length
+        ? realCaseAdherences.map(a => a.realCases.map(rc => caseCardHtml(a, rc)).join("")).join("")
+        : `<article class="possibility-card"><h3>Ainda sem casos publicados</h3><p>Este territÃ³rio tem aderÃªncias cadastradas, mas a biblioteca ainda nÃ£o tem casos reais verificados para exibiÃ§Ã£o.</p></article>`;
 
       return `
-        <div class="workshop-stack">
-          <section class="story-card workshop-card workshop-hero">
-            <div class="workshop-lead">A. O que seu AS-IS está revelando?</div>
-            <span class="workshop-highlight">${escapeHtml(workshopSummaryHeadline(context))}</span>
-            <p class="workshop-copy">${escapeHtml(workshopSummaryBody(context))}</p>
-            <div class="insight-strip">${insightPills}</div>
-          </section>
+        <!-- 1. FOTOGRAFIA ATUAL -->
+        <section class="story-card">
+          <div class="section-step">1. Sua fotografia atual</div>
+          <h2>O que o AS-IS estÃ¡ mostrando</h2>
+          <p class="section-copy">${escapeHtml(asisPhotographSummary(context))}</p>
+          <div class="summary-grid" style="margin-top:14px;">
+            <article class="info-box box-accent-green">
+              <h3>Principais forÃ§as</h3>
+              <ul class="tag-list" style="margin-top:8px;">${strongestComponentLabels(componentes)}</ul>
+            </article>
+            <article class="info-box box-accent-red">
+              <h3>Principais pontos de atenÃ§Ã£o</h3>
+              <ul class="tag-list" style="margin-top:8px;">${weakestComponentLabels(componentes)}</ul>
+            </article>
+          </div>
+          <ul class="component-grid" style="margin-top:14px;">${componentsGridHtml}</ul>
+        </section>
 
-          <section class="story-card workshop-card workshop-opportunity">
-            <div class="workshop-lead">B. Onde está a oportunidade?</div>
-            ${opportunityBlock}
-          </section>
+        <!-- 2. ONDE COMEÃ‡AR (leitura canÃ´nica) -->
+        <section class="story-card" style="border-top:5px solid var(--brand);">
+          <div class="section-step">2. Onde comeÃ§ar</div>
+          <h2>TerritÃ³rio recomendado: ${escapeHtml(territoryDisplayName(recommended))}</h2>
+          <p class="section-copy">${escapeHtml(territoryCoreReason(recommended))} ${escapeHtml(territoryEvidenceSentence(context, recommended))}</p>
 
-          <section class="story-card workshop-card workshop-origin">
-            <div class="workshop-lead">C. O que está mudando ao redor do seu negócio?</div>
-            <div class="origin-hero">
-              <h3>${escapeHtml(originWorkshopText(engineResult.opportunityOrigin))}</h3>
-              <p>Esta leitura conecta o seu AS-IS à aula do FT Model sem transformar Blockchain na origem automática da oportunidade.</p>
+          ${alternative ? `
+          <div class="summary-grid" style="margin-top:14px;">
+            <article class="info-box box-accent-blue">
+              <h3>Leitura principal</h3>
+              <p>${escapeHtml(territoryDisplayName(recommended))}</p>
+            </article>
+            <article class="info-box box-accent-purple">
+              <h3>Outra possibilidade</h3>
+              <p>${escapeHtml(territoryDisplayName(alternative))}</p>
+            </article>
+          </div>
+          <p style="margin-top:12px;color:var(--muted);font-size:12px;">VocÃª pode explorar o aprofundamento de cada territÃ³rio abaixo.</p>
+          <div class="tag-list" style="margin-top:8px;">
+            <button type="button" class="tag" style="cursor:pointer;border:2px solid ${recommendedIsSelected ? "var(--brand)" : "#cfd8e4"};background:${recommendedIsSelected ? "var(--brand)" : "#fff"};color:${recommendedIsSelected ? "#fff" : "inherit"};" data-territory-select="${escapeHtml(recommended.componentId)}" aria-pressed="${recommendedIsSelected}">
+              ${escapeHtml(recommended.componentName)}
+            </button>
+            <button type="button" class="tag" style="cursor:pointer;border:2px solid ${alternativeIsSelected ? "var(--brand)" : "#cfd8e4"};background:${alternativeIsSelected ? "var(--brand)" : "#fff"};color:${alternativeIsSelected ? "#fff" : "inherit"};" data-territory-select="${escapeHtml(alternative.componentId)}" aria-pressed="${alternativeIsSelected}">
+              ${escapeHtml(alternative.componentName)}
+            </button>
+          </div>
+          ` : ""}
+
+          ${territoryEvidenceHtml(context, selected)}
+        </section>
+
+        <!-- 3. POR QUE ISSO IMPORTA NA SUA ÃREA -->
+        <section class="story-card">
+          <div class="section-step">3. Por que isso importa na sua Ã¡rea</div>
+          <h2>${escapeHtml(areaRecord.nome)} Ã— ${escapeHtml(selected.componentName)}</h2>
+          <p class="section-copy">${escapeHtml(areaWhyItMatters(context, selected))}</p>
+          <article class="info-box box-accent-blue" style="margin-top:14px;">
+            <div class="context-strip">
+              <span class="context-pill">Ãrea Â· ${escapeHtml(areaRecord.nome)}</span>
+              <span class="context-pill">Infraestrutura em foco Â· ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
             </div>
-          </section>
+            <p>${escapeHtml(areaRecord.infraestruturaFoco?.explain || "Blockchain/Web3 merece atenÃ§Ã£o nesta leitura do Workshop.")}</p>
+          </article>
+        </section>
 
-          <section class="story-card workshop-card workshop-blockchain">
-            <div class="workshop-lead">D. Onde a Blockchain pode contribuir?</div>
-            <div class="blockchain-hero">
-              <p>${escapeHtml(areaRecord.infraestruturaFoco?.explain || "Blockchain/Web3 merece atenção nesta leitura do Workshop.")}</p>
-              <div class="blockchain-primary">${escapeHtml(blockchain.headline)}</div>
-              <p>${escapeHtml(blockchain.body)}</p>
-              ${blockchain.secondary.length ? `<div class="secondary-inline">${blockchain.secondary.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>` : ""}
+        <!-- 4. POSSIBILIDADES BLOCKCHAIN -->
+        <section class="story-card">
+          <div class="section-step">4. Onde a Blockchain pode contribuir</div>
+          <h2>AderÃªncias para ${escapeHtml(selected.componentName)}</h2>
+          <p class="section-copy">Estas sÃ£o possibilidades ligadas Ã  nova infraestrutura que merecem investigaÃ§Ã£o dentro do territÃ³rio identificado. NÃ£o sÃ£o recomendaÃ§Ãµes de implementaÃ§Ã£o.</p>
+          <div class="blockchain-grid" style="margin-top:14px;">${adherenceDetailHtml}</div>
+        </section>
+
+        <!-- 5. CASOS REAIS -->
+        <section class="story-card">
+          <div class="section-step">5. Casos reais</div>
+          <h2>ReferÃªncias verificadas para ${escapeHtml(selected.componentName)}</h2>
+          <p class="section-copy">Os casos abaixo vÃªm da Blockchain Example Library e sÃ³ aparecem quando hÃ¡ fonte verificÃ¡vel.</p>
+          <div class="blockchain-grid" style="margin-top:14px;">${casesHtml}</div>
+        </section>
+
+        <!-- 6. HIPÃ“TESE PRÃTICA -->
+        <section class="story-card">
+          <div class="section-step">6. O que isso pode significar no seu negÃ³cio</div>
+          <h2>HipÃ³tese para ${escapeHtml(areaRecord.nome)}</h2>
+          <p class="section-copy">${escapeHtml(territoryReflectionPrompt(context, selected))}</p>
+          ${primaryAdherence ? `
+          <article class="opportunity-card box-accent-blue" style="margin-top:14px;">
+            <h3>HipÃ³tese prioritÃ¡ria: ${escapeHtml(primaryAdherence.title)}</h3>
+            <p>${escapeHtml(adherenceMeaning(context, selected, primaryAdherence))}</p>
+          </article>` : ""}
+        </section>
+
+        <!-- 7. PRIMEIRO EXPERIMENTO -->
+        <section class="story-card" style="border-top:5px solid #1b4f9b;">
+          <div class="section-step">7. Primeiro experimento</div>
+          <h2>${escapeHtml(primaryAdherence ? primaryAdherence.title : selected.componentName)}</h2>
+          <p class="section-copy">${escapeHtml(buildExperimentText(context, selected, primaryAdherence))}</p>
+          <div class="subtle-note">${escapeHtml(experimentGoalText(selected, primaryAdherence))}</div>
+          <h3 style="margin-top:16px;margin-bottom:8px;color:var(--brand);font-size:15px;">Como comeÃ§ar</h3>
+          <ul class="evidence-list">
+            <li>${escapeHtml(territoryGenericFirstStep(context, selected))}</li>
+            ${primaryAdherence?.firstStepHint ? `<li>${escapeHtml(primaryAdherence.firstStepHint)}</li>` : ""}
+            <li>FaÃ§a uma simulaÃ§Ã£o ou teste controlado sem substituir o processo atual.</li>
+            <li>Compare antes, durante e depois usando os mesmos critÃ©rios.</li>
+          </ul>
+          <div class="tag-list" style="margin-top:12px;">
+            ${safeguards.map(s => `<span class="tag">${escapeHtml(s)}</span>`).join("")}
+          </div>
+        </section>
+
+        <!-- 8. O QUE MEDIR -->
+        <section class="story-card">
+          <div class="section-step">8. O que medir</div>
+          <h2>CritÃ©rios ligados ao experimento</h2>
+          <p class="section-copy">Observe estes critÃ©rios antes, durante e depois do teste para saber se a hipÃ³tese gerou aprendizado ou melhoria real.</p>
+          <div class="summary-grid" style="margin-top:14px;">
+            ${metrics.map(m => `
+              <article class="signal-box">
+                <span class="signal-label">CritÃ©rio</span>
+                <span class="signal-value">${escapeHtml(m)}</span>
+                <small>Observe no fluxo atual e compare com o experimento.</small>
+              </article>`).join("")}
+          </div>
+          <div class="reasoning-chain" style="margin-top:16px;">
+            <span class="chain-step">ANTES</span>
+            <span class="chain-arrow">â†’</span>
+            <span class="chain-step">EXPERIMENTO</span>
+            <span class="chain-arrow">â†’</span>
+            <span class="chain-step">DEPOIS</span>
+          </div>
+        </section>
+
+        <!-- 9. FMIF -->
+        <section class="story-card">
+          <div class="section-step">9. PrÃ³ximo passo â€” FMIF</div>
+          <h2>Leve esta hipÃ³tese para o FMIF</h2>
+          <p class="section-copy">Agora que existe uma hipÃ³tese concreta de experimentaÃ§Ã£o, use o FMIF para avaliar sua maturidade e capacidade de avanÃ§ar. O FMIF nÃ£o recalcula o territÃ³rio â€” ele ajuda a medir se sua organizaÃ§Ã£o estÃ¡ pronta para aprofundar o experimento escolhido.</p>
+          <div class="flow-card" style="margin-top:14px;">
+            <div class="reasoning-chain">
+              <span class="chain-step">FT View â†’ ${escapeHtml(territoryDisplayName(recommended))}</span>
+              <span class="chain-arrow">â†’</span>
+              <span class="chain-step">Experimento: ${escapeHtml(primaryAdherence?.title || selected.componentName)}</span>
+              <span class="chain-arrow">â†’</span>
+              <span class="chain-step">FMIF</span>
             </div>
-          </section>
-
-          <section class="story-card workshop-card workshop-next">
-            <div class="workshop-lead">E. Qual é o próximo movimento mais prudente?</div>
-            <div class="next-hero">
-              <div class="entry-door-badge ${escapeHtml(entryDoorClass(entryResult.entryDoor))}">${escapeHtml(entryResult.entryDoor || "SEM LEITURA")}</div>
-              <h3>${escapeHtml(workshopNextMoveText(entryResult.entryDoor, context))}</h3>
-              <p>${escapeHtml((entryResult.entryReasons || [])[0] || "Esta é a postura mais prudente retornada pelo motor para esta combinação de evidências.")}</p>
-            </div>
-          </section>
-
-          <section class="story-card transition-card">
-            <h3>O que vem depois?</h3>
-            <p>Você identificou onde olhar. Agora o FMIF ajudará a avaliar o quanto seu modelo está preparado para avançar nessa direção. Depois, o PTIF transformará essa leitura em planejamento.</p>
-          </section>
-
-          <details class="story-card details-card">
-            <summary>
-              <div>
-                Ver Relatório FT completo
-                <span>Entender como chegamos a esta leitura, com evidências, tensões, forças, justificativas, possibilidades e cadeia de raciocínio.</span>
-              </div>
-            </summary>
-            <div class="details-body">
-              <section class="lens-card">
-                <div class="eyebrow">Lente metodológica</div>
-                <p>O FT Model observa como transformações relevantes podem entrar pela infraestrutura e se propagar por processos, informação, competências e valor. Aqui, essa lente é usada apenas para reinterpretar o que o seu AS-IS já mostrou.</p>
-              </section>
-
-              <section class="flow-card">
-                <h2>Como esta leitura foi construída</h2>
-                <p>O FT View mostra explicitamente a cadeia de raciocínio para evitar um salto direto das respostas do AS-IS para Blockchain.</p>
-                <div class="reasoning-chain" aria-label="Cadeia de raciocínio do FT View">
-                  <span class="chain-step">AS-IS</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Evidências</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Tensões</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Business Opportunity</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Capacidade</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Origem</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Blockchain Possibilities</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Entry Door</span>
-                  <span class="chain-arrow">→</span>
-                  <span class="chain-step">Próximo passo</span>
-                </div>
-              </section>
-              ${buildDetailedSections(context)}
-            </div>
-          </details>
-        </div>
+          </div>
+        </section>
       `;
     }
 
     function buildHtmlSections(context) {
-      return `
-        <section class="lens-card">
-          <div class="eyebrow">Lente metodológica</div>
-          <p>O FT Model observa como transformações relevantes podem entrar pela infraestrutura e se propagar por processos, informação, competências e valor. Aqui, essa lente é usada apenas para reinterpretar o que o seu AS-IS já mostrou.</p>
-        </section>
-
-        <section class="flow-card">
-          <h2>Como esta leitura foi construída</h2>
-          <p>O relatório completo mantém explícita a cadeia de raciocínio para tornar transparente como o FT View saiu das evidências do AS-IS até a leitura de negócio e o próximo passo prudente.</p>
-          <div class="reasoning-chain" aria-label="Cadeia de raciocínio do FT View">
-            <span class="chain-step">AS-IS</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Evidências</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Tensões</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Business Opportunity</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Capacidade</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Origem</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Blockchain Possibilities</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Entry Door</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Próximo passo</span>
-          </div>
-        </section>
-        ${buildDetailedSections(context)}
-      `;
+      return buildReportSections(context);
     }
 
     async function buildFtContext(participant) {
       const runtime = await getFtRuntime();
-      const diagnostico = participant?.diagnostico || {};
-      const componentes = normalizeDiagnosticoComponentes(diagnostico, runtime);
+      // â”€â”€ SAME CANONICAL PATH AS FT VIEW WORKSHOP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      const territoryContext = runtime.territoryContext.buildTerritoryContext(participant);
+      const componentes = Object.fromEntries(
+        (territoryContext.components || []).map(c => [c.componentId, { nome: c.componentName, pontuacao: c.score }])
+      );
 
       if (!Object.keys(componentes).length) {
-        throw new Error("As evidências estruturadas do AS-IS não estão disponíveis.");
+        throw new Error("As evidÃªncias estruturadas do AS-IS nÃ£o estÃ£o disponÃ­veis.");
       }
 
-      const areaRecord = areaRecordFromLabel(diagnostico.setor || participant?.setor);
-      const diagnosticoForEngine = {
-        componentes: Object.fromEntries(Object.entries(componentes).map(([num, value]) => [num, { pontuacao: value.pontuacao }]))
-      };
-      const profile = mapParticipantProfile(participant, runtime);
-      const engineResult = runtime.opportunityEngine.evaluateOpportunities(diagnosticoForEngine, areaRecord.id, profile);
-      const entryResult = runtime.entryEngine.decideEntryDoor(engineResult, diagnosticoForEngine);
+      const areaRecord = areaRecordFromLabel(territoryContext.areaLabel || participant?.setor);
+      const territoryResult = runtime.territoryEngine.evaluateTerritories(territoryContext);
 
-      return {
-        runtime,
-        areaRecord,
-        componentes,
-        engineResult,
-        entryResult
-      };
+      return { runtime, participant, areaRecord, componentes, territoryContext, territoryResult };
+    }
+
+    function bindTerritoryChoiceHandlers(context) {
+      storyHost.querySelectorAll("[data-territory-select]").forEach(button => {
+        button.addEventListener("click", () => {
+          const territoryId = button.getAttribute("data-territory-select");
+          if (!territoryId || territoryId === context.selectedTerritoryId) return;
+          context.selectedTerritoryId = territoryId;
+          storyHost.innerHTML = buildHtmlSections(context);
+          bindTerritoryChoiceHandlers(context);
+        });
+      });
     }
 
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
+      context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildHtmlSections(context);
+      bindTerritoryChoiceHandlers(context);
       rememberParticipantPayload(participant);
       updateBackLink();
       state.hidden = true;
@@ -1548,7 +1668,7 @@
         if (!workshopId || !participanteId) {
           const previewParticipant = restoreParticipantPayload();
           if (!previewParticipant) {
-            showError("Abra o Relatório FT a partir do FT View Workshop ou utilize o renderizador de pré-visualização desta página.");
+            showError("Abra o RelatÃ³rio FT a partir do FT View Workshop ou utilize o renderizador de prÃ©-visualizaÃ§Ã£o desta pÃ¡gina.");
             return;
           }
           await renderFromParticipant(previewParticipant);
@@ -1559,20 +1679,20 @@
         const snapshot = await get(ref(db, `workshops/${workshopId}/participantes/${participanteId}`));
 
         if (!snapshot.exists()) {
-          showError("O diagnóstico AS-IS não foi encontrado.");
+          showError("O diagnÃ³stico AS-IS nÃ£o foi encontrado.");
           return;
         }
 
         const participant = snapshot.val();
         if (participant?.diagnostico?.ftViewLiberado !== true) {
-          showError("FT View aguardando liberação do Mentor.");
+          showError("FT View aguardando liberaÃ§Ã£o do Mentor.");
           return;
         }
 
         await renderFromParticipant(participant);
       } catch (error) {
         console.error(error);
-        showError("Não foi possível carregar o Relatório FT completo.");
+        showError("NÃ£o foi possÃ­vel carregar o RelatÃ³rio FT completo.");
       }
     }
 
