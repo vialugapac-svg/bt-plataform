@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -1049,7 +1049,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-    import { FT_KNOWLEDGE_BASE } from "../shared-discernment/ft-knowledge-base.js";
+    import { FT_KNOWLEDGE_BASE } from "./shared-discernment/ft-knowledge-base.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
@@ -1071,16 +1071,16 @@
     const exampleModalClose = document.getElementById("example-modal-close");
 
     const commonJsModulePaths = new Map([
-      ["component-dictionary", new URL("../shared-discernment/component-dictionary.js", import.meta.url)],
-      ["blockchain-kb-opportunities", new URL("../shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
-      ["profile-adapter", new URL("../shared-discernment/profile-adapter.js", import.meta.url)],
-      ["opportunity-engine", new URL("../shared-discernment/opportunity-engine.js", import.meta.url)],
-      ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)],
-      ["blockchain-adherence-matrix", new URL("../shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
-      ["blockchain-example-library", new URL("../shared-discernment/blockchain-example-library.js", import.meta.url)],
-      ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
-      ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
-      ["territory-engine", new URL("../shared-discernment/territory-engine.js", import.meta.url)]
+      ["component-dictionary", new URL("./shared-discernment/component-dictionary.js", import.meta.url)],
+      ["blockchain-kb-opportunities", new URL("./shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
+      ["profile-adapter", new URL("./shared-discernment/profile-adapter.js", import.meta.url)],
+      ["opportunity-engine", new URL("./shared-discernment/opportunity-engine.js", import.meta.url)],
+      ["entry-engine", new URL("./shared-discernment/entry-engine.js", import.meta.url)],
+      ["blockchain-adherence-matrix", new URL("./shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
+      ["blockchain-example-library", new URL("./shared-discernment/blockchain-example-library.js", import.meta.url)],
+      ["evidence-interpreter", new URL("./shared-discernment/evidence-interpreter.js", import.meta.url)],
+      ["territory-context", new URL("./shared-discernment/territory-context.js", import.meta.url)],
+      ["territory-engine", new URL("./shared-discernment/territory-engine.js", import.meta.url)]
     ]);
 
     let ftRuntimePromise = null;
@@ -1783,13 +1783,29 @@
     }
 
     function areaBlockchainContextText(areaRecord) {
-      if (areaRecord?.id === "escritorio_contabil") {
-        return "Em escritórios contábeis, essas possibilidades podem aparecer em situações envolvendo registro, autenticação, transferência, comprovação de ativos, documentos e direitos.";
+      const id = areaRecord?.id;
+      if (id === "contabilidade_servicos" || id === "escritorio_contabil") {
+        return "Em escritórios contábeis e empresas de serviços contábeis, essas possibilidades podem aparecer em situações envolvendo registro, autenticação, transferência, comprovação de ativos, documentos e direitos.";
       }
-      if (areaRecord?.id === "empresario") {
+      if (id === "industria") {
+        return "Na indústria, essas possibilidades podem aparecer em situações envolvendo rastreabilidade de insumos, certificações de origem, contratos com fornecedores e comprovação de conformidade ao longo da cadeia produtiva.";
+      }
+      if (id === "comercio_varejo") {
+        return "No comércio e varejo, essas possibilidades podem aparecer em situações envolvendo autenticidade de produtos, rastreabilidade de origem, programas de fidelidade e relações verificáveis com o consumidor.";
+      }
+      if (id === "servicos") {
+        return "No setor de serviços, essas possibilidades podem aparecer em situações envolvendo contratos entre partes, comprovação verificável de entregas, registros confiáveis e novas formas de relacionamento com clientes.";
+      }
+      if (id === "tecnologia_digital") {
+        return "Em negócios digitais e de tecnologia, essas possibilidades podem aparecer em situações envolvendo modelos descentralizados, tokenização de produtos, identidade digital e novos mecanismos de valor em plataformas.";
+      }
+      if (id === "agronegocio") {
+        return "No agronegócio, essas possibilidades podem aparecer em situações envolvendo rastreabilidade de safras, certificações verificáveis de origem, contratos agrícolas e acesso a mercados com comprovação de qualidade.";
+      }
+      if (id === "empresario") {
         return "Para empresários, essas possibilidades podem aparecer em situações envolvendo contratos, registros confiáveis, relacionamento com parceiros e circulação de valor.";
       }
-      if (areaRecord?.id === "profissional_liberal") {
+      if (id === "profissional_liberal") {
         return "Para profissionais liberais, essas possibilidades podem aparecer em situações envolvendo credenciais, comprovação de autoria, autenticação e entrega de valor ao cliente.";
       }
       return "Para esta área de atuação, essas possibilidades podem aparecer em situações envolvendo registros, autenticação, transferência e comprovação de ativos, documentos e direitos.";
@@ -1800,10 +1816,11 @@
       const component = territory?.componentName || "este componente";
       const componentLower = component.charAt(0).toLowerCase() + component.slice(1);
       const capability = capitalizeSentence((territory?.signals?.adherence?.capabilities || [])[0] || "registros verificáveis");
-      if (territory?.componentId === "05" && areaRecord?.id === "escritorio_contabil") {
+      const isContabilidade = areaRecord?.id === "contabilidade_servicos" || areaRecord?.id === "escritorio_contabil";
+      if (territory?.componentId === "05" && isContabilidade) {
         return "Escolha algo que seu escritório hoje precisa registrar, comprovar ou validar — por exemplo, um documento, contrato, certificado ou comprovante — e teste uma forma de registrar sua existência e autenticidade usando Blockchain, sem substituir o processo atual.";
       }
-      if (territory?.componentId === "07" && areaRecord?.id === "escritorio_contabil") {
+      if (territory?.componentId === "07" && isContabilidade) {
         return "Escolha uma troca real entre seu escritório e um parceiro — por exemplo, envio de documento, validação de informação ou confirmação entre partes — e teste um registro compartilhado e verificável sem substituir o fluxo atual.";
       }
       if (territory?.componentId === "04") {
