@@ -1001,6 +1001,133 @@
         padding: 10px 12px 14px;
       }
     }
+
+    /* ── NEW DESIGN TOKENS ── */
+    :root {
+      --orange: #c85a00;
+      --orange-soft: #fff4ec;
+      --orange-line: #f5c9a0;
+    }
+
+    .step-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--brand); color: #fff;
+      font-size: 11px; font-weight: 800; flex-shrink: 0;
+    }
+
+    .opp-hero {
+      background: linear-gradient(135deg, #1a2744 0%, #253d6b 100%);
+      border-radius: 18px; padding: 28px 24px; color: #fff;
+      box-shadow: 0 10px 28px rgba(26,39,68,.18);
+      margin-bottom: 0;
+    }
+    .opp-hero .eyebrow { color: #9aabc7; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+    .opp-hero h2 { margin: 0 0 6px; font-size: 30px; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; color: #fff; }
+    .opp-hero .opp-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .opp-meta-pill { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.09); color: #cdd8ed; font-size: 11px; font-weight: 700; }
+    .opp-hero .opp-body { margin-top: 14px; color: #d2dbeb; font-size: 14px; line-height: 1.75; }
+    .opp-question { margin-top: 16px; padding: 16px 18px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 14px; }
+    .opp-question strong { display: block; color: #f0a040; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+    .opp-question p { margin: 0; color: #e8eef8; font-size: 14px; line-height: 1.7; }
+
+    .guided-section { margin-bottom: 14px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+    .guided-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .guided-header h2 { margin: 0; color: var(--brand); font-size: 19px; font-weight: 800; line-height: 1.25; }
+    .guided-subtitle { margin: -10px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    .territory-cards { display: grid; gap: 12px; }
+    .t-card { border: 2px solid #d9e3ef; border-radius: 14px; padding: 18px; background: #f8fbff; cursor: default; }
+    .t-card.t-primary { border-color: var(--brand); background: var(--brand-soft); }
+    .t-card.t-secondary { border-color: var(--border); background: #fff; }
+    .t-card-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 10px; }
+    .t-card-badge.primary { background: var(--brand); color: #fff; }
+    .t-card-badge.secondary { background: #f1f3f7; color: #5b6676; border: 1px solid #d5dbe5; }
+    .t-card-name { color: var(--brand); font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+    .t-card-score { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #fff3eb; color: #c85a00; border: 1px solid #f5c9a0; font-size: 11px; font-weight: 700; margin-bottom: 10px; }
+    .t-card p { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0 0 10px; }
+    .t-choice-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .t-choice-btn { padding: 10px 14px; border: 2px solid var(--border); border-radius: 12px; background: #fff; color: #334259; font-size: 13px; font-weight: 700; cursor: pointer; min-height: 44px; transition: all .15s; font-family: inherit; }
+    .t-choice-btn:hover { border-color: var(--brand); color: var(--brand); }
+    .t-choice-btn.is-active { border-color: var(--brand); background: var(--brand); color: #fff; }
+
+    .possibility-grid { display: grid; gap: 10px; margin-top: 14px; }
+    .poss-card { border: 2px solid var(--border); border-radius: 14px; padding: 16px; background: #fff; cursor: pointer; transition: all .15s; text-align: left; width: 100%; font-family: inherit; }
+    .poss-card:hover { border-color: #1b4f9b; background: var(--brand-soft); }
+    .poss-card.is-selected { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 0 0 3px rgba(26,39,68,.12); }
+    .poss-card-tech { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #8294ad; margin-bottom: 6px; }
+    .poss-card-title { font-size: 15px; font-weight: 800; color: var(--brand); line-height: 1.3; margin-bottom: 6px; }
+    .poss-card-desc { font-size: 12px; color: var(--muted); line-height: 1.65; margin: 0; }
+    .poss-card.is-selected .poss-card-tech { color: #4d6fa5; }
+    .cases-reveal { margin-top: 14px; padding: 14px 16px; background: #f7fbff; border: 1px dashed #b8cce5; border-radius: 12px; display: none; }
+    .cases-reveal.show { display: block; }
+    .cases-reveal p { margin: 0 0 10px; color: #445064; font-size: 13px; line-height: 1.6; }
+
+    .real-section { margin-top: 14px; padding: 18px; background: var(--amber-soft); border: 1px solid #edd4a3; border-radius: 14px; }
+    .real-section label { display: block; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+    .real-section p { margin: 0 0 12px; font-size: 13px; color: #5a4010; line-height: 1.7; }
+    .real-input { width: 100%; font-size: 14px; padding: 12px 14px; border: 1px solid #ddc890; border-radius: 10px; background: #fff; color: #1a1a1a; resize: vertical; min-height: 70px; font-family: inherit; line-height: 1.5; }
+    .real-input:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(154,103,0,.12); }
+    .real-hint { margin-top: 6px; font-size: 11px; color: #9a7040; }
+
+    .experiment-hero { background: linear-gradient(135deg, #0d3b2e 0%, #145a44 100%); border-radius: 18px; padding: 26px 22px; color: #fff; margin-bottom: 0; }
+    .experiment-hero .eyebrow { color: #7bc9a8; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+    .experiment-hero h2 { margin: 0 0 14px; font-size: 24px; font-weight: 800; line-height: 1.2; color: #fff; }
+    .exp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .exp-meta-pill { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: #d0ede3; font-size: 11px; font-weight: 700; }
+    .exp-hypothesis { margin-bottom: 16px; padding: 14px 16px; background: rgba(255,255,255,.1); border-left: 4px solid #4cd6a0; border-radius: 0 12px 12px 0; color: #e0f5ec; font-size: 13px; line-height: 1.7; }
+    .exp-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .exp-step { background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 14px; }
+    .exp-step-num { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #7bc9a8; margin-bottom: 6px; }
+    .exp-step-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .exp-step-body { font-size: 12px; color: #b8ddd0; line-height: 1.6; margin: 0; }
+    .exp-method-note { padding: 12px 14px; background: rgba(255,255,255,.07); border-radius: 10px; color: #c5e5d8; font-size: 12px; line-height: 1.7; font-style: italic; }
+    .exp-object-display { margin: 12px 0; padding: 10px 14px; background: rgba(255,255,255,.12); border-radius: 10px; font-size: 13px; color: #e8f5f0; }
+    .exp-object-display strong { color: #7bc9a8; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+    .measure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .measure-col { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .measure-col-head { padding: 10px 12px; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .measure-col-head.before { background: #f1f3f6; color: #5a6474; }
+    .measure-col-head.during { background: #fff4ec; color: #c85a00; }
+    .measure-col-head.after { background: #edf7ef; color: #2e7d32; }
+    .measure-col-items { padding: 10px 12px; display: grid; gap: 6px; background: #fff; }
+    .measure-item { font-size: 12px; color: #445064; padding: 6px 8px; border-radius: 8px; background: #f8f9fb; line-height: 1.5; }
+
+    .decision-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .decision-card { border-radius: 12px; padding: 14px; text-align: center; border: 2px solid transparent; }
+    .decision-card.advance { background: #edf7ef; border-color: #c8e3cc; }
+    .decision-card.adjust { background: #fff8e6; border-color: #edd4a3; }
+    .decision-card.noBenefit { background: #f8f9fb; border-color: #dde3ea; }
+    .decision-card .decision-icon { font-size: 22px; margin-bottom: 6px; }
+    .decision-card strong { display: block; font-size: 12px; font-weight: 800; margin-bottom: 4px; }
+    .decision-card.advance strong { color: #2e7d32; }
+    .decision-card.adjust strong { color: #9a6700; }
+    .decision-card.noBenefit strong { color: #5b6574; }
+    .decision-card p { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    .fmif-transition { background: var(--brand); border-radius: 16px; padding: 24px 22px; color: #fff; }
+    .fmif-transition p { color: #d2dbeb; font-size: 14px; line-height: 1.7; margin: 0 0 14px; }
+    .fmif-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .fmif-flow-step { padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); font-size: 11px; font-weight: 800; color: #e0e8f8; text-align: center; }
+    .fmif-flow-step small { display: block; font-size: 10px; font-weight: 600; color: #9aabc7; margin-top: 2px; letter-spacing: .04em; }
+    .fmif-flow-arrow { color: #6a80a4; font-size: 16px; font-weight: 800; }
+    .fmif-btn { display: block; width: 100%; padding: 16px 20px; border-radius: 14px; background: #fff; color: var(--brand); text-align: center; font-size: 16px; font-weight: 800; text-decoration: none; border: none; cursor: pointer; font-family: inherit; margin-bottom: 12px; }
+    .fmif-btn:hover { background: #f0f4fa; }
+    .fmif-report-link { display: block; text-align: center; color: #9aabc7; font-size: 13px; font-weight: 700; text-decoration: none; padding: 8px; }
+    .fmif-report-link:hover { color: #fff; text-decoration: underline; }
+
+    @media print {
+      .poss-card, .t-choice-btn, .fmif-btn, .example-link-button { display: none !important; }
+    }
+
+    @media (max-width: 820px) {
+      .exp-steps { grid-template-columns: 1fr; }
+      .measure-grid { grid-template-columns: 1fr; }
+      .decision-row { grid-template-columns: 1fr; }
+      .opp-hero h2 { font-size: 24px; }
+      .guided-section { padding: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -1011,18 +1138,13 @@
       <header class="ft-header">
         <div class="eyebrow">Do diagnóstico à experimentação</div>
         <h1>FT VIEW</h1>
-        <p>Seu AS-IS mostrou como o negócio está hoje. Agora o FT View usa essas evidências para sugerir onde começar a experimentar a Blockchain como nova infraestrutura, o que testar e o que medir.</p>
+        <p>Seu AS-IS revelou como o negócio está hoje. O FT View cruza essas evidências com as possibilidades da nova infraestrutura para mostrar onde experimentar, o que testar e como medir.</p>
         <div class="reasoning-chain" style="margin-top:14px;">
-          <span class="chain-step">AS-IS</span>
-          <span class="chain-arrow">→</span>
-          <span class="chain-step">ONDE TESTAR</span>
-          <span class="chain-arrow">→</span>
-          <span class="chain-step">ONDE A BLOCKCHAIN PODE CONTRIBUIR</span>
-          <span class="chain-arrow">→</span>
-          <span class="chain-step">O QUE FAZER</span>
-          <span class="chain-arrow">→</span>
-          <span class="chain-step">O QUE MEDIR</span>
-          <span class="chain-arrow">→</span>
+          <span class="chain-step">AS-IS</span><span class="chain-arrow">→</span>
+          <span class="chain-step">OPORTUNIDADE</span><span class="chain-arrow">→</span>
+          <span class="chain-step">BLOCKCHAIN</span><span class="chain-arrow">→</span>
+          <span class="chain-step">EXPERIMENTO</span><span class="chain-arrow">→</span>
+          <span class="chain-step">MEDIR</span><span class="chain-arrow">→</span>
           <span class="chain-step">FMIF</span>
         </div>
       </header>
@@ -1084,6 +1206,7 @@
     ]);
 
     let ftRuntimePromise = null;
+    let participantObject = sessionStorage.getItem("ftview_participant_object") || "";
 
     function showError(message) {
       state.textContent = message;
@@ -1982,6 +2105,39 @@
       });
     }
 
+    function bindPossibilityCardHandlers() {
+      storyHost.querySelectorAll(".poss-card").forEach(card => {
+        card.addEventListener("click", () => {
+          storyHost.querySelectorAll(".poss-card").forEach(c => c.classList.remove("is-selected"));
+          storyHost.querySelectorAll(".cases-reveal").forEach(c => c.classList.remove("show"));
+          card.classList.add("is-selected");
+          const possId = card.getAttribute("data-poss-id");
+          const casesEl = storyHost.querySelector(`.cases-reveal[data-cases-for="${possId}"]`);
+          if (casesEl) casesEl.classList.add("show");
+        });
+      });
+
+      const objInput = storyHost.querySelector("#ftview-object-input");
+      if (objInput) {
+        objInput.addEventListener("input", () => {
+          participantObject = objInput.value;
+          sessionStorage.setItem("ftview_participant_object", participantObject);
+          const dispEl = storyHost.querySelector("#exp-object-display");
+          if (dispEl) {
+            dispEl.innerHTML = `<strong>Situação escolhida</strong>${escapeHtml(participantObject.trim() || "Ainda não registrada — preencha o campo acima.")}`;
+          }
+          const hypEl = storyHost.querySelector("#exp-hypothesis-text");
+          if (hypEl) {
+            const context = storyHost._ftContext;
+            if (context) {
+              const sel = selectedTerritoryFromContext(context, context.territoryResult?.recommendedTerritory, context.territoryResult?.alternativeTerritory);
+              hypEl.textContent = buildHypothesisText(sel, participantObject);
+            }
+          }
+        });
+      }
+    }
+
     function buildPrimaryMarketReference(context, territory) {
       const { runtime, areaRecord } = context;
       if (!territory || territory.componentId !== context.territoryResult?.recommendedTerritory?.componentId) return null;
@@ -2327,6 +2483,41 @@
       `;
     }
 
+    function participantObjectPlaceholder(territory) {
+      const id = territory?.componentId;
+      if (id === "05") return "Ex.: certificado emitido pelo escritório para um cliente";
+      if (id === "07") return "Ex.: uma troca de documento com parceiro ou cliente";
+      if (id === "04") return "Ex.: uma etapa de validação ou autorização manual";
+      if (id === "06") return "Ex.: uma cobrança, recebimento ou confirmação com cliente";
+      if (id === "03") return "Ex.: uma entrega de serviço ou credencial ao cliente";
+      if (id === "08") return "Ex.: validação de identidade ou autorização de uma pessoa";
+      return "Ex.: um processo, documento ou ativo que você gostaria de testar";
+    }
+
+    function buildOppQuestion(territory) {
+      const id = territory?.componentId;
+      if (id === "05") return "Existe algum ativo, documento, certificado ou direito cuja comprovação hoje dependa de conferência manual, arquivo original ou confiança em uma única organização?";
+      if (id === "07") return "Existe alguma troca de informação ou documento com parceiros, clientes ou fornecedores que hoje depende de e-mail, planilha ou confirmação manual?";
+      if (id === "04") return "Existe alguma etapa de processo que hoje depende de confirmação ou validação manual, criando retrabalho ou risco de erro?";
+      if (id === "06") return "Existe alguma situação de cobrança, recebimento ou confirmação com clientes onde rastreabilidade e comprovação ainda são frágeis?";
+      if (id === "03") return "Existe alguma entrega de valor ao cliente — serviço, credencial, comprovação — cuja autenticidade hoje é difícil de verificar ou comprovar?";
+      if (id === "08") return "Existe alguma situação de validação de identidade, autorização ou credencial de pessoa que hoje depende de conferência manual ou documento físico?";
+      return "Existe alguma situação do seu negócio onde registro verificável, rastreabilidade ou comprovação de autenticidade poderia fazer diferença?";
+    }
+
+    function buildHypothesisText(territory, object) {
+      const component = territory?.componentName || "este componente";
+      const obj = object && object.trim() ? `"${object.trim()}"` : `um caso real ligado a ${component}`;
+      const id = territory?.componentId;
+      if (id === "05") return `Se registrarmos ${obj} usando Blockchain, será possível comprovar sua existência e autenticidade sem depender de conferência manual ou arquivo centralizado?`;
+      if (id === "07") return `Se usarmos um registro compartilhado e verificável para ${obj}, será possível eliminar a necessidade de confirmação manual entre as partes?`;
+      if (id === "04") return `Se criarmos um fluxo verificável para ${obj}, será possível reduzir retrabalho, erros ou dependência de aprovação centralizada?`;
+      if (id === "06") return `Se registrarmos ${obj} de forma verificável, será possível melhorar a rastreabilidade e reduzir disputas ou retrabalho?`;
+      if (id === "03") return `Se emitirmos ${obj} com autenticidade verificável, será possível aumentar a confiança do cliente e reduzir dúvidas sobre validade?`;
+      if (id === "08") return `Se usarmos credenciais verificáveis para ${obj}, será possível comprovar identidade ou autorização sem depender de documento físico?`;
+      return `Se aplicarmos infraestrutura Blockchain a ${obj}, haverá melhoria em registro, rastreabilidade, autenticidade ou comprovação?`;
+    }
+
     function buildWorkshopSections(context) {
       const { territoryResult, areaRecord, runtime } = context;
       const recommended = territoryResult.recommendedTerritory;
@@ -2334,7 +2525,6 @@
         ? territoryResult.alternativeTerritory
         : null;
       const selectedTerritory = selectedTerritoryFromContext(context, recommended, alternative);
-      const opportunityCopy = territoryOpportunityCopy(selectedTerritory);
       const contributionItems = adherenceItems(context, selectedTerritory);
       const selectedExperiment = selectedTerritory?.suggestedExperiment || territoryResult.suggestedExperiment || {};
       const experimentSafeguards = (selectedExperiment?.safeguards || ["pequeno", "reversível", "observável", "comparável", "seguro para a operação"]).slice(0, 5);
@@ -2343,141 +2533,233 @@
         ? selectedObservationCriteria
         : ["tempo", "custo", "facilidade de auditoria", "segurança operacional"];
       const recommendedIsSelected = selectedTerritory?.componentId === recommended?.componentId;
-      const alternativeIsSelected = selectedTerritory?.componentId === alternative?.componentId;
-      const marketReference = recommendedIsSelected ? buildPrimaryMarketReference(context, selectedTerritory) : null;
+      const alternativeIsSelected = alternative && selectedTerritory?.componentId === alternative?.componentId;
       const hasAnyRealCases = contributionItems.some(item => hasRealCase(item));
+      const recScore = recommended?.score != null ? Number(recommended.score).toFixed(1) : null;
+      const recScoreLabel = recScore != null ? componentScoreLabel(Number(recScore)) : "";
+      const objPlaceholder = participantObjectPlaceholder(selectedTerritory);
+      const hypothesisText = buildHypothesisText(selectedTerritory, participantObject);
+      const oppQuestion = buildOppQuestion(selectedTerritory);
+
+      const possCardsHtml = (contributionItems.length
+        ? contributionItems
+        : [{ id: "generic", title: "Registro verificável", businessDescription: "Criar um registro que pode ser comprovado por qualquer parte.", practicalExample: "", realCases: [] }]
+      ).map((item, idx) => {
+        const detail = contributionDetailText(item.title);
+        return `
+          <button type="button" class="poss-card${idx === 0 ? " is-selected" : ""}" data-poss-id="${escapeHtml(item.id)}">
+            <div class="poss-card-tech">${escapeHtml(item.title)}</div>
+            <div class="poss-card-title">${escapeHtml(item.businessDescription || detail.micro)}</div>
+            <p class="poss-card-desc">${escapeHtml(item.practicalExample || detail.example)}</p>
+          </button>
+          ${hasRealCase(item) ? `
+          <div class="cases-reveal${idx === 0 ? " show" : ""}" data-cases-for="${escapeHtml(item.id)}">
+            <p>Quer ver como outras organizações já fizeram algo semelhante?</p>
+            <button type="button" class="example-link-button" data-open-examples="${escapeHtml(item.id)}">Ver casos reais →</button>
+          </div>
+          ` : ""}
+        `;
+      }).join("");
+
+      const criteriaHtml = observationCriteria.map(item => `
+        <div class="measure-item">${escapeHtml(item)}</div>
+      `).join("");
 
       return `
         <div class="workshop-stack">
-          <section class="story-card">
-            <div class="section-step">Oportunidade identificada</div>
-            <h2>${escapeHtml(opportunityCopy.title)}</h2>
-            <p class="section-copy">${escapeHtml(opportunityCopy.body)}</p>
-            <div class="evidence-inline">
-              Esta é uma hipótese de experimentação baseada no seu AS-IS. Não é uma recomendação automática de implementação.
-            </div>
-          </section>
 
-          <section class="story-card workshop-card workshop-hero">
-            <div class="workshop-lead">1. Onde testar?</div>
-            <div class="territory-decision-stack">
-              <article class="territory-primary-card">
-                <span class="territory-card-lead">Recomendação principal</span>
-                <div class="territory-name">${escapeHtml(territoryDisplayName(recommended))}</div>
-                <p class="workshop-copy">O FT View recomenda começar por <strong>${escapeHtml(recommended.componentName)}</strong>.</p>
-                <div class="evidence-inline">No seu AS-IS, este componente apareceu como um ponto consistente para iniciar um teste controlado.</div>
+          <!-- BLOCK 1: OPPORTUNITY HERO -->
+          <div class="opp-hero">
+            <div class="eyebrow">Oportunidade identificada</div>
+            <h2>${escapeHtml(territoryDisplayName(selectedTerritory))}</h2>
+            ${recScore != null ? `<div style="margin-top:6px;"><span class="t-card-score">AS-IS: ${recScore} — ${escapeHtml(recScoreLabel)}</span></div>` : ""}
+            <div class="opp-meta">
+              <span class="opp-meta-pill">📍 ${escapeHtml(areaRecord.nome)}</span>
+              <span class="opp-meta-pill">⛓ ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
+            </div>
+            <p class="opp-body">Seu AS-IS revelou um sinal importante neste componente. Ao cruzá-lo com sua área de atuação e com as possibilidades da nova infraestrutura, encontramos aqui uma oportunidade para um primeiro experimento.</p>
+            <div class="opp-question">
+              <strong>🔍 Olhe para o seu negócio</strong>
+              <p>${escapeHtml(oppQuestion)}</p>
+            </div>
+          </div>
+
+          <!-- BLOCK 1b: TERRITORY CHOICE (when alternative exists) -->
+          ${alternative ? `
+          <section class="guided-section">
+            <div class="guided-header">
+              <span class="step-badge">1</span>
+              <h2>Onde testar?</h2>
+            </div>
+            <p class="guided-subtitle">O FT View identificou dois pontos de atenção. Escolha por onde começar.</p>
+            <div class="territory-cards">
+              <article class="t-card t-primary">
+                <span class="t-card-badge primary">Ponto de partida recomendado</span>
+                <div class="t-card-name">${escapeHtml(territoryDisplayName(recommended))}</div>
+                ${recommended?.score != null ? `<span class="t-card-score">AS-IS: ${Number(recommended.score).toFixed(1)} — ${escapeHtml(componentScoreLabel(recommended.score))}</span>` : ""}
+                <p>No seu AS-IS, este componente apareceu como o ponto mais consistente para iniciar um teste controlado.</p>
               </article>
-              ${alternative ? `
-              <article class="territory-secondary-card">
-                <span class="territory-card-lead">Outra possibilidade identificada</span>
-                <div class="territory-name" style="font-size:18px;">${escapeHtml(territoryDisplayName(alternative))}</div>
-                <p class="territory-choice-note">O seu AS-IS também revelou sinais relevantes em <strong>${escapeHtml(alternative.componentName)}</strong>. Por isso, esta aparece como outra possibilidade de experimentação.</p>
-                <div class="evidence-inline">Use esta alternativa se ela fizer mais sentido para o momento real do seu negócio.</div>
+              <article class="t-card t-secondary">
+                <span class="t-card-badge secondary">Outra possibilidade</span>
+                <div class="t-card-name" style="font-size:18px;">${escapeHtml(territoryDisplayName(alternative))}</div>
+                ${alternative?.score != null ? `<span class="t-card-score">AS-IS: ${Number(alternative.score).toFixed(1)} — ${escapeHtml(componentScoreLabel(alternative.score))}</span>` : ""}
+                <p>O seu AS-IS também revelou sinais relevantes aqui. Use esta alternativa se fizer mais sentido para o momento real do seu negócio.</p>
               </article>
-              <p class="territory-choice-note">O FT View recomenda um ponto de partida, mas a decisão é sua. Escolha qual hipótese faz mais sentido testar primeiro na realidade do seu negócio.</p>
-              <div class="territory-choice-actions">
-                <button
-                  type="button"
-                  class="territory-choice-button is-recommended ${recommendedIsSelected ? "is-active" : ""}"
-                  data-territory-select="${escapeHtml(recommended.componentId)}"
-                  aria-pressed="${recommendedIsSelected ? "true" : "false"}"
-                >
-                  Começar por ${escapeHtml(recommended.componentName)}
-                </button>
-                <button
-                  type="button"
-                  class="territory-choice-button ${alternativeIsSelected ? "is-active" : ""}"
-                  data-territory-select="${escapeHtml(alternative.componentId)}"
-                  aria-pressed="${alternativeIsSelected ? "true" : "false"}"
-                >
-                  Explorar ${escapeHtml(alternative.componentName)}
-                </button>
-              </div>
-              ` : ""}
+            </div>
+            <div class="t-choice-row">
+              <button type="button" class="t-choice-btn is-recommended ${recommendedIsSelected ? "is-active" : ""}" data-territory-select="${escapeHtml(recommended.componentId)}" aria-pressed="${recommendedIsSelected}">
+                Começar por ${escapeHtml(recommended.componentName)}
+              </button>
+              <button type="button" class="t-choice-btn ${alternativeIsSelected ? "is-active" : ""}" data-territory-select="${escapeHtml(alternative.componentId)}" aria-pressed="${alternativeIsSelected}">
+                Explorar ${escapeHtml(alternative.componentName)}
+              </button>
+            </div>
+          </section>
+          ` : ""}
+
+          <!-- BLOCK 2: BLOCKCHAIN CONTRIBUTION + POSSIBILITY SELECTION -->
+          <section class="guided-section">
+            <div class="guided-header">
+              <span class="step-badge">${alternative ? "2" : "1"}</span>
+              <h2>Onde a Blockchain pode contribuir?</h2>
+            </div>
+            <div class="context-strip" style="margin-bottom:14px;">
+              <span class="context-pill">📍 ${escapeHtml(areaRecord.nome)}</span>
+              <span class="context-pill">⛓ ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
+            </div>
+            <p class="guided-subtitle">Qual destas situações mais se parece com algo que existe na sua realidade?</p>
+            <div class="possibility-grid">
+              ${possCardsHtml}
+            </div>
+            <p style="margin-top:14px; font-size:12px; color:var(--muted); line-height:1.65;">${escapeHtml(areaBlockchainContextText(areaRecord))}</p>
+            <div class="evidence-inline" style="margin-top:10px;">Estas são possibilidades para exploração no Workshop. Não representam recomendação automática de implementação.</div>
+          </section>
+
+          <!-- BLOCK 3: REAL SITUATION -->
+          <section class="guided-section">
+            <div class="guided-header">
+              <span class="step-badge">${alternative ? "3" : "2"}</span>
+              <h2>Traga para a sua realidade</h2>
+            </div>
+            <p class="guided-subtitle">Agora escolha algo concreto do seu negócio para testar.</p>
+            <div class="real-section">
+              <label for="ftview-object-input">O que você gostaria de testar?</label>
+              <p>Pense em uma situação real — um processo, documento, ativo ou troca — que possa ser testada sem interromper o que já funciona.</p>
+              <textarea
+                id="ftview-object-input"
+                class="real-input"
+                placeholder="${escapeHtml(objPlaceholder)}"
+                rows="3"
+              >${escapeHtml(participantObject)}</textarea>
+              <p class="real-hint">Este registro será usado apenas para compor a ficha do seu primeiro experimento.</p>
             </div>
           </section>
 
-          <section class="story-card">
-            <div class="section-step">2. ONDE A BLOCKCHAIN PODE CONTRIBUIR?</div>
-            <article class="info-box box-accent-blue">
-              <div class="context-strip">
-                <span class="context-pill">Área de atuação · ${escapeHtml(areaRecord.nome)}</span>
-                <span class="context-pill">Infraestrutura em foco · ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
-              </div>
-              <h3>Potenciais aderências para ${escapeHtml(selectedTerritory.componentName)}</h3>
-              <ul class="evidence-list" style="margin-top:10px;">
-                ${(contributionItems.length ? contributionItems : [{ title: "Possibilidades iniciais de registro, autenticação e rastreabilidade", businessDescription: "", practicalExample: "", realCases: [] }]).map(item => {
-                  const detail = contributionDetailText(item.title);
-                  return `<li>
-                    <strong>${escapeHtml(item.title)}</strong><br>
-                    ${escapeHtml(item.businessDescription || detail.micro)}<br>
-                    <span>${escapeHtml(item.practicalExample || detail.example)}</span>
-                    ${hasRealCase(item) ? `<button type="button" class="example-link-button" data-open-examples="${escapeHtml(item.id)}">Ver exemplos reais →</button>` : ""}
-                  </li>`;
-                }).join("")}
-              </ul>
-              <p style="margin-top:12px;">${escapeHtml(areaBlockchainContextText(areaRecord))}</p>
-              <div class="evidence-inline">Estas são possibilidades para exploração no Workshop. Não representam recomendação automática de implementação.</div>
-            </article>
-          </section>
-
-          <section class="story-card">
-            <div class="section-step">3. O QUE FAZER?</div>
-            <article class="workshop-card workshop-opportunity" style="margin-bottom:0;">
-              <h3>Experimento sugerido</h3>
-              <p class="section-copy">${escapeHtml(buildExperimentIntro(context, selectedTerritory))}</p>
-              <div class="evidence-inline" style="margin-top:0;">${escapeHtml(experimentGoalText())}</div>
-              <h3 style="margin-top:14px;">Como começar</h3>
-              <ul class="evidence-list" style="margin-top:10px;">
-                <li>Escolha um caso pequeno e real.</li>
-                <li>Registre como funciona hoje.</li>
-                <li>Faça uma versão experimental utilizando a nova infraestrutura.</li>
-                <li>Compare os resultados.</li>
-              </ul>
-              <div class="selected-territory-inline">Hipótese selecionada para este experimento: <strong>${escapeHtml(territoryDisplayName(selectedTerritory))}</strong>.</div>
-              ${hasAnyRealCases ? `<div class="evidence-inline"><strong>Como outras organizações já fizeram algo semelhante?</strong><br>Use “Ver exemplos reais →” nas aderências acima para abrir casos de referência com fonte verificável.</div>` : ""}
-              <div class="secondary-inline">
-                ${experimentSafeguards.map(item => `<span>${escapeHtml(item)}</span>`).join("")}
-              </div>
-              <div class="subtle-note">O objetivo aqui é experimentar e aprender, sem substituir o processo atual nesta etapa.</div>
-            </article>
-            ${marketReference ? `
-            <article class="info-box box-accent-green" style="margin-top:12px;">
-              <h3>REFERÊNCIA DE MERCADO</h3>
-              <p><strong>${escapeHtml(marketReference.name)}</strong></p>
-              <p>${escapeHtml(marketReference.what)}</p>
-              <p><strong>Por que é relevante:</strong> ${escapeHtml(marketReference.relevance)}</p>
-              <p><strong>Fonte:</strong> ${escapeHtml(marketReference.source)}</p>
-            </article>
-            ` : ""}
-          </section>
-
-          <section class="story-card workshop-card workshop-origin">
-            <div class="workshop-lead">4. O que medir?</div>
-            <h3>Antes → Experimento → Depois</h3>
-            <p class="section-copy">Registre como essa situação funciona hoje. Durante o experimento, observe os mesmos critérios. Depois compare os resultados.</p>
-            <ul class="tag-list" style="margin-top:12px;">
-              ${observationCriteria.map(item => `<li class="tag"><span>${escapeHtml(item)}</span></li>`).join("")}
-            </ul>
-            <div class="reasoning-chain" style="margin-top:14px;">
-              <span class="chain-step">ANTES</span>
-              <span class="chain-arrow">→</span>
-              <span class="chain-step">EXPERIMENTO</span>
-              <span class="chain-arrow">→</span>
-              <span class="chain-step">DEPOIS</span>
+          <!-- BLOCK 4: MY FIRST EXPERIMENT -->
+          <section class="experiment-hero">
+            <div class="eyebrow">Meu primeiro experimento</div>
+            <h2>O que vou testar</h2>
+            <div class="exp-meta-row">
+              <span class="exp-meta-pill">📌 ${escapeHtml(territoryDisplayName(selectedTerritory))}</span>
+              <span class="exp-meta-pill">📍 ${escapeHtml(areaRecord.nome)}</span>
             </div>
-            <div class="evidence-inline">Esses critérios ajudam você a perceber se o experimento realmente gerou melhoria.</div>
+            <div class="exp-object-display" id="exp-object-display">
+              <strong>Situação escolhida</strong>
+              ${escapeHtml(participantObject && participantObject.trim() ? participantObject.trim() : "Ainda não registrada — preencha o campo acima.")}
+            </div>
+            <div class="exp-hypothesis">
+              <strong style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7bc9a8;margin-bottom:6px;">Hipótese</strong>
+              <span id="exp-hypothesis-text">${escapeHtml(hypothesisText)}</span>
+            </div>
+            <div class="exp-steps">
+              <div class="exp-step">
+                <div class="exp-step-num">1 — Observe</div>
+                <div class="exp-step-title">Registre como funciona hoje</div>
+                <p class="exp-step-body">Antes de mudar qualquer coisa, documente o processo atual: tempo, passos, responsáveis e pontos frágeis.</p>
+              </div>
+              <div class="exp-step">
+                <div class="exp-step-num">2 — Experimente</div>
+                <div class="exp-step-title">Faça uma versão pequena</div>
+                <p class="exp-step-body">Escolha um caso real e teste utilizando a nova infraestrutura em escala controlada.</p>
+              </div>
+              <div class="exp-step">
+                <div class="exp-step-num">3 — Não substitua ainda</div>
+                <div class="exp-step-title">Mantenha o processo atual</div>
+                <p class="exp-step-body">O processo original continua funcionando em paralelo. O experimento não deve interromper a operação.</p>
+              </div>
+              <div class="exp-step">
+                <div class="exp-step-num">4 — Compare</div>
+                <div class="exp-step-title">Observe se houve benefício</div>
+                <p class="exp-step-body">Use os critérios da próxima etapa para decidir se vale avançar, ajustar ou encerrar.</p>
+              </div>
+            </div>
+            <div class="secondary-inline" style="margin-bottom:14px;">
+              ${experimentSafeguards.map(item => `<span>${escapeHtml(item)}</span>`).join("")}
+            </div>
+            <div class="exp-method-note">O objetivo não é colocar algo na Blockchain. O objetivo é descobrir se uma infraestrutura verificável melhora alguma coisa relevante no processo.</div>
           </section>
 
-          <section class="story-card action-card">
-            <p style="margin-bottom:12px;">Agora você tem uma hipótese concreta: onde experimentar, o que testar e como saber se funcionou.</p>
-            <p style="margin-bottom:16px;">Leve esta hipótese para o FMIF para avaliar sua capacidade de avançar.</p>
-            <a class="primary-action" id="fmif-primary-action" href="javascript:void(0)" aria-disabled="true">
-              <strong>Continuar para o FMIF →</strong>
-              <span>Avance com este território, o experimento sugerido e os critérios de medição.</span>
-            </a>
-            <a class="secondary-action" id="report-full-link" href="./ft-view-report.html">Ver / Salvar Relatório FT completo (PDF)</a>
+          <!-- BLOCK 5: WHAT TO MEASURE -->
+          <section class="guided-section">
+            <div class="guided-header">
+              <span class="step-badge">${alternative ? "5" : "4"}</span>
+              <h2>O que medir?</h2>
+            </div>
+            <p class="guided-subtitle">Antes de começar, defina como saberá se o experimento funcionou.</p>
+            <div class="measure-grid">
+              <div class="measure-col">
+                <div class="measure-col-head before">Antes</div>
+                <div class="measure-col-items">${criteriaHtml}</div>
+              </div>
+              <div class="measure-col">
+                <div class="measure-col-head during">Experimento</div>
+                <div class="measure-col-items">${criteriaHtml}</div>
+              </div>
+              <div class="measure-col">
+                <div class="measure-col-head after">Depois</div>
+                <div class="measure-col-items">${criteriaHtml}</div>
+              </div>
+            </div>
+            <div class="evidence-inline" style="margin-top:14px;">Registre os mesmos critérios em cada fase. A comparação é o que torna o experimento válido.</div>
+
+            <h3 style="margin-top:20px; margin-bottom:12px; color:var(--brand); font-size:16px;">Como decidir o que fazer depois?</h3>
+            <div class="decision-row">
+              <div class="decision-card advance">
+                <div class="decision-icon">✅</div>
+                <strong>Vale avançar</strong>
+                <p>O experimento trouxe melhoria clara e observável em pelo menos um critério.</p>
+              </div>
+              <div class="decision-card adjust">
+                <div class="decision-icon">🔄</div>
+                <strong>Precisa ajustar</strong>
+                <p>Houve resultado parcial. Vale refinar o experimento antes de avançar.</p>
+              </div>
+              <div class="decision-card noBenefit">
+                <div class="decision-icon">📋</div>
+                <strong>Não trouxe benefício</strong>
+                <p>Resultado metodologicamente válido. Aprenda com o que não funcionou e redirecione.</p>
+              </div>
+            </div>
+            <div class="method-note" style="margin-top:14px;">O FT View não induz adoção de Blockchain. Ele testa uma hipótese. Qualquer resultado é aprendizado válido.</div>
           </section>
+
+          <!-- TRANSITION TO FMIF -->
+          <section class="fmif-transition">
+            <p>Você já sabe o que testar.</p>
+            <p>Agora precisamos avaliar se sua organização possui maturidade suficiente para executar esse experimento.</p>
+            <div class="fmif-flow">
+              <div class="fmif-flow-step">FT VIEW<small>Hipótese de experimentação</small></div>
+              <span class="fmif-flow-arrow">↓</span>
+              <div class="fmif-flow-step">FMIF<small>Capacidade de avançar</small></div>
+              <span class="fmif-flow-arrow">↓</span>
+              <div class="fmif-flow-step">PTIF<small>Plano de execução</small></div>
+            </div>
+            <button type="button" class="fmif-btn" id="fmif-primary-action" aria-disabled="true">
+              Continuar para o FMIF →
+            </button>
+            <a class="fmif-report-link" id="report-full-link" href="./ft-view-report.html">Ver / Salvar Relatório FT completo (PDF)</a>
+          </section>
+
         </div>
       `;
     }
@@ -2525,6 +2807,9 @@
           shouldShowAlternativeTerritory(context.territoryResult?.alternativeTerritory) ? context.territoryResult?.alternativeTerritory : null
         )
       );
+      storyHost._ftContext = context;
+      storyHost.dataset.selectedTerritoryId = context.selectedTerritoryId || "";
+      bindPossibilityCardHandlers();
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
@@ -2550,6 +2835,9 @@
               shouldShowAlternativeTerritory(context.territoryResult?.alternativeTerritory) ? context.territoryResult?.alternativeTerritory : null
             )
           );
+          storyHost._ftContext = context;
+          storyHost.dataset.selectedTerritoryId = context.selectedTerritoryId || "";
+          bindPossibilityCardHandlers();
           updateReportLink();
         });
       });
