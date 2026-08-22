@@ -11,8 +11,8 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "tokenizacao",
           title: "Tokenização",
-          businessDescription: "Representar digitalmente um ativo ou direito para permitir identificação, registro, transferência ou novas formas de utilização.",
-          practicalExample: "Exemplo: transformar um direito em unidade digital para facilitar comprovação e rastreabilidade.",
+          businessDescription: "Representar digitalmente um bem ou direito para facilitar registro, transferência e comprovação.",
+          practicalExample: "Exemplo: transformar um direito em formato digital para rastrear titularidade e histórico.",
           firstStepHint: "Mapeie um ativo/direito pequeno que hoje tem controle manual e descreva as validações atuais.",
           realCases: [
             {
@@ -26,6 +26,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "",
               lesson: "Ativos financeiros podem ganhar nova forma operacional sem mudar o objetivo econômico do produto.",
               firstStep: "Escolha um ativo financeiro simples do seu contexto e mapeie como registro, transferência e conciliação funcionam hoje.",
+              whatTheyDid: "Um fundo de investimento passou a registrar cotas em infraestrutura Blockchain, mantendo o produto regulado.",
+              whyHere: "Este caso aparece em Tokenização porque a cota do fundo representa um direito econômico que passou a ser representado digitalmente.",
+              thinkQuestion: "Existe algum bem, direito, crédito, certificado ou documento cuja propriedade precisa ser registrada ou comprovada?",
               sourceUrl: "https://www.franklintempleton.com/investments/options/mutual-funds/products/2296/SINGLCLASS/franklin-onchain-us-government-money-fund/FOBXX"
             }
           ]
@@ -33,8 +36,8 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "prova_propriedade",
           title: "Prova de propriedade/titularidade",
-          businessDescription: "Comprovar quem é o titular e qual é o histórico de posse/transferência de um ativo ou direito.",
-          practicalExample: "Exemplo: validar titularidade de um documento ou direito em auditoria.",
+          businessDescription: "Comprovar de quem é alguma coisa e acompanhar seu histórico de titularidade.",
+          practicalExample: "Exemplo: mostrar quem era o titular de um documento em cada momento.",
           firstStepHint: "Escolha um item com histórico sensível e descreva como a titularidade é comprovada hoje.",
           realCases: [
             {
@@ -48,6 +51,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "",
               lesson: "Prova de titularidade e confiança em ativo digital dependem de trilho tecnológico + governança e transparência.",
               firstStep: "Defina qual ativo/direito do seu negócio exigiria prova de titularidade mais robusta e quais evidências hoje faltam.",
+              whatTheyDid: "A Circle mantém um dólar digital com reservas e informações públicas para sustentar confiança no ativo.",
+              whyHere: "Este caso aparece em Prova de propriedade/titularidade porque a circulação do ativo depende de comprovar quem possui o saldo e seu histórico.",
+              thinkQuestion: "No seu negócio, qual ativo, direito ou documento exige comprovação clara de titularidade ao longo do tempo?",
               sourceUrl: "https://www.circle.com/usdc"
             }
           ]
@@ -55,16 +61,16 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "credenciais_verificaveis",
           title: "Credenciais verificáveis",
-          businessDescription: "Emitir credenciais com autenticidade verificável para reduzir dúvidas sobre origem e validade.",
-          practicalExample: "Exemplo: comprovar autenticidade de um certificado ou declaração sem depender só de arquivo local.",
+          businessDescription: "Permitir que alguém comprove que um documento ou informação é autêntico.",
+          practicalExample: "Exemplo: validar um certificado sem depender apenas de envio manual de arquivo.",
           firstStepHint: "Liste uma credencial crítica e identifique quem valida hoje, como valida e onde há retrabalho.",
           realCases: []
         },
         {
           id: "custodia_digital",
           title: "Custódia digital",
-          businessDescription: "Organizar guarda, acesso e responsabilidade sobre ativos digitais com trilha verificável.",
-          practicalExample: "Exemplo: controlar quem pode acessar, aprovar ou transferir determinado ativo digital.",
+          businessDescription: "Controlar quem pode guardar, acessar ou movimentar um ativo digital.",
+          practicalExample: "Exemplo: definir regras de acesso e movimentação para reduzir risco operacional.",
           firstStepHint: "Selecione um ativo digital relevante e mapeie as regras atuais de acesso e responsabilidade.",
           realCases: [
             {
@@ -78,6 +84,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "",
               lesson: "Custódia e movimentação de ativos digitais exigem integração entre operação de pagamentos e controles de emissão/reserva.",
               firstStep: "Escolha um fluxo em que sua empresa guarda ou transfere valor digital e identifique controles mínimos de custódia necessários.",
+              whatTheyDid: "O PayPal passou a operar um dólar digital, emitido pela Paxos, com uso integrado ao seu ecossistema de pagamentos.",
+              whyHere: "Este caso aparece em Custódia digital porque envolve regras de guarda, acesso e movimentação de um ativo digital.",
+              thinkQuestion: "Quais controles de acesso e responsabilidade seriam necessários para guardar e mover um ativo digital no seu contexto?",
               sourceUrl: "https://newsroom.paypal-corp.com/2023-08-07-PayPal-Launches-U-S-Dollar-Stablecoin"
             }
           ]
@@ -93,8 +102,8 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "registro_compartilhado",
           title: "Registro compartilhado",
-          businessDescription: "Manter uma visão comum e verificável de eventos entre organizações participantes.",
-          practicalExample: "Exemplo: registrar marcos de um processo de forma que todas as partes consultem a mesma base.",
+          businessDescription: "Manter o mesmo registro de eventos para todas as organizações envolvidas.",
+          practicalExample: "Exemplo: todas as partes consultam o mesmo histórico de etapas de um processo.",
           firstStepHint: "Escolha um fluxo entre duas áreas/organizações e mapeie as divergências de registro atuais.",
           realCases: [
             {
@@ -108,6 +117,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "O projeto atingiu estágio de MVP em 2024 e realizou pilotos com transações de valor real.",
               lesson: "Quando várias organizações precisam confiar no mesmo registro, um trilho compartilhado pode reduzir fricção operacional.",
               firstStep: "Mapeie um fluxo multiempresa do seu negócio e identifique onde hoje cada parte mantém um registro diferente.",
+              whatTheyDid: "Bancos centrais e bancos comerciais testaram uma plataforma compartilhada para pagamentos internacionais.",
+              whyHere: "Este caso aparece em Registro compartilhado porque as organizações passaram a consultar uma base comum de registro.",
+              thinkQuestion: "Onde hoje seu processo depende de conciliar versões diferentes do mesmo registro entre organizações?",
               sourceUrl: "https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm"
             }
           ]
@@ -115,16 +127,16 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "rastreabilidade_entre_orgs",
           title: "Rastreabilidade entre organizações",
-          businessDescription: "Acompanhar a trajetória de informações/ativos ao longo das organizações envolvidas.",
-          practicalExample: "Exemplo: rastrear quando um documento foi criado, validado e compartilhado entre partes.",
+          businessDescription: "Acompanhar o caminho de informações ou ativos quando passam por várias organizações.",
+          practicalExample: "Exemplo: saber quando um documento foi criado, validado e repassado entre partes.",
           firstStepHint: "Mapeie uma transferência de informação e identifique os pontos sem rastreio confiável.",
           realCases: []
         },
         {
           id: "coordenacao_participantes",
           title: "Coordenação entre participantes",
-          businessDescription: "Padronizar validações e regras para reduzir retrabalho e conflitos entre participantes.",
-          practicalExample: "Exemplo: sincronizar aprovações entre escritório, cliente e parceiro com o mesmo critério de validação.",
+          businessDescription: "Padronizar regras entre participantes para reduzir conflitos e retrabalho.",
+          practicalExample: "Exemplo: usar o mesmo critério de validação entre escritório, cliente e parceiro.",
           firstStepHint: "Escolha uma validação com ruído frequente e registre onde as regras divergem entre participantes.",
           realCases: [
             {
@@ -138,6 +150,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "A solução reporta alcance de aceitação em rede com mais de 90 milhões de estabelecimentos.",
               lesson: "Coordenação entre participantes melhora quando cada parte mantém seu papel, mas com trilho financeiro interoperável.",
               firstStep: "Escolha um fluxo com parceiro externo e avalie onde a coordenação atual exige reconciliação manual recorrente.",
+              whatTheyDid: "A Immersve conectou uso de USDC à rede Mastercard para permitir pagamentos em estabelecimentos da rede.",
+              whyHere: "Este caso aparece em Coordenação entre participantes porque depende de regras alinhadas entre emissores, rede de pagamentos e participantes.",
+              thinkQuestion: "Quais pontos hoje exigem confirmar manualmente se todos os participantes estão seguindo a mesma regra?",
               sourceUrl: "https://www.circle.com/case-studies/immersve"
             }
           ]
@@ -145,8 +160,8 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
         {
           id: "liquidacao_organizacoes",
           title: "Transação/liquidação entre organizações",
-          businessDescription: "Estruturar registros de troca de valor entre organizações com confirmação verificável.",
-          practicalExample: "Exemplo: confirmar etapas de uma liquidação entre partes com menos reconciliação manual.",
+          businessDescription: "Confirmar troca de valor entre organizações com registro verificável.",
+          practicalExample: "Exemplo: reduzir reconciliação manual em liquidação entre duas empresas.",
           firstStepHint: "Escolha um fluxo de transação entre duas partes e documente tempos e etapas de conciliação atuais.",
           realCases: [
             {
@@ -160,6 +175,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "A Visa informou já ter movimentado milhões de USDC em pilotos de liquidação.",
               lesson: "Blockchain pode atuar como infraestrutura financeira de bastidor, sem exigir mudança completa da operação comercial.",
               firstStep: "Mapeie uma liquidação recorrente da sua empresa e compare tempo/custo atuais com uma hipótese de trilho digital alternativo.",
+              whatTheyDid: "A Visa testou liquidação com USDC entre instituições para acelerar transferências de valor entre parceiros.",
+              whyHere: "Este caso aparece em Transação/liquidação entre organizações porque trata da liquidação de valor entre instituições em trilho Blockchain.",
+              thinkQuestion: "Onde sua operação de liquidação entre organizações perde tempo por causa de reconciliação ou janela bancária?",
               sourceUrl: "https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.19881.html"
             },
             {
@@ -173,6 +191,9 @@ const BLOCKCHAIN_EXAMPLE_LIBRARY = {
               result: "O caso reporta redução de janelas de funding de T+2 para T+0 em alguns corredores e crescimento de uso mês a mês.",
               lesson: "Em ecossistemas com múltiplas partes e países, o trilho financeiro pode ser testado por etapas sem trocar todo o modelo de negócio.",
               firstStep: "Escolha um corredor de pagamento B2B e registre prazos de liquidação atuais antes de testar uma alternativa controlada.",
+              whatTheyDid: "A Thunes integrou USDC para reduzir dependência de janelas bancárias em parte da liquidação internacional.",
+              whyHere: "Este caso aparece em Transação/liquidação entre organizações porque mostra troca e liquidação de valor entre participantes em trilho digital.",
+              thinkQuestion: "Qual corredor de pagamento entre empresas faria sentido testar em pequena escala para comparar prazo e custo?",
               sourceUrl: "https://www.circle.com/case-studies/thunes"
             }
           ]

@@ -1015,6 +1015,20 @@
       background: var(--brand); color: #fff;
       font-size: 11px; font-weight: 800; flex-shrink: 0;
     }
+    .paths-intro-card { border: 1px solid #d6e0ee; border-radius: 16px; background: #f3f7fd; padding: 18px; box-shadow: var(--shadow); }
+    .paths-intro-title { margin: 0 0 10px; color: #1a2744; font-size: 16px; font-weight: 800; line-height: 1.35; }
+    .paths-intro-copy { margin: 0 0 12px; color: #465976; font-size: 13px; line-height: 1.65; }
+    .paths-intro-grid { display: grid; gap: 10px; margin-bottom: 10px; }
+    .paths-intro-item { border: 1px solid #d7e1ef; border-radius: 12px; background: #fff; padding: 12px; }
+    .paths-intro-item strong { display: block; color: #1a2744; font-size: 12px; margin-bottom: 5px; }
+    .paths-intro-item p { margin: 0; color: #55657b; font-size: 12px; line-height: 1.6; }
+    .paths-intro-balance { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border-radius: 999px; border: 1px solid #c9d7eb; background: #eaf0f8; color: #244266; font-size: 11px; font-weight: 700; }
+    .paths-nav-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .path-nav-primary,
+    .path-nav-secondary { border-radius: 12px; min-height: 44px; padding: 10px 13px; font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; }
+    .path-nav-primary { border: 1px solid #1a2744; background: #1a2744; color: #fff; }
+    .path-nav-secondary { border: 1px solid #c6d5e8; background: #fff; color: #2c4263; }
+    .path-nav-secondary:hover { border-color: #1a2744; color: #1a2744; }
 
     .opp-hero {
       background: linear-gradient(135deg, #1a2744 0%, #253d6b 100%);
@@ -1058,6 +1072,8 @@
     .poss-card-tech { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #8294ad; margin-bottom: 6px; }
     .poss-card-title { font-size: 15px; font-weight: 800; color: var(--brand); line-height: 1.3; margin-bottom: 6px; }
     .poss-card-desc { font-size: 12px; color: var(--muted); line-height: 1.65; margin: 0; }
+    .poss-card-section-title { margin-top: 9px; color: #1a2744; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .poss-card-source { display: inline-block; margin-top: 4px; color: #1a4f9b; font-size: 12px; word-break: break-all; }
     .poss-card.is-selected .poss-card-tech { color: #4d6fa5; }
     .cases-reveal { margin-top: 14px; padding: 14px 16px; background: #f7fbff; border: 1px dashed #b8cce5; border-radius: 12px; display: none; }
     .cases-reveal.show { display: block; }
@@ -1069,6 +1085,40 @@
     .real-input { width: 100%; font-size: 14px; padding: 12px 14px; border: 1px solid #ddc890; border-radius: 10px; background: #fff; color: #1a1a1a; resize: vertical; min-height: 70px; font-family: inherit; line-height: 1.5; }
     .real-input:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(154,103,0,.12); }
     .real-hint { margin-top: 6px; font-size: 11px; color: #9a7040; }
+    .reality-context-card { border: 1px solid #d6e0ee; border-left: 4px solid #1b4f9b; border-radius: 14px; background: #f4f8fd; padding: 16px; }
+    .reality-context-card p { margin: 0 0 10px; color: #42546d; font-size: 13px; line-height: 1.7; }
+    .reality-example-list { margin: 0; padding-left: 16px; color: #4a5a71; font-size: 12px; line-height: 1.65; display: grid; gap: 5px; }
+    .inspiration-wrap { margin-top: 12px; }
+    .inspiration-title { margin: 0 0 8px; color: #7a5f00; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .inspiration-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .inspiration-chip { border: 1px solid #d9c89a; border-radius: 999px; background: #fff; color: #6f5310; font-size: 11px; font-weight: 700; padding: 7px 11px; cursor: pointer; text-transform: uppercase; letter-spacing: .02em; }
+    .inspiration-chip:hover { border-color: #9a6700; color: #9a6700; background: #fff8e6; }
+    .financial-path-card { margin-top: 6px; border: 1px solid #d6e0ee; border-radius: 16px; background: #f8fbff; box-shadow: var(--shadow); overflow: hidden; }
+    .financial-path-card summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px; }
+    .financial-path-card summary::-webkit-details-marker { display: none; }
+    .financial-path-label { color: #5f6f86; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; }
+    .financial-path-title { color: #1a2744; font-size: 20px; font-weight: 800; line-height: 1.2; margin-top: 4px; }
+    .financial-path-copy { color: #465976; font-size: 13px; line-height: 1.65; margin-top: 10px; max-width: 740px; }
+    .financial-path-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 12px; border-radius: 12px; border: 1px solid #b8cce5; background: #fff; color: #1a2744; font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .financial-path-card[open] .financial-path-cta { background: #1a2744; color: #fff; border-color: #1a2744; }
+    .financial-path-body { border-top: 1px solid #dfe7f2; padding: 18px; display: grid; gap: 12px; }
+    .financial-situation-grid { display: grid; gap: 10px; margin-top: 10px; }
+    .financial-situation-card { border: 1px solid #dbe4ef; border-radius: 12px; background: #fff; padding: 12px; }
+    .financial-situation-card h4 { margin: 0 0 8px; color: #1a2744; font-size: 13px; line-height: 1.35; }
+    .financial-situation-card p { margin: 0; color: #4f5f76; font-size: 12px; line-height: 1.65; }
+    .financial-cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .financial-case-card { border: 1px solid #dbe4ef; border-radius: 12px; background: #fff; padding: 12px; }
+    .financial-case-card h4 { margin: 0 0 8px; color: #1a2744; font-size: 13px; line-height: 1.35; }
+    .financial-case-card p { margin: 0 0 6px; color: #4f5f76; font-size: 12px; line-height: 1.6; }
+    .financial-case-card a { color: #1a4f9b; font-size: 12px; text-decoration: none; }
+    .financial-case-card a:hover { text-decoration: underline; }
+    .financial-chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .financial-chip { border: 1px solid #c8d6ea; border-radius: 999px; background: #fff; color: #2f4463; font-size: 11px; font-weight: 700; padding: 7px 11px; cursor: pointer; text-transform: uppercase; letter-spacing: .02em; }
+    .financial-chip:hover { background: #eef4fb; border-color: #1b4f9b; color: #1b4f9b; }
+    .financial-input { width: 100%; font-size: 14px; padding: 12px 14px; border: 1px solid #cad6e8; border-radius: 10px; background: #fff; color: #1a1a1a; min-height: 72px; resize: vertical; font-family: inherit; line-height: 1.5; }
+    .financial-input:focus { outline: none; border-color: #1b4f9b; box-shadow: 0 0 0 3px rgba(27,79,155,.12); }
+    .financial-experiment-card { border: 1px solid #d8e3f2; border-left: 4px solid #1b4f9b; border-radius: 14px; background: #eef4fb; padding: 14px; }
+    .financial-experiment-card p { margin: 0 0 8px; color: #3f536f; font-size: 12px; line-height: 1.65; }
 
     .experiment-hero { background: linear-gradient(135deg, #0d3b2e 0%, #145a44 100%); border-radius: 18px; padding: 26px 22px; color: #fff; margin-bottom: 0; }
     .experiment-hero .eyebrow { color: #7bc9a8; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
@@ -1118,13 +1168,14 @@
     .fmif-report-link:hover { color: #fff; text-decoration: underline; }
 
     @media print {
-      .poss-card, .t-choice-btn, .fmif-btn, .example-link-button { display: none !important; }
+      .poss-card, .t-choice-btn, .fmif-btn, .example-link-button, .inspiration-chip, .financial-chip, .financial-path-card summary { display: none !important; }
     }
 
     @media (max-width: 820px) {
       .exp-steps { grid-template-columns: 1fr; }
       .measure-grid { grid-template-columns: 1fr; }
       .decision-row { grid-template-columns: 1fr; }
+      .financial-cases-grid { grid-template-columns: 1fr; }
       .opp-hero h2 { font-size: 24px; }
       .guided-section { padding: 18px; }
     }
@@ -1170,7 +1221,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     import { FT_KNOWLEDGE_BASE } from "./shared-discernment/ft-knowledge-base.js";
 
     const firebaseConfig = {
@@ -1207,6 +1258,14 @@
 
     let ftRuntimePromise = null;
     let participantObject = sessionStorage.getItem("ftview_participant_object") || "";
+    let financialPathObject = sessionStorage.getItem("ftview_financial_object") || "";
+    let selectedPossibilityId = sessionStorage.getItem("ftview_selected_possibility_id") || "";
+    let selectedPath1Inspiration = sessionStorage.getItem("ftview_selected_path1_chip") || "";
+    let selectedFinancialInspiration = sessionStorage.getItem("ftview_selected_financial_chip") || "";
+    let activeWorkshopId = null;
+    let activeParticipanteId = null;
+    let activeParticipantPath = null;
+    let activeDb = null;
 
     function showError(message) {
       state.textContent = message;
@@ -1613,6 +1672,106 @@
       } catch {}
     }
 
+    function ftViewStorageKey(workshopId, participanteId) {
+      if (!workshopId || !participanteId) return "ft-view-workshop-state::preview";
+      return `ft-view-workshop-state::${workshopId}::${participanteId}`;
+    }
+
+    function persistFtViewSessionState(workshopId, participanteId, payload) {
+      try {
+        sessionStorage.setItem(ftViewStorageKey(workshopId, participanteId), JSON.stringify(payload));
+      } catch {}
+    }
+
+    function readFtViewSessionState(workshopId, participanteId) {
+      try {
+        const raw = sessionStorage.getItem(ftViewStorageKey(workshopId, participanteId));
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function applyFtViewPersistedState(payload) {
+      const personalized = payload?.paths?.personalized || {};
+      const financial = payload?.paths?.financial || {};
+      participantObject = personalized?.participantText || "";
+      financialPathObject = financial?.participantText || "";
+      selectedPossibilityId = personalized?.selectedPossibilityId || "";
+      selectedPath1Inspiration = personalized?.selectedInspiration || "";
+      selectedFinancialInspiration = financial?.selectedInspiration || "";
+      sessionStorage.setItem("ftview_participant_object", participantObject);
+      sessionStorage.setItem("ftview_financial_object", financialPathObject);
+      sessionStorage.setItem("ftview_selected_possibility_id", selectedPossibilityId);
+      sessionStorage.setItem("ftview_selected_path1_chip", selectedPath1Inspiration);
+      sessionStorage.setItem("ftview_selected_financial_chip", selectedFinancialInspiration);
+    }
+
+    function clearFtViewWorkingState() {
+      participantObject = "";
+      financialPathObject = "";
+      selectedPossibilityId = "";
+      selectedPath1Inspiration = "";
+      selectedFinancialInspiration = "";
+      sessionStorage.setItem("ftview_participant_object", "");
+      sessionStorage.setItem("ftview_financial_object", "");
+      sessionStorage.setItem("ftview_selected_possibility_id", "");
+      sessionStorage.setItem("ftview_selected_path1_chip", "");
+      sessionStorage.setItem("ftview_selected_financial_chip", "");
+    }
+
+    function serializeFtViewData(context) {
+      const selectedTerritory = context.selectedTerritoryId
+        ? territoryByComponentId(context.territoryResult, context.selectedTerritoryId)
+        : context.territoryResult?.recommendedTerritory;
+      const territory = selectedTerritory || context.territoryResult?.recommendedTerritory || null;
+      const contributionItems = territory ? selectPath1Applications(context, territory) : [];
+      const selectedPossibility = contributionItems.find(item => item.id === selectedPossibilityId) || contributionItems[0] || null;
+      const observationCriteria = (territory?.observationCriteria || context.territoryResult?.observationCriteria || []).length
+        ? (territory?.observationCriteria || context.territoryResult?.observationCriteria || [])
+        : ["tempo", "custo", "facilidade de auditoria", "segurança operacional"];
+      const financialCriteria = ["tempo", "custo", "número de etapas", "número de intermediários", "disponibilidade", "facilidade operacional", "rastreabilidade/comprovação", "riscos percebidos"];
+      const experimentProposal = buildExperimentIntro(context, territory);
+      const nowIso = new Date().toISOString();
+
+      return {
+        version: "ft-view-workshop-v1",
+        updatedAt: nowIso,
+        paths: {
+          personalized: {
+            pathType: "personalized",
+            componentId: territory?.componentId || null,
+            componentName: territory?.componentName || null,
+            area: context.areaRecord?.nome || null,
+            selectedPossibilityId: selectedPossibility?.id || null,
+            selectedPossibilityTitle: selectedPossibility?.title || null,
+            selectedInspiration: selectedPath1Inspiration || null,
+            participantText: participantObject.trim() || "",
+            hypothesis: buildHypothesisText(territory, participantObject),
+            experimentProposal,
+            measurementCriteria: observationCriteria,
+            updatedAt: nowIso
+          },
+          financial: {
+            pathType: "financial",
+            selectedInspiration: selectedFinancialInspiration || null,
+            participantText: financialPathObject.trim() || "",
+            hypothesis: buildFinancialPathHypothesis(financialPathObject),
+            experimentProposal: "Operação financeira pequena e controlada usando infraestrutura baseada em Blockchain, sem substituir o processo principal.",
+            measurementCriteria: financialCriteria,
+            updatedAt: nowIso
+          }
+        }
+      };
+    }
+
+    async function persistFtViewData(context) {
+      const payload = serializeFtViewData(context);
+      persistFtViewSessionState(activeWorkshopId, activeParticipanteId, payload);
+      if (!activeDb || !activeParticipantPath) return;
+      await update(ref(activeDb, activeParticipantPath), { ftView: payload });
+    }
+
     function restoreParticipantPayload() {
       try {
         const raw = sessionStorage.getItem("ft-view-last-participant");
@@ -1734,7 +1893,7 @@
           ${territoryEvidenceHtml(context, territory)}
           ${familyHints.length ? `<div class="secondary-inline">${familyHints.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>` : ""}
           ${gaps.length ? `<div class="evidence-inline">Ainda faltam evidências mais claras sobre: ${escapeHtml(joinNaturalLanguage(gaps))}.</div>` : ""}
-        </article>
+        </div>
       `;
     }
 
@@ -1889,6 +2048,68 @@
       }));
     }
 
+    const COMPONENT_PATH1_APPLICATION_IDS = {
+      "01": ["registro_compartilhado", "prova_propriedade", "tokenizacao"],
+      "02": ["liquidacao_organizacoes", "coordenacao_participantes", "registro_compartilhado"],
+      "03": ["tokenizacao", "prova_propriedade", "custodia_digital"],
+      "04": ["registro_compartilhado", "liquidacao_organizacoes", "coordenacao_participantes"],
+      "05": ["tokenizacao", "prova_propriedade", "custodia_digital"],
+      "06": ["liquidacao_organizacoes", "coordenacao_participantes", "custodia_digital"],
+      "07": ["registro_compartilhado", "coordenacao_participantes", "liquidacao_organizacoes"],
+      "08": ["custodia_digital", "coordenacao_participantes", "prova_propriedade"],
+      "09": ["coordenacao_participantes", "liquidacao_organizacoes", "registro_compartilhado"],
+      "10": ["liquidacao_organizacoes", "registro_compartilhado", "coordenacao_participantes"],
+      "11": ["tokenizacao", "custodia_digital", "liquidacao_organizacoes"]
+    };
+
+    function allCaseBackedApplications(runtime) {
+      const map = new Map();
+      const components = runtime?.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components || {};
+      Object.values(components).forEach(component => {
+        (component?.adherences || []).forEach(adherence => {
+          const normalizedCases = normalizeRealCases(adherence.realCases);
+          if (!normalizedCases.length) return;
+          if (map.has(adherence.id)) return;
+          map.set(adherence.id, {
+            id: adherence.id,
+            title: adherence.title,
+            businessDescription: adherence.businessDescription,
+            practicalExample: adherence.practicalExample,
+            firstStepHint: adherence.firstStepHint,
+            realCases: normalizedCases
+          });
+        });
+      });
+      return map;
+    }
+
+    function selectPath1Applications(context, territory) {
+      const byId = allCaseBackedApplications(context.runtime);
+      const preferred = COMPONENT_PATH1_APPLICATION_IDS[territory?.componentId] || [];
+      const selected = preferred
+        .map(id => byId.get(id))
+        .filter(Boolean)
+        .slice(0, 3)
+        .map(item => ({
+          ...item,
+          featuredCase: item.realCases[0] || null
+        }))
+        .filter(item => item.featuredCase);
+
+      if (selected.length === 3) return selected;
+
+      const fallback = Array.from(byId.values())
+        .filter(item => !selected.some(sel => sel.id === item.id))
+        .slice(0, Math.max(0, 3 - selected.length))
+        .map(item => ({
+          ...item,
+          featuredCase: item.realCases[0] || null
+        }))
+        .filter(item => item.featuredCase);
+
+      return [...selected, ...fallback].slice(0, 3);
+    }
+
     function hasRealCase(adherence) {
       return (adherence?.realCases || []).length > 0;
     }
@@ -2021,16 +2242,16 @@
           <div class="example-case-label">CASO REAL</div>
           <h4>${escapeHtml(item.name)}</h4>
           <div class="example-case-row">
-            <b>O problema</b>
-            <p>${escapeHtml(item.problem)}</p>
+            <b>O que fizeram?</b>
+            <p>${escapeHtml(item.whatTheyDid || item.howItWorks)}</p>
           </div>
           <div class="example-case-row">
-            <b>Como funciona</b>
-            <p>${escapeHtml(item.howItWorks)}</p>
+            <b>Por que este caso aparece aqui?</b>
+            <p>${escapeHtml(item.whyHere || item.blockchainRole)}</p>
           </div>
           <div class="example-case-row">
-            <b>Papel da Blockchain</b>
-            <p>${escapeHtml(item.blockchainRole)}</p>
+            <b>Pense no seu negócio</b>
+            <p>${escapeHtml(item.thinkQuestion || item.firstStep)}</p>
           </div>
           ${item.result ? `
           <div class="example-case-row">
@@ -2038,14 +2259,6 @@
             <p>${escapeHtml(item.result)}</p>
           </div>
           ` : ""}
-          <div class="example-case-row">
-            <b>O que este caso ensina</b>
-            <p>${escapeHtml(item.lesson)}</p>
-          </div>
-          <div class="example-case-row">
-            <b>Primeiro passo</b>
-            <p>${escapeHtml(item.firstStep)}</p>
-          </div>
           <div class="example-case-row">
             <b>Fonte</b>
             <p>
@@ -2109,11 +2322,24 @@
       storyHost.querySelectorAll(".poss-card").forEach(card => {
         card.addEventListener("click", () => {
           storyHost.querySelectorAll(".poss-card").forEach(c => c.classList.remove("is-selected"));
-          storyHost.querySelectorAll(".cases-reveal").forEach(c => c.classList.remove("show"));
           card.classList.add("is-selected");
           const possId = card.getAttribute("data-poss-id");
-          const casesEl = storyHost.querySelector(`.cases-reveal[data-cases-for="${possId}"]`);
-          if (casesEl) casesEl.classList.add("show");
+          selectedPossibilityId = possId || "";
+          sessionStorage.setItem("ftview_selected_possibility_id", selectedPossibilityId);
+          const context = storyHost._ftContext;
+          if (context) persistFtViewData(context).catch(error => console.error(error));
+        });
+      });
+
+      storyHost.querySelectorAll("[data-fill-object]").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const objInput = storyHost.querySelector("#ftview-object-input");
+          if (!objInput) return;
+          selectedPath1Inspiration = chip.getAttribute("data-fill-object") || "";
+          sessionStorage.setItem("ftview_selected_path1_chip", selectedPath1Inspiration);
+          objInput.value = chip.getAttribute("data-fill-object") || "";
+          objInput.dispatchEvent(new Event("input", { bubbles: true }));
+          objInput.focus();
         });
       });
 
@@ -2134,8 +2360,53 @@
               hypEl.textContent = buildHypothesisText(sel, participantObject);
             }
           }
+          const context = storyHost._ftContext;
+          if (context) persistFtViewData(context).catch(error => console.error(error));
         });
       }
+
+      storyHost.querySelectorAll("[data-fill-financial]").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const input = storyHost.querySelector("#financial-path-input");
+          if (!input) return;
+          selectedFinancialInspiration = chip.getAttribute("data-fill-financial") || "";
+          sessionStorage.setItem("ftview_selected_financial_chip", selectedFinancialInspiration);
+          input.value = chip.getAttribute("data-fill-financial") || "";
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.focus();
+        });
+      });
+
+      const financialInput = storyHost.querySelector("#financial-path-input");
+      if (financialInput) {
+        financialInput.addEventListener("input", () => {
+          financialPathObject = financialInput.value;
+          sessionStorage.setItem("ftview_financial_object", financialPathObject);
+          const objectDisplay = storyHost.querySelector("#financial-path-object-display");
+          if (objectDisplay) {
+            objectDisplay.innerHTML = `<strong>Situação escolhida:</strong> ${escapeHtml(financialPathObject.trim() || "Ainda não registrada — escolha um chip ou escreva livremente.")}`;
+          }
+          const hypothesisDisplay = storyHost.querySelector("#financial-path-hypothesis");
+          if (hypothesisDisplay) {
+            hypothesisDisplay.innerHTML = `<strong>Hipótese:</strong> ${escapeHtml(buildFinancialPathHypothesis(financialPathObject))}`;
+          }
+          const context = storyHost._ftContext;
+          if (context) persistFtViewData(context).catch(error => console.error(error));
+        });
+      }
+
+      storyHost.querySelectorAll("[data-scroll-target]").forEach(button => {
+        button.addEventListener("click", () => {
+          const targetId = button.getAttribute("data-scroll-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (!target) return;
+          if (targetId === "path-2-start" && target instanceof HTMLDetailsElement && !target.open) {
+            target.open = true;
+          }
+          const targetTop = target.getBoundingClientRect().top + window.scrollY - 12;
+          window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+        });
+      });
     }
 
     function buildPrimaryMarketReference(context, territory) {
@@ -2483,26 +2754,156 @@
       `;
     }
 
-    function participantObjectPlaceholder(territory) {
-      const id = territory?.componentId;
-      if (id === "05") return "Ex.: certificado emitido pelo escritório para um cliente";
-      if (id === "07") return "Ex.: uma troca de documento com parceiro ou cliente";
-      if (id === "04") return "Ex.: uma etapa de validação ou autorização manual";
-      if (id === "06") return "Ex.: uma cobrança, recebimento ou confirmação com cliente";
-      if (id === "03") return "Ex.: uma entrega de serviço ou credencial ao cliente";
-      if (id === "08") return "Ex.: validação de identidade ou autorização de uma pessoa";
-      return "Ex.: um processo, documento ou ativo que você gostaria de testar";
+    const COMPONENT_REALITY_CONTEXT = {
+      "01": {
+        fallback: {
+          explain: "Propósito aparece na razão de existir do negócio e no tipo de transformação que ele busca gerar para clientes, parceiros e sociedade.",
+          examples: ["missão declarada do negócio", "critérios de decisão quando há conflito", "impacto que se deseja gerar", "prioridades que orientam escolhas"],
+          prompt: "Existe algum ponto do propósito que hoje não está claro ou não é facilmente demonstrável na operação?",
+          placeholder: "Ex.: como demonstrar de forma concreta o propósito em uma entrega real"
+        }
+      },
+      "02": {
+        fallback: {
+          explain: "Problema/Oportunidade aparece nos desafios recorrentes dos clientes e nas oportunidades de melhoria percebidas no mercado.",
+          examples: ["dor recorrente de cliente", "falha de atendimento frequente", "oportunidade de reduzir atrito", "necessidade ainda mal resolvida"],
+          prompt: "Existe algum problema recorrente ou oportunidade clara que apareça no seu contexto real?",
+          placeholder: "Ex.: problema recorrente que gera retrabalho ou perda de tempo"
+        }
+      },
+      "03": {
+        fallback: {
+          explain: "Proposta de Valor aparece na entrega concreta que o cliente reconhece como útil, confiável e diferenciada.",
+          examples: ["serviço principal entregue ao cliente", "evidência de confiança da entrega", "diferencial percebido", "resultado prometido ao cliente"],
+          prompt: "Existe alguma entrega de valor que hoje depende de confiança difícil de comprovar?",
+          placeholder: "Ex.: entrega de serviço cuja autenticidade ou autoria precisa ser comprovada"
+        }
+      },
+      "04": {
+        fallback: {
+          explain: "Processos aparecem nas atividades que precisam acontecer em sequência para que o serviço seja entregue.",
+          examples: ["conferências repetitivas", "aprovações", "conciliações", "troca de documentos", "validações entre pessoas ou empresas"],
+          prompt: "Existe alguma etapa de processo que hoje depende de confirmação manual, criando atraso ou retrabalho?",
+          placeholder: "Ex.: etapa de validação manual entre duas áreas"
+        },
+        areas: {
+          contabilidade_servicos: {
+            explain: "Na contabilidade e serviços contábeis, Processos aparecem em rotinas de conferência, validação e troca de documentos para cumprir obrigações e entregas ao cliente.",
+            examples: ["conferência de documentos fiscais", "aprovação de lançamentos", "conciliação entre sistemas", "envio e validação de documentos com cliente", "checklists de fechamento mensal"],
+            prompt: "Existe alguma rotina do escritório que hoje exige muitas conferências manuais para garantir confiança no processo?",
+            placeholder: "Ex.: etapa de conferência fiscal que hoje depende de validação manual"
+          }
+        }
+      },
+      "05": {
+        fallback: {
+          explain: "Ativos aparecem em documentos, registros, certificados, direitos e informações que possuem valor e precisam ser preservados, comprovados ou controlados.",
+          examples: ["documento que exige autenticidade", "registro dependente de arquivo original", "direito ou autorização", "certificado emitido", "informação sujeita a conferência manual"],
+          prompt: "Existe algum ativo, documento ou direito cuja comprovação hoje dependa de conferência manual ou confiança centralizada?",
+          placeholder: "Ex.: documento cuja autenticidade precisa ser comprovada"
+        },
+        areas: {
+          contabilidade_servicos: {
+            explain: "Na prática, Ativos podem aparecer no escritório em documentos, registros, certificados, direitos, autorizações ou informações que possuem valor e precisam ser preservadas, comprovadas ou controladas.",
+            examples: ["certificado emitido para cliente", "documento cuja autenticidade precisa ser comprovada", "direito ou autorização", "registro que depende de arquivo original", "informação documental submetida a conferência manual"],
+            prompt: "Existe algum ativo documental no seu contexto que hoje exige validação manual para gerar confiança?",
+            placeholder: "Ex.: certificado emitido pelo escritório para um cliente"
+          }
+        }
+      },
+      "06": {
+        fallback: {
+          explain: "Canais aparecem nas formas de relacionamento, entrega e transação entre o negócio e seus clientes.",
+          examples: ["canal de atendimento", "canal de cobrança", "canal de envio de documentos", "ponto de confirmação de transações"],
+          prompt: "Existe algum canal onde rastreabilidade e comprovação ainda são frágeis?",
+          placeholder: "Ex.: canal de cobrança ou confirmação com cliente"
+        }
+      },
+      "07": {
+        fallback: {
+          explain: "Ecossistema aparece nas relações necessárias para que o negócio funcione além das fronteiras da própria empresa.",
+          examples: ["clientes", "bancos", "fornecedores", "órgãos públicos", "parceiros que validam ou compartilham informações"],
+          prompt: "Existe alguma relação do ecossistema que hoje depende de trocas manuais e reconciliação constante?",
+          placeholder: "Ex.: troca de informações com parceiro que exige validação manual"
+        },
+        areas: {
+          contabilidade_servicos: {
+            explain: "Na contabilidade e serviços contábeis, Ecossistema aparece nas trocas recorrentes entre escritório, clientes, bancos, órgãos públicos e demais parceiros envolvidos nas obrigações e validações.",
+            examples: ["troca documental com clientes", "validação com bancos e instituições", "interação com órgãos públicos", "integração com fornecedores de software", "confirmação entre escritório e parceiros"],
+            prompt: "Existe alguma troca com parceiros/cliente que hoje depende de confirmação manual para fechar o ciclo?",
+            placeholder: "Ex.: troca de documento entre escritório e cliente com validação manual"
+          }
+        }
+      },
+      "08": {
+        fallback: {
+          explain: "Clientes/Pessoas aparecem nas interações que exigem identificação, autorização e confiança entre quem solicita e quem executa.",
+          examples: ["validação de identidade", "confirmação de autorização", "credenciais de acesso", "comprovação de autoria de ação"],
+          prompt: "Existe alguma situação de validação de pessoa que hoje depende de conferência manual ou documento físico?",
+          placeholder: "Ex.: validação de identidade para autorização de uma ação"
+        }
+      },
+      "09": {
+        fallback: {
+          explain: "Jornada aparece no caminho completo percorrido para entregar valor, do início ao fim da experiência.",
+          examples: ["etapa com maior atrito", "espera por validação", "retrabalho em pontos de transição", "falta de visibilidade do status"],
+          prompt: "Existe algum ponto da jornada que trava por falta de rastreabilidade ou confirmação confiável?",
+          placeholder: "Ex.: etapa da jornada em que o cliente fica sem visibilidade"
+        }
+      },
+      "10": {
+        fallback: {
+          explain: "Custos e Externalidades Negativas aparecem nas perdas, ineficiências e riscos que consomem recursos sem gerar valor equivalente.",
+          examples: ["retrabalho", "custo de auditoria", "erros por validação manual", "tempo gasto com reconciliação", "risco operacional"],
+          prompt: "Existe algum custo recorrente ligado a controles manuais, baixa rastreabilidade ou reconciliação?",
+          placeholder: "Ex.: retrabalho mensal por falta de trilha confiável"
+        }
+      },
+      "11": {
+        fallback: {
+          explain: "Receitas e Impactos Positivos aparecem nas fontes de resultado que o negócio consegue capturar e demonstrar de forma consistente.",
+          examples: ["nova fonte de receita", "retenção de cliente por confiança", "redução de perdas", "melhor previsibilidade de resultado", "impacto positivo mensurável"],
+          prompt: "Existe alguma frente de receita/impacto positivo que poderia crescer com mais confiança e comprovação?",
+          placeholder: "Ex.: oportunidade de aumentar receita com comprovação mais confiável"
+        },
+        areas: {
+          contabilidade_servicos: {
+            explain: "Em contabilidade e serviços contábeis, Receitas e Impactos Positivos aparecem quando o escritório consegue ampliar valor percebido, reduzir perdas operacionais e fortalecer confiança nas entregas.",
+            examples: ["receita adicional por serviço com maior confiabilidade", "redução de perdas por retrabalho", "maior retenção de clientes", "ganho de produtividade com menor reconciliação", "impacto positivo em auditoria e conformidade"],
+            prompt: "Existe alguma frente de receita ou impacto positivo que depende de provar melhor a confiabilidade da entrega?",
+            placeholder: "Ex.: serviço com potencial de receita adicional se houver comprovação confiável"
+          }
+        }
+      }
+    };
+
+    function normalizedAreaContextId(areaRecord) {
+      const areaId = areaRecord?.id;
+      if (areaId === "escritorio_contabil") return "contabilidade_servicos";
+      return areaId || "outros";
     }
 
-    function buildOppQuestion(territory) {
-      const id = territory?.componentId;
-      if (id === "05") return "Existe algum ativo, documento, certificado ou direito cuja comprovação hoje dependa de conferência manual, arquivo original ou confiança em uma única organização?";
-      if (id === "07") return "Existe alguma troca de informação ou documento com parceiros, clientes ou fornecedores que hoje depende de e-mail, planilha ou confirmação manual?";
-      if (id === "04") return "Existe alguma etapa de processo que hoje depende de confirmação ou validação manual, criando retrabalho ou risco de erro?";
-      if (id === "06") return "Existe alguma situação de cobrança, recebimento ou confirmação com clientes onde rastreabilidade e comprovação ainda são frágeis?";
-      if (id === "03") return "Existe alguma entrega de valor ao cliente — serviço, credencial, comprovação — cuja autenticidade hoje é difícil de verificar ou comprovar?";
-      if (id === "08") return "Existe alguma situação de validação de identidade, autorização ou credencial de pessoa que hoje depende de conferência manual ou documento físico?";
-      return "Existe alguma situação do seu negócio onde registro verificável, rastreabilidade ou comprovação de autenticidade poderia fazer diferença?";
+    function componentRealityContext(territory, areaRecord) {
+      const componentId = territory?.componentId || "";
+      const definitions = COMPONENT_REALITY_CONTEXT[componentId];
+      if (!definitions?.fallback) {
+        return {
+          explain: "Este componente aparece em rotinas e decisões reais do dia a dia do negócio.",
+          examples: ["situação operacional recorrente", "etapa com validação manual", "troca de informação entre partes"],
+          prompt: "Existe algo parecido no seu negócio que faria sentido observar?",
+          placeholder: "Ex.: situação real ligada a este componente"
+        };
+      }
+      const areaId = normalizedAreaContextId(areaRecord);
+      return definitions.areas?.[areaId] || definitions.fallback;
+    }
+
+    function participantObjectPlaceholder(territory, areaRecord) {
+      return componentRealityContext(territory, areaRecord).placeholder;
+    }
+
+    function buildOppQuestion(territory, areaRecord) {
+      return componentRealityContext(territory, areaRecord).prompt;
     }
 
     function buildHypothesisText(territory, object) {
@@ -2518,116 +2919,238 @@
       return `Se aplicarmos infraestrutura Blockchain a ${obj}, haverá melhoria em registro, rastreabilidade, autenticidade ou comprovação?`;
     }
 
+    function buildFinancialPathHypothesis(object) {
+      const obj = object && object.trim()
+        ? `"${object.trim()}"`
+        : "uma operação financeira real do seu negócio";
+      return `Se testarmos ${obj} com infraestrutura financeira baseada em Blockchain, conseguiremos reduzir etapas/intermediários ou melhorar tempo, rastreabilidade e disponibilidade sem substituir o processo principal nesta fase?`;
+    }
+
+    function flattenedRealCases(runtime) {
+      const components = runtime?.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components || {};
+      const cases = [];
+      Object.values(components).forEach(component => {
+        (component?.adherences || []).forEach(adherence => {
+          (adherence?.realCases || []).forEach(realCase => {
+            if (realCase?.name && realCase?.sourceUrl) {
+              cases.push(realCase);
+            }
+          });
+        });
+      });
+      return cases;
+    }
+
+    function fixedFinancialCases(runtime) {
+      const allCases = flattenedRealCases(runtime);
+      const visa = allCases.find(item => /visa/i.test(item.name || ""));
+      const thunes = allCases.find(item => /thunes/i.test(item.name || ""));
+      const immersve = allCases.find(item => /immersve/i.test(item.name || ""));
+
+      const selected = [
+        visa ? {
+          company: visa.name,
+          whatTheyDid: "A Visa testou liquidação com USDC entre instituições para acelerar transferências de valor entre parceiros.",
+          whyItMatters: "Mostra que a infraestrutura Blockchain pode operar no bastidor de pagamentos entre empresas, com mais agilidade operacional.",
+          realWorld: "No mundo real, é a etapa de acerto de contas entre instituições depois que o cliente já pagou normalmente.",
+          thinkQuestion: "Existe alguma liquidação entre empresas no seu negócio que hoje depende de janelas bancárias ou reconciliação demorada?",
+          sourceUrl: visa.sourceUrl
+        } : null,
+        thunes ? {
+          company: thunes.name,
+          whatTheyDid: "A Thunes integrou USDC para reduzir dependência de janelas bancárias em parte da liquidação internacional.",
+          whyItMatters: "Mostra que pagamentos internacionais podem ganhar continuidade e previsibilidade em certos corredores.",
+          realWorld: "No mundo real, ajuda quando uma empresa precisa mover valor entre países sem esperar apenas o horário bancário tradicional.",
+          thinkQuestion: "Seu negócio tem pagamento internacional em que prazo de liquidação atrasa operação ou consome capital?",
+          sourceUrl: thunes.sourceUrl
+        } : null,
+        immersve ? {
+          company: immersve.name,
+          whatTheyDid: "A Immersve conectou uso de USDC à rede Mastercard para permitir pagamentos em estabelecimentos da rede.",
+          whyItMatters: "Mostra a ponte entre saldo em ativos digitais e o comércio tradicional do dia a dia.",
+          realWorld: "No mundo real, a pessoa pode usar valor que está em infraestrutura Blockchain para pagar em locais que continuam recebendo pelos meios usuais.",
+          thinkQuestion: "No seu contexto, faria sentido converter valor digital em compra cotidiana sem mudar a experiência de quem recebe?",
+          sourceUrl: immersve.sourceUrl
+        } : null
+      ].filter(Boolean);
+
+      if (selected.length === 3) {
+        return { isPlaceholder: false, items: selected };
+      }
+
+      return {
+        isPlaceholder: true,
+        items: [
+          {
+            company: "CASO 1 — Placeholder técnico",
+            whatTheyDid: "Caso real pendente de validação final de fonte.",
+            whyItMatters: "Mostraria pagamento/liquidação com infraestrutura Blockchain.",
+            realWorld: "Aplicável em operações entre empresas.",
+            thinkQuestion: "Onde seu negócio precisa de liquidação mais rápida?",
+            sourceUrl: ""
+          },
+          {
+            company: "CASO 2 — Placeholder técnico",
+            whatTheyDid: "Caso real pendente de validação final de fonte.",
+            whyItMatters: "Mostraria pagamento internacional com trilho digital.",
+            realWorld: "Aplicável em pagamentos cross-border.",
+            thinkQuestion: "Onde o prazo internacional hoje trava sua operação?",
+            sourceUrl: ""
+          },
+          {
+            company: "CASO 3 — Placeholder técnico",
+            whatTheyDid: "Caso real pendente de validação final de fonte.",
+            whyItMatters: "Mostraria ponte entre ativo digital e cartão/comércio.",
+            realWorld: "Aplicável em uso cotidiano de saldo digital.",
+            thinkQuestion: "Como essa ponte poderia fazer sentido no seu negócio?",
+            sourceUrl: ""
+          }
+        ]
+      };
+    }
+
     function buildWorkshopSections(context) {
       const { territoryResult, areaRecord, runtime } = context;
       const recommended = territoryResult.recommendedTerritory;
-      const alternative = shouldShowAlternativeTerritory(territoryResult.alternativeTerritory)
-        ? territoryResult.alternativeTerritory
-        : null;
-      const selectedTerritory = selectedTerritoryFromContext(context, recommended, alternative);
-      const contributionItems = adherenceItems(context, selectedTerritory);
+      const selectedTerritory = recommended || territoryByComponentId(territoryResult, territoryResult?.componentAnalyses?.[0]?.componentId);
+      const contributionItems = selectPath1Applications(context, selectedTerritory);
       const selectedExperiment = selectedTerritory?.suggestedExperiment || territoryResult.suggestedExperiment || {};
       const experimentSafeguards = (selectedExperiment?.safeguards || ["pequeno", "reversível", "observável", "comparável", "seguro para a operação"]).slice(0, 5);
       const selectedObservationCriteria = selectedTerritory?.observationCriteria || territoryResult.observationCriteria || [];
       const observationCriteria = selectedObservationCriteria.length
         ? selectedObservationCriteria
         : ["tempo", "custo", "facilidade de auditoria", "segurança operacional"];
-      const recommendedIsSelected = selectedTerritory?.componentId === recommended?.componentId;
-      const alternativeIsSelected = alternative && selectedTerritory?.componentId === alternative?.componentId;
-      const hasAnyRealCases = contributionItems.some(item => hasRealCase(item));
-      const recScore = recommended?.score != null ? Number(recommended.score).toFixed(1) : null;
+      const recScore = selectedTerritory?.score != null ? Number(selectedTerritory.score).toFixed(1) : null;
       const recScoreLabel = recScore != null ? componentScoreLabel(Number(recScore)) : "";
-      const objPlaceholder = participantObjectPlaceholder(selectedTerritory);
+      const realityContext = componentRealityContext(selectedTerritory, areaRecord);
+      const contextExamples = (realityContext.examples || []).slice(0, 5);
+      const objPlaceholder = participantObjectPlaceholder(selectedTerritory, areaRecord);
       const hypothesisText = buildHypothesisText(selectedTerritory, participantObject);
-      const oppQuestion = buildOppQuestion(selectedTerritory);
+      const oppQuestion = buildOppQuestion(selectedTerritory, areaRecord);
 
-      const possCardsHtml = (contributionItems.length
-        ? contributionItems
-        : [{ id: "generic", title: "Registro verificável", businessDescription: "Criar um registro que pode ser comprovado por qualquer parte.", practicalExample: "", realCases: [] }]
-      ).map((item, idx) => {
+      const resolvedPossibilityId = contributionItems.find(item => item.id === selectedPossibilityId)?.id
+        || contributionItems[0]?.id
+        || "";
+      const possCardsHtml = contributionItems.map((item, idx) => {
         const detail = contributionDetailText(item.title);
+        const realCase = item.featuredCase;
+        if (!realCase) return "";
+        const isSelected = item.id === resolvedPossibilityId || (!resolvedPossibilityId && idx === 0);
         return `
-          <button type="button" class="poss-card${idx === 0 ? " is-selected" : ""}" data-poss-id="${escapeHtml(item.id)}">
-            <div class="poss-card-tech">${escapeHtml(item.title)}</div>
-            <div class="poss-card-title">${escapeHtml(item.businessDescription || detail.micro)}</div>
-            <p class="poss-card-desc">${escapeHtml(item.practicalExample || detail.example)}</p>
+          <button type="button" class="poss-card${isSelected ? " is-selected" : ""}" data-poss-id="${escapeHtml(item.id)}">
+            <div class="poss-card-tech">Aplicação Blockchain</div>
+            <div class="poss-card-title">${escapeHtml(item.title)}</div>
+            <div class="poss-card-section-title">O que isso significa?</div>
+            <p class="poss-card-desc">${escapeHtml(item.businessDescription || detail.micro)}</p>
+            <div class="poss-card-section-title">Exemplo real</div>
+            <p class="poss-card-desc"><strong>${escapeHtml(realCase.name)}</strong></p>
+            <div class="poss-card-section-title">O que eles fizeram?</div>
+            <p class="poss-card-desc">${escapeHtml(realCase.whatTheyDid || realCase.howItWorks)}</p>
+            <div class="poss-card-section-title">Por que este exemplo está aqui?</div>
+            <p class="poss-card-desc">${escapeHtml(realCase.whyHere || realCase.blockchainRole)}</p>
+            <div class="poss-card-section-title">Pense no seu negócio</div>
+            <p class="poss-card-desc">${escapeHtml(realCase.thinkQuestion || realCase.firstStep)}</p>
+            <div class="poss-card-section-title">Fonte</div>
+            <a class="poss-card-source" href="${escapeHtml(realCase.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(realCase.sourceUrl)}</a>
           </button>
-          ${hasRealCase(item) ? `
-          <div class="cases-reveal${idx === 0 ? " show" : ""}" data-cases-for="${escapeHtml(item.id)}">
-            <p>Quer ver como outras organizações já fizeram algo semelhante?</p>
-            <button type="button" class="example-link-button" data-open-examples="${escapeHtml(item.id)}">Ver casos reais →</button>
-          </div>
-          ` : ""}
         `;
       }).join("");
 
       const criteriaHtml = observationCriteria.map(item => `
         <div class="measure-item">${escapeHtml(item)}</div>
       `).join("");
+      const financialCriteria = ["tempo", "custo", "número de etapas", "número de intermediários", "disponibilidade", "facilidade operacional", "rastreabilidade/comprovação", "riscos percebidos"];
+      const financialCriteriaHtml = financialCriteria.map(item => `<div class="measure-item">${escapeHtml(item)}</div>`).join("");
+      const financialCases = fixedFinancialCases(runtime);
+      const financialCasesHtml = financialCases.items.map(item => `
+        <article class="financial-case-card">
+          <h4>${escapeHtml(item.company)}</h4>
+          <p><strong>O que eles fizeram?</strong> ${escapeHtml(item.whatTheyDid)}</p>
+          <p><strong>Por que isso importa?</strong> ${escapeHtml(item.whyItMatters)}</p>
+          <p><strong>Como isso se parece no mundo real?</strong> ${escapeHtml(item.realWorld)}</p>
+          <p><strong>Pense no seu negócio.</strong> ${escapeHtml(item.thinkQuestion)}</p>
+          ${item.sourceUrl ? `<a href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">Ver caso →</a>` : ""}
+        </article>
+      `).join("");
+      const financialInspiration = [
+        "Recebimentos de clientes",
+        "Pagamentos a fornecedores",
+        "Transferências",
+        "Pagamentos internacionais",
+        "Liquidação",
+        "Stablecoins",
+        "Movimentação fora do horário bancário",
+        "Redução de intermediários",
+        "Uso alternativo do saldo"
+      ];
+      const financialHypothesis = buildFinancialPathHypothesis(financialPathObject);
 
       return `
         <div class="workshop-stack">
 
+          <section class="paths-intro-card">
+            <h2 class="paths-intro-title">SEU FT VIEW VAI MOSTRAR DOIS CAMINHOS PARA EXPERIMENTAÇÃO</h2>
+            <p class="paths-intro-copy">Um caminho nasce das evidências do seu AS-IS. O outro é transversal e disponível para todos os participantes.</p>
+            <div class="paths-intro-grid">
+              <article class="paths-intro-item">
+                <strong>CAMINHO 1 — A PARTIR DO SEU AS-IS</strong>
+                <p>Recomendação personalizada do FT View, derivada do seu contexto, área e aderência à nova infraestrutura.</p>
+              </article>
+              <article class="paths-intro-item">
+                <strong>CAMINHO 2 — NOVA INFRAESTRUTURA FINANCEIRA</strong>
+                <p>Caminho transversal para experimentar novas formas de receber, pagar, transferir e liquidar valor.</p>
+              </article>
+            </div>
+            <span class="paths-intro-balance">1 recomendação personalizada + 1 caminho transversal</span>
+            <div class="paths-nav-row">
+              <button type="button" class="path-nav-primary" data-scroll-target="path-1-start">Explorar meu ponto de partida</button>
+              <button type="button" class="path-nav-secondary" data-scroll-target="path-2-start">Explorar infraestrutura financeira</button>
+            </div>
+          </section>
+
           <!-- BLOCK 1: OPPORTUNITY HERO -->
-          <div class="opp-hero">
-            <div class="eyebrow">Oportunidade identificada</div>
+          <div class="opp-hero" id="path-1-start">
+            <div class="eyebrow">PONTO DE PARTIDA SUGERIDO PELO FT VIEW</div>
             <h2>${escapeHtml(territoryDisplayName(selectedTerritory))}</h2>
             ${recScore != null ? `<div style="margin-top:6px;"><span class="t-card-score">AS-IS: ${recScore} — ${escapeHtml(recScoreLabel)}</span></div>` : ""}
             <div class="opp-meta">
               <span class="opp-meta-pill">📍 ${escapeHtml(areaRecord.nome)}</span>
               <span class="opp-meta-pill">⛓ ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
             </div>
-            <p class="opp-body">Seu AS-IS revelou um sinal importante neste componente. Ao cruzá-lo com sua área de atuação e com as possibilidades da nova infraestrutura, encontramos aqui uma oportunidade para um primeiro experimento.</p>
+            <p class="opp-body">Entre os sinais identificados no seu AS-IS, este foi o ponto com melhor combinação entre necessidade percebida e possibilidade de experimentação com a nova infraestrutura.</p>
             <div class="opp-question">
               <strong>🔍 Olhe para o seu negócio</strong>
               <p>${escapeHtml(oppQuestion)}</p>
             </div>
           </div>
 
-          <!-- BLOCK 1b: TERRITORY CHOICE (when alternative exists) -->
-          ${alternative ? `
+          <!-- BLOCK 2: WHERE THIS APPEARS IN REALITY -->
           <section class="guided-section">
             <div class="guided-header">
               <span class="step-badge">1</span>
-              <h2>Onde testar?</h2>
+              <h2>Onde isso pode aparecer na sua realidade?</h2>
             </div>
-            <p class="guided-subtitle">O FT View identificou dois pontos de atenção. Escolha por onde começar.</p>
-            <div class="territory-cards">
-              <article class="t-card t-primary">
-                <span class="t-card-badge primary">Ponto de partida recomendado</span>
-                <div class="t-card-name">${escapeHtml(territoryDisplayName(recommended))}</div>
-                ${recommended?.score != null ? `<span class="t-card-score">AS-IS: ${Number(recommended.score).toFixed(1)} — ${escapeHtml(componentScoreLabel(recommended.score))}</span>` : ""}
-                <p>No seu AS-IS, este componente apareceu como o ponto mais consistente para iniciar um teste controlado.</p>
-              </article>
-              <article class="t-card t-secondary">
-                <span class="t-card-badge secondary">Outra possibilidade</span>
-                <div class="t-card-name" style="font-size:18px;">${escapeHtml(territoryDisplayName(alternative))}</div>
-                ${alternative?.score != null ? `<span class="t-card-score">AS-IS: ${Number(alternative.score).toFixed(1)} — ${escapeHtml(componentScoreLabel(alternative.score))}</span>` : ""}
-                <p>O seu AS-IS também revelou sinais relevantes aqui. Use esta alternativa se fizer mais sentido para o momento real do seu negócio.</p>
-              </article>
-            </div>
-            <div class="t-choice-row">
-              <button type="button" class="t-choice-btn is-recommended ${recommendedIsSelected ? "is-active" : ""}" data-territory-select="${escapeHtml(recommended.componentId)}" aria-pressed="${recommendedIsSelected}">
-                Começar por ${escapeHtml(recommended.componentName)}
-              </button>
-              <button type="button" class="t-choice-btn ${alternativeIsSelected ? "is-active" : ""}" data-territory-select="${escapeHtml(alternative.componentId)}" aria-pressed="${alternativeIsSelected}">
-                Explorar ${escapeHtml(alternative.componentName)}
-              </button>
-            </div>
+            <p class="guided-subtitle">Antes de falar de Blockchain, vamos reconhecer como este componente aparece na sua operação.</p>
+            <article class="reality-context-card">
+              <p>${escapeHtml(realityContext.explain)}</p>
+              <strong style="display:block; margin-bottom:6px; color:#1a2744; font-size:11px; letter-spacing:.08em; text-transform:uppercase;">Situações concretas que podem existir no seu contexto</strong>
+              <ul class="reality-example-list">
+                ${contextExamples.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+              </ul>
+            </article>
           </section>
-          ` : ""}
 
-          <!-- BLOCK 2: BLOCKCHAIN CONTRIBUTION + POSSIBILITY SELECTION -->
+          <!-- BLOCK 3: BLOCKCHAIN CONTRIBUTION + POSSIBILITY SELECTION -->
           <section class="guided-section">
             <div class="guided-header">
-              <span class="step-badge">${alternative ? "2" : "1"}</span>
+              <span class="step-badge">2</span>
               <h2>Onde a Blockchain pode contribuir?</h2>
             </div>
             <div class="context-strip" style="margin-bottom:14px;">
               <span class="context-pill">📍 ${escapeHtml(areaRecord.nome)}</span>
               <span class="context-pill">⛓ ${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</span>
             </div>
-            <p class="guided-subtitle">Qual destas situações mais se parece com algo que existe na sua realidade?</p>
+            <p class="guided-subtitle">3 formas de a Blockchain contribuir neste componente do seu negócio.</p>
             <div class="possibility-grid">
               ${possCardsHtml}
             </div>
@@ -2635,15 +3158,21 @@
             <div class="evidence-inline" style="margin-top:10px;">Estas são possibilidades para exploração no Workshop. Não representam recomendação automática de implementação.</div>
           </section>
 
-          <!-- BLOCK 3: REAL SITUATION -->
+          <!-- BLOCK 4: REAL SITUATION -->
           <section class="guided-section">
             <div class="guided-header">
-              <span class="step-badge">${alternative ? "3" : "2"}</span>
-              <h2>Traga para a sua realidade</h2>
+              <span class="step-badge">3</span>
+              <h2>Agora traga para a sua realidade</h2>
             </div>
-            <p class="guided-subtitle">Agora escolha algo concreto do seu negócio para testar.</p>
+            <p class="guided-subtitle">Agora que você viu como esse componente pode se conectar à Blockchain, olhe para a sua própria realidade.</p>
             <div class="real-section">
-              <label for="ftview-object-input">O que você gostaria de testar?</label>
+              <div class="inspiration-wrap">
+                <div class="inspiration-title">Inspirações rápidas</div>
+                <div class="inspiration-grid">
+                  ${contextExamples.slice(0, 5).map(item => `<button type="button" class="inspiration-chip" data-fill-object="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("")}
+                </div>
+              </article>
+              <label for="ftview-object-input" style="margin-top:14px;">O que você gostaria de testar?</label>
               <p>Pense em uma situação real — um processo, documento, ativo ou troca — que possa ser testada sem interromper o que já funciona.</p>
               <textarea
                 id="ftview-object-input"
@@ -2702,7 +3231,7 @@
           <!-- BLOCK 5: WHAT TO MEASURE -->
           <section class="guided-section">
             <div class="guided-header">
-              <span class="step-badge">${alternative ? "5" : "4"}</span>
+              <span class="step-badge">5</span>
               <h2>O que medir?</h2>
             </div>
             <p class="guided-subtitle">Antes de começar, defina como saberá se o experimento funcionou.</p>
@@ -2742,6 +3271,109 @@
             </div>
             <div class="method-note" style="margin-top:14px;">O FT View não induz adoção de Blockchain. Ele testa uma hipótese. Qualquer resultado é aprendizado válido.</div>
           </section>
+
+          <details class="financial-path-card" id="path-2-start">
+            <summary>
+              <div>
+                <div class="financial-path-label">Outro caminho para experimentar</div>
+                <div class="financial-path-title">Nova Infraestrutura Financeira</div>
+                <p class="financial-path-copy">Independentemente da sua área, praticamente todo negócio recebe, paga, transfere ou liquida valor. No laboratório você experimentou parte dessa nova infraestrutura. Agora veja onde ela pode fazer sentido no seu negócio.</p>
+              </div>
+              <span class="financial-path-cta">Explorar este caminho →</span>
+            </summary>
+
+            <div class="financial-path-body">
+              <article class="reality-context-card">
+                <p><strong>Você acabou de experimentar essa infraestrutura. Agora olhe para o seu negócio.</strong></p>
+                <p>No Laboratório, você teve contato com carteira, ativos digitais, transações, autocustódia e formas de movimentar valor. Agora a pergunta muda: onde isso poderia fazer sentido no seu negócio?</p>
+                <p>Este caminho não altera a recomendação principal do FT View e não usa score. Ele funciona como experimento transversal para investigar operações financeiras reais da sua empresa.</p>
+              </article>
+
+              <section class="guided-section" style="margin-bottom:0;">
+                <div class="guided-header">
+                  <span class="step-badge">A</span>
+                  <h2>Três formas simples de olhar para essa infraestrutura</h2>
+                </div>
+                <div class="financial-situation-grid">
+                  <article class="financial-situation-card">
+                    <h4>1) Receber e pagar usando Blockchain</h4>
+                    <p>Uma empresa pode receber ou enviar valor usando ativos digitais, inclusive stablecoins, sem depender exclusivamente dos trilhos bancários tradicionais. Isso pode aparecer em pagamentos entre empresas, fornecedores, clientes, operações internacionais e liquidação fora do horário bancário.</p>
+                  </article>
+                  <article class="financial-situation-card">
+                    <h4>2) Receber em reais/PIX e converter para ativo digital</h4>
+                    <p>O cliente pode continuar pagando de forma conhecida, enquanto a infraestrutura faz a conversão e o valor chega como ativo digital para quem recebe, quando houver provedor/serviço que realize essa ponte.</p>
+                  </article>
+                  <article class="financial-situation-card">
+                    <h4>3) Usar cripto no cotidiano por meio de cartão</h4>
+                    <p>Um cartão conectado a saldo em ativos digitais pode fazer a ponte entre uma carteira cripto e estabelecimentos que continuam recebendo pelos meios tradicionais.</p>
+                  </article>
+                </div>
+              </section>
+
+              <section class="guided-section" style="margin-bottom:0;">
+                <div class="guided-header">
+                  <span class="step-badge">B</span>
+                  <h2>Isso já está acontecendo no mercado</h2>
+                </div>
+                <div class="financial-cases-grid">${financialCasesHtml}</div>
+                ${financialCases.isPlaceholder ? `<div class="method-note" style="margin-top:12px;">Casos reais fixos ainda pendentes de validação final de fontes para homologação.</div>` : ""}
+              </section>
+
+              <section class="guided-section" style="margin-bottom:0;">
+                <div class="guided-header">
+                  <span class="step-badge">C</span>
+                  <h2>Agora traga para a sua realidade</h2>
+                </div>
+                <p class="guided-subtitle">Em qual situação financeira do seu negócio faria sentido observar essa infraestrutura?</p>
+                <div class="financial-chip-grid">
+                  ${financialInspiration.map(item => `<button type="button" class="financial-chip" data-fill-financial="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("")}
+                </div>
+                <textarea id="financial-path-input" class="financial-input" rows="3" placeholder="Ex.: recebimento de clientes fora do horário bancário">${escapeHtml(financialPathObject)}</textarea>
+              </section>
+
+              <section class="guided-section" style="margin-bottom:0;">
+                <div class="guided-header">
+                  <span class="step-badge">D</span>
+                  <h2>Meu primeiro experimento (caminho transversal)</h2>
+                </div>
+                <div class="financial-experiment-card">
+                  <p id="financial-path-object-display"><strong>Situação escolhida:</strong> ${escapeHtml(financialPathObject && financialPathObject.trim() ? financialPathObject.trim() : "Ainda não registrada — escolha um chip ou escreva livremente.")}</p>
+                  <p id="financial-path-hypothesis"><strong>Hipótese:</strong> ${escapeHtml(financialHypothesis)}</p>
+                </div>
+                <ul class="evidence-list" style="margin-top:12px;">
+                  <li><strong>Observe</strong> como essa operação acontece hoje.</li>
+                  <li><strong>Experimente</strong> uma operação pequena e controlada utilizando a nova infraestrutura.</li>
+                  <li><strong>Não substitua</strong> o processo principal antes de validar.</li>
+                  <li><strong>Compare</strong> o antes e depois.</li>
+                </ul>
+                <div class="secondary-inline" style="margin-top:12px;">
+                  <span>pequeno</span><span>controlado</span><span>reversível quando possível</span><span>sem substituir operação crítica</span><span>aprendizado antes de adoção</span>
+                </div>
+              </section>
+
+              <section class="guided-section" style="margin-bottom:0;">
+                <div class="guided-header">
+                  <span class="step-badge">E</span>
+                  <h2>O que medir</h2>
+                </div>
+                <div class="measure-grid">
+                  <div class="measure-col"><div class="measure-col-head before">Antes</div><div class="measure-col-items">${financialCriteriaHtml}</div></div>
+                  <div class="measure-col"><div class="measure-col-head during">Experimento</div><div class="measure-col-items">${financialCriteriaHtml}</div></div>
+                  <div class="measure-col"><div class="measure-col-head after">Depois</div><div class="measure-col-items">${financialCriteriaHtml}</div></div>
+                </div>
+                <div class="decision-row">
+                  <div class="decision-card advance"><div class="decision-icon">✓</div><strong>Vale avançar</strong><p>Melhoria clara e sustentável.</p></div>
+                  <div class="decision-card adjust"><div class="decision-icon">↻</div><strong>Precisa ajustar</strong><p>Resultado parcial, exige refinamento.</p></div>
+                  <div class="decision-card noBenefit"><div class="decision-icon">□</div><strong>Não trouxe benefício</strong><p>Resultado válido para aprendizado.</p></div>
+                </div>
+              </section>
+            </div>
+          </details>
+
+          <div class="subtle-note" style="margin-top:0;">
+            <strong>Seu FT View não termina aqui.</strong><br>
+            As situações, hipóteses e experimentos que você construiu farão parte do seu relatório individual para continuidade da análise depois do Workshop.
+          </div>
 
           <!-- TRANSITION TO FMIF -->
           <section class="fmif-transition">
@@ -2848,19 +3480,26 @@
         const params = new URLSearchParams(window.location.search);
         const workshopId = params.get("workshop");
         const participanteId = params.get("participante");
+        activeWorkshopId = workshopId;
+        activeParticipanteId = participanteId;
+        activeParticipantPath = workshopId && participanteId ? `workshops/${workshopId}/participantes/${participanteId}` : null;
 
         if (!workshopId || !participanteId) {
+          activeDb = null;
+          clearFtViewWorkingState();
           const previewParticipant = restoreParticipantPayload();
           if (!previewParticipant) {
             showError("Abra o FT View a partir do resultado do AS-IS ou utilize o renderizador de pré-visualização desta página.");
             return;
           }
+          const cached = readFtViewSessionState(workshopId, participanteId);
+          if (cached) applyFtViewPersistedState(cached);
           await renderFromParticipant(previewParticipant);
           return;
         }
 
-        const db = getDatabase(initializeApp(firebaseConfig));
-        const snapshot = await get(ref(db, `workshops/${workshopId}/participantes/${participanteId}`));
+        activeDb = getDatabase(initializeApp(firebaseConfig));
+        const snapshot = await get(ref(activeDb, `workshops/${workshopId}/participantes/${participanteId}`));
 
         if (!snapshot.exists()) {
           showError("O diagnóstico AS-IS não foi encontrado.");
@@ -2868,6 +3507,9 @@
         }
 
         const participant = snapshot.val();
+        clearFtViewWorkingState();
+        const persisted = participant?.ftView || readFtViewSessionState(workshopId, participanteId);
+        if (persisted) applyFtViewPersistedState(persisted);
         if (participant?.diagnostico?.ftViewLiberado !== true) {
           showError("FT View aguardando liberação do Mentor.");
           return;
