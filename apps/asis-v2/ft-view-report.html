@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório FT completo</title>
+  <title>Relatório Executivo</title>
   <style>
     :root {
       color-scheme: light;
@@ -14,6 +14,12 @@
       --muted: #5f6875;
       --muted-soft: #7d8795;
       --brand: #1a2744;
+      --part-blue: #1b4f9b;
+      --part-blue-soft: #eef4ff;
+      --part-orange: #c96c13;
+      --part-orange-soft: #fff4e8;
+      --part-green: #2f7d32;
+      --part-green-soft: #edf7ee;
       --brand-soft: #eef4fb;
       --brand-line: #c9d7e9;
       --green: #2e7d32;
@@ -90,14 +96,23 @@
     }
 
     @media print {
+      @page { size: A4; margin: 12mm; }
       .report-toolbar { display: none !important; }
       .footer-note { display: none !important; }
       body { background: #fff !important; }
       .ft-page { padding: 0 !important; }
-      .story-card, .flow-card, .lens-card {
+      .story-card, .flow-card, .lens-card, .report-section, .application-card, .case-card, .participant-box, .measure-card, .fmif-step {
         break-inside: avoid;
         box-shadow: none !important;
         border: 1px solid #ddd !important;
+      }
+      .strategic-path-card, .strategic-transaction-card, .strategic-highlight, .strategic-note {
+        break-inside: avoid;
+      }
+      .part-section.part-2,
+      .part-section.part-3,
+      .part-section.part-4 {
+        break-before: page;
       }
     }
 
@@ -228,7 +243,7 @@
 
     .three-grid,
     .blockchain-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .info-box,
@@ -742,6 +757,540 @@
         padding: 18px;
       }
     }
+
+    .report-section {
+      margin-bottom: 14px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .path-kind {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid #d9e2ef;
+      background: #f3f7fd;
+      color: #2a476a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .path-title {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .path-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .journey-map {
+      border-top: 4px solid var(--part-blue);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .journey-track {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .journey-node {
+      border: 1px solid #dce3ee;
+      border-radius: 14px;
+      background: #f8fbff;
+      padding: 12px;
+    }
+
+    .journey-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--part-blue);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .journey-node h3 {
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .journey-node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .journey-node-1 {
+      border-color: #cfe0f7;
+      background: var(--part-blue-soft);
+    }
+
+    .journey-node-2 {
+      border-color: #f0d4b7;
+      background: var(--part-orange-soft);
+    }
+
+    .journey-node-3 {
+      border-color: #cfe6d0;
+      background: var(--part-green-soft);
+    }
+
+    .journey-node-4 {
+      border-color: #d9cff0;
+      background: var(--purple-soft);
+    }
+
+    .journey-node-1 .journey-step { background: var(--part-blue); }
+    .journey-node-2 .journey-step { background: var(--part-orange); }
+    .journey-node-3 .journey-step { background: var(--part-green); }
+    .journey-node-4 .journey-step { background: var(--purple); }
+
+    .part-section {
+      border-top: 5px solid var(--brand);
+      background: #fff;
+    }
+
+    .part-section.part-1 { border-top-color: var(--part-blue); }
+    .part-section.part-2 { border-top-color: var(--part-orange); }
+    .part-section.part-3 { border-top-color: var(--part-green); }
+    .part-section.part-4 { border-top-color: var(--purple); }
+
+    .part-marker {
+      margin-bottom: 10px;
+      color: #64748b;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .part-title {
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 27px;
+      line-height: 1.15;
+    }
+
+    .part-subtitle {
+      margin: 0;
+      color: #48566c;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .part-section.part-1 .part-marker,
+    .part-section.part-1 .part-title { color: var(--part-blue); }
+    .part-section.part-2 .part-marker,
+    .part-section.part-2 .part-title { color: var(--part-orange); }
+    .part-section.part-3 .part-marker,
+    .part-section.part-3 .part-title { color: var(--part-green); }
+    .part-section.part-4 .part-marker,
+    .part-section.part-4 .part-title { color: var(--purple); }
+
+    .part-transition {
+      margin-bottom: 14px;
+      padding: 16px 18px;
+      border: 1px solid #d7e1ee;
+      border-radius: 14px;
+      background: #f5f8fd;
+      color: #2a4365;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.65;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .asis-report-shell {
+      margin-top: 12px;
+      border: 1px solid #d8e2ef;
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .asis-report-fallback {
+      padding: 14px;
+      color: #5c6a7c;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .focus-card {
+      margin-top: 12px;
+      border: 1px solid #d9e3ef;
+      border-radius: 14px;
+      background: #eef4fb;
+      padding: 14px;
+    }
+
+    .focus-card h3 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .focus-card p {
+      margin: 0;
+      color: #31455e;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .simple-application-card {
+      border: 1px solid #dfe5ef;
+      border-radius: 14px;
+      background: #fff;
+      padding: 14px;
+    }
+
+    .simple-application-card h3 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .simple-kicker {
+      margin-top: 8px;
+      margin-bottom: 4px;
+      color: #61738c;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .simple-application-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .simple-source {
+      display: inline-block;
+      margin-top: 8px;
+      color: #1b4f9b;
+      font-size: 12px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .simple-source:hover {
+      text-decoration: underline;
+    }
+
+    .participant-card {
+      margin-top: 12px;
+      border: 1px solid #d8e0ec;
+      border-radius: 12px;
+      background: #f8fbff;
+      padding: 12px;
+    }
+
+    .participant-card h4 {
+      margin: 0 0 8px;
+      color: #1e3458;
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .participant-card p {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #22374f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .criteria-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #22374f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .use-highlight {
+      margin-top: 12px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid #c9d7eb;
+      background: #eef4fb;
+      color: #1a2744;
+      font-size: 16px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .use-highlight strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #1b4f9b;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .continue-card {
+      border-top: 5px solid #2e7d32;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .continue-workbook {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: #edf7ef;
+      border: 1px solid #c8e3cc;
+      color: #1d4f27;
+      font-size: 13px;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .application-grid,
+    .case-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .application-card,
+    .case-card {
+      border: 1px solid #dfe5ef;
+      border-radius: 14px;
+      background: #fff;
+      padding: 14px;
+    }
+
+    .application-card h3,
+    .case-card h3 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .application-kicker {
+      color: #61738c;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 9px;
+      margin-bottom: 4px;
+    }
+
+    .application-card p,
+    .case-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .participant-box {
+      margin-top: 12px;
+      border: 1px solid #d8e0ec;
+      border-radius: 12px;
+      background: #f8fbff;
+      padding: 12px;
+    }
+
+    .participant-box h4 {
+      margin: 0 0 8px;
+      color: #1e3458;
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .participant-answer {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #22374f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .measure-card {
+      border: 1px solid #e5e9f1;
+      border-radius: 12px;
+      background: #fafbfd;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .measure-card h4 {
+      margin: 0 0 8px;
+      color: #1e3458;
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .measure-card ul {
+      margin: 0;
+      padding-left: 16px;
+      color: #465772;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .source-link {
+      display: inline-block;
+      margin-top: 6px;
+      color: #1a4f9b;
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    .fmif-flow {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .fmif-step {
+      border: 1px solid #dce3ee;
+      border-radius: 12px;
+      background: #f8fafd;
+      padding: 10px;
+      color: #31465f;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .strategic-section {
+      border-top: 4px solid #1b4f9b;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .strategic-dual-grid,
+    .strategic-transactions-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .strategic-path-card,
+    .strategic-transaction-card,
+    .strategic-note {
+      border: 1px solid #dce3ee;
+      border-radius: 14px;
+      background: #f8fbff;
+      padding: 14px;
+    }
+
+    .strategic-path-card h3,
+    .strategic-transaction-card h3 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .strategic-path-card p,
+    .strategic-transaction-card p,
+    .strategic-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .strategic-highlight {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid #c9d7eb;
+      background: #eef4fb;
+      color: #1a2744;
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .strategic-highlight strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #1b4f9b;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .strategic-note {
+      margin-top: 12px;
+      background: #fff;
+    }
+
+    .strategic-note h3 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .strategic-callout {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f4f7fb;
+      border: 1px solid #dbe4ef;
+      color: #22374f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .strategic-transaction-card .tag-list {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 820px) {
+      .application-grid,
+      .case-grid {
+        grid-template-columns: 1fr;
+      }
+      .journey-track {
+        grid-template-columns: 1fr;
+      }
+      .strategic-dual-grid,
+      .strategic-transactions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -754,9 +1303,9 @@
         <button class="report-print-btn" onclick="window.print()">🖨 Salvar / Imprimir PDF</button>
       </nav>
       <header class="ft-header">
-        <div class="eyebrow">Relatório FT completo</div>
-        <h1>Entender como chegamos a esta leitura</h1>
-        <p>Esta é a camada de aprofundamento do FT View. Ela preserva a explicabilidade completa da leitura: evidências do AS-IS, tensões, forças, oportunidade, sinais relacionados à capacidade, origem, possibilidades Blockchain e próximo passo prudente.</p>
+        <div class="eyebrow">Relatório Final</div>
+        <h1>WORKSHOP PNE</h1>
+        <p>Da realidade atual à primeira oportunidade de experimentação.</p>
       </header>
 
       <div class="story-host" id="story-host"></div>
@@ -787,6 +1336,7 @@
     const commonJsModulePaths = new Map([
       ["component-dictionary", new URL("./shared-discernment/component-dictionary.js", import.meta.url)],
       ["blockchain-kb-opportunities", new URL("./shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
+      ["blockchain-example-library", new URL("./shared-discernment/blockchain-example-library.js", import.meta.url)],
       ["profile-adapter", new URL("./shared-discernment/profile-adapter.js", import.meta.url)],
       ["opportunity-engine", new URL("./shared-discernment/opportunity-engine.js", import.meta.url)],
       ["entry-engine", new URL("./shared-discernment/entry-engine.js", import.meta.url)]
@@ -845,6 +1395,7 @@
         return {
           componentDictionary: evaluateModule("component-dictionary"),
           blockchainKb: evaluateModule("blockchain-kb-opportunities"),
+          exampleLibrary: evaluateModule("blockchain-example-library"),
           profileAdapter: evaluateModule("profile-adapter"),
           opportunityEngine: evaluateModule("opportunity-engine"),
           entryEngine: evaluateModule("entry-engine")
@@ -1160,6 +1711,153 @@
       const backLink = document.getElementById("report-back-link");
       if (!backLink) return;
       backLink.href = `./ft-view.html${currentParticipantQuery()}`;
+    }
+
+    function mountAsisSnapshot(participant) {
+      const host = document.getElementById("asis-snapshot-host");
+      if (!host) return;
+
+      const snapshot = participant?.diagnostico?.relatorioFinal || {};
+      const asisHtml = String(snapshot.html || "").trim();
+      const asisCss = String(snapshot.css || "").trim();
+
+      if (!asisHtml) {
+        host.innerHTML = `<div class="asis-report-fallback">O relatório AS-IS completo não está disponível neste participante.</div>`;
+        return;
+      }
+
+      const safeHtml = asisHtml.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "");
+      const safeCss = asisCss.replace(/<\/style>/gi, "");
+      const root = host.shadowRoot || host.attachShadow({ mode: "open" });
+      root.innerHTML = `
+        <style>
+          ${safeCss}
+          body { margin: 0 !important; background: #fff !important; }
+          .page { max-width: 100% !important; padding: 0 !important; }
+          .back-btn,
+          .asis-print-btn,
+          .mentor-wait-btn,
+          #ft-wait-message,
+          .result-sync-status,
+          .footer { display: none !important; }
+        </style>
+        ${safeHtml}
+      `;
+    }
+
+    const COMPONENT_PATH1_APPLICATION_IDS = {
+      "01": ["registro_compartilhado", "prova_propriedade", "tokenizacao"],
+      "02": ["liquidacao_organizacoes", "coordenacao_participantes", "registro_compartilhado"],
+      "03": ["tokenizacao", "prova_propriedade", "custodia_digital"],
+      "04": ["registro_compartilhado", "liquidacao_organizacoes", "coordenacao_participantes"],
+      "05": ["tokenizacao", "prova_propriedade", "custodia_digital"],
+      "06": ["liquidacao_organizacoes", "coordenacao_participantes", "custodia_digital"],
+      "07": ["registro_compartilhado", "coordenacao_participantes", "liquidacao_organizacoes"],
+      "08": ["custodia_digital", "coordenacao_participantes", "prova_propriedade"],
+      "09": ["coordenacao_participantes", "liquidacao_organizacoes", "registro_compartilhado"],
+      "10": ["liquidacao_organizacoes", "registro_compartilhado", "coordenacao_participantes"],
+      "11": ["tokenizacao", "custodia_digital", "liquidacao_organizacoes"]
+    };
+
+    function normalizeRealCases(cases) {
+      return (cases || []).filter(item =>
+        item
+        && item.name
+        && item.howItWorks
+        && item.blockchainRole
+        && item.firstStep
+        && item.sourceUrl
+      );
+    }
+
+    function allCaseBackedApplications(runtime) {
+      const map = new Map();
+      const components = runtime?.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components || {};
+      Object.values(components).forEach(component => {
+        (component?.adherences || []).forEach(adherence => {
+          const normalizedCases = normalizeRealCases(adherence.realCases);
+          if (!normalizedCases.length || map.has(adherence.id)) return;
+          map.set(adherence.id, {
+            id: adherence.id,
+            title: adherence.title,
+            businessDescription: adherence.businessDescription,
+            realCases: normalizedCases
+          });
+        });
+      });
+      return map;
+    }
+
+    function selectPath1ApplicationsByComponent(runtime, componentId) {
+      const byId = allCaseBackedApplications(runtime);
+      const preferred = COMPONENT_PATH1_APPLICATION_IDS[componentId] || [];
+      const selected = preferred
+        .map(id => byId.get(id))
+        .filter(Boolean)
+        .slice(0, 3)
+        .map(item => ({ ...item, featuredCase: item.realCases[0] || null }))
+        .filter(item => item.featuredCase);
+
+      if (selected.length === 3) return selected;
+
+      const fallback = Array.from(byId.values())
+        .filter(item => !selected.some(sel => sel.id === item.id))
+        .map(item => ({ ...item, featuredCase: item.realCases[0] || null }))
+        .filter(item => item.featuredCase)
+        .slice(0, Math.max(0, 3 - selected.length));
+
+      return [...selected, ...fallback].slice(0, 3);
+    }
+
+    function flattenedRealCases(runtime) {
+      const components = runtime?.exampleLibrary?.BLOCKCHAIN_EXAMPLE_LIBRARY?.components || {};
+      const cases = [];
+      Object.values(components).forEach(component => {
+        (component?.adherences || []).forEach(adherence => {
+          (adherence?.realCases || []).forEach(realCase => {
+            if (realCase?.name && realCase?.sourceUrl) {
+              cases.push(realCase);
+            }
+          });
+        });
+      });
+      return cases;
+    }
+
+    function fixedFinancialCases(runtime) {
+      const allCases = flattenedRealCases(runtime);
+      const visa = allCases.find(item => /visa/i.test(item.name || ""));
+      const thunes = allCases.find(item => /thunes/i.test(item.name || ""));
+      const immersve = allCases.find(item => /immersve/i.test(item.name || ""));
+      return [
+        visa ? {
+          company: visa.name,
+          whatTheyDid: "A Visa testou liquidação com USDC entre instituições para acelerar transferências de valor entre parceiros.",
+          whyItMatters: "Mostra que a infraestrutura Blockchain pode operar no bastidor de pagamentos entre empresas, com mais agilidade operacional.",
+          realWorld: "No mundo real, é a etapa de acerto de contas entre instituições depois que o cliente já pagou normalmente.",
+          sourceUrl: visa.sourceUrl
+        } : null,
+        thunes ? {
+          company: thunes.name,
+          whatTheyDid: "A Thunes integrou USDC para reduzir dependência de janelas bancárias em parte da liquidação internacional.",
+          whyItMatters: "Mostra que pagamentos internacionais podem ganhar continuidade e previsibilidade em certos corredores.",
+          realWorld: "No mundo real, ajuda quando uma empresa precisa mover valor entre países sem esperar apenas o horário bancário tradicional.",
+          sourceUrl: thunes.sourceUrl
+        } : null,
+        immersve ? {
+          company: immersve.name,
+          whatTheyDid: "A Immersve conectou uso de USDC à rede Mastercard para permitir pagamentos em estabelecimentos da rede.",
+          whyItMatters: "Mostra a ponte entre saldo em ativos digitais e o comércio tradicional do dia a dia.",
+          realWorld: "No mundo real, a pessoa pode usar valor que está em infraestrutura Blockchain para pagar em locais que continuam recebendo pelos meios usuais.",
+          sourceUrl: immersve.sourceUrl
+        } : null
+      ].filter(Boolean).slice(0, 3);
+    }
+
+    function formatCriteriaList(criteria) {
+      const list = Array.isArray(criteria) ? criteria.filter(Boolean) : [];
+      if (!list.length) return "<li>tempo</li><li>custo</li><li>rastreabilidade</li>";
+      return list.map(item => `<li>${escapeHtml(item)}</li>`).join("");
     }
 
     function opportunityEvidenceText(runtime, item) {
@@ -1499,36 +2197,299 @@
     }
 
     function buildHtmlSections(context) {
-      return `
-        <section class="lens-card">
-          <div class="eyebrow">Lente metodológica</div>
-          <p>O FT Model observa como transformações relevantes podem entrar pela infraestrutura e se propagar por processos, informação, competências e valor. Aqui, essa lente é usada apenas para reinterpretar o que o seu AS-IS já mostrou.</p>
-        </section>
+      const { areaRecord, componentes, ftViewData, runtime, participant } = context;
+      const personalized = ftViewData?.paths?.personalized || {};
+      const financial = ftViewData?.paths?.financial || {};
+      const asisSnapshot = participant?.diagnostico?.relatorioFinal || {};
+      const missingFtStep = "Esta etapa não foi registrada nesta execução do FT View.";
+      const missingGenericStep = "Esta etapa não foi registrada nesta execução.";
+      const presentValue = value => {
+        const text = String(value ?? "").trim();
+        return text && text !== "undefined" && text !== "null" && text !== "NaN" ? text : null;
+      };
+      const renderCriteriaHtml = criteria => {
+        const list = Array.isArray(criteria) ? criteria.map(item => String(item || "").trim()).filter(Boolean) : [];
+        if (!list.length) return `<p>${escapeHtml(missingFtStep)}</p>`;
+        return `<ul class="criteria-list">${list.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+      };
+      const componentId = personalized.componentId || null;
+      const componentNameText = presentValue(personalized.componentName) || (componentId ? componentName(runtime, componentId) : "");
+      const componentScore = componentId && componentes[componentId] ? Number(componentes[componentId].pontuacao) : null;
+      const componentScoreText = Number.isFinite(componentScore) ? `${componentScore.toFixed(1)} · ${componentScoreLabel(componentScore)}` : missingGenericStep;
+      const applications = selectPath1ApplicationsByComponent(runtime, componentId);
+      const selectedPossibility = presentValue(personalized.selectedPossibilityTitle) || missingFtStep;
+      const path1ParticipantText = presentValue(personalized.participantText) || missingFtStep;
+      const path2ParticipantText = presentValue(financial.participantText) || missingFtStep;
+      const financialCases = fixedFinancialCases(runtime);
+      const selectedApplication = applications.find(item => item.id === personalized.selectedPossibilityId)
+        || applications.find(item => item.title === personalized.selectedPossibilityTitle)
+        || applications[0]
+        || null;
+      const selectedReason = selectedApplication?.businessDescription
+        || "A oportunidade foi destacada no FT View por combinar sinais do AS-IS com potencial de experimentação em escala inicial.";
+      const path1Situation = presentValue(personalized.selectedInspiration) || path1ParticipantText;
+      const path2Situation = presentValue(financial.selectedInspiration) || path2ParticipantText;
+      const path1Hypothesis = presentValue(personalized.hypothesis) || missingFtStep;
+      const path2Hypothesis = presentValue(financial.hypothesis) || missingFtStep;
+      const path1Experiment = presentValue(personalized.experimentProposal) || missingFtStep;
+      const path2Experiment = presentValue(financial.experimentProposal) || missingFtStep;
+      const componentDisplay = componentId && componentNameText
+        ? `${componentId} — ${componentNameText}`
+        : missingFtStep;
+      const relationExplanation = componentId && componentNameText
+        ? `No componente ${componentDisplay}, esta possibilidade funciona como ponto de partida para um teste controlado na sua realidade.`
+        : missingFtStep;
+      const participantConnection = path1ParticipantText !== missingFtStep
+        ? `Na sua realidade registrada no FT View: ${path1ParticipantText}`
+        : "Para a realidade analisada, esta possibilidade pode ser testada em pequena escala no componente recomendado.";
 
-        <section class="flow-card">
-          <h2>Como esta leitura foi construída</h2>
-          <p>O relatório completo mantém explícita a cadeia de raciocínio para tornar transparente como o FT View saiu das evidências do AS-IS até a leitura de negócio e o próximo passo prudente.</p>
-          <div class="reasoning-chain" aria-label="Cadeia de raciocínio do FT View">
-            <span class="chain-step">AS-IS</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Evidências</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Tensões</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Business Opportunity</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Capacidade</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Origem</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Blockchain Possibilities</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Entry Door</span>
-            <span class="chain-arrow">→</span>
-            <span class="chain-step">Próximo passo</span>
+      const applicationsHtml = applications.map(item => {
+        const realCase = item.featuredCase;
+        if (!realCase) return "";
+        return `
+          <article class="simple-application-card">
+            <h3>${escapeHtml(item.title)}</h3>
+            <div class="simple-kicker">O que significa</div>
+            <p>${escapeHtml(item.businessDescription || "Aplicação de infraestrutura Blockchain ligada ao componente recomendado.")}</p>
+            <div class="simple-kicker">Como isso se conecta ao componente recomendado</div>
+            <p>${escapeHtml(relationExplanation)}</p>
+            <div class="simple-kicker">Como isso pode aparecer na sua realidade</div>
+            <p>${escapeHtml(participantConnection)}</p>
+            <div class="simple-kicker">Exemplo real</div>
+            <p><strong>${escapeHtml(realCase.name)}</strong></p>
+            <div class="simple-kicker">O que o exemplo fez</div>
+            <p>${escapeHtml(realCase.howItWorks || realCase.blockchainRole)}</p>
+            <div class="simple-kicker">Por que esse exemplo ajuda a compreender a possibilidade</div>
+            <p>${escapeHtml(realCase.whyHere || realCase.blockchainRole)}</p>
+            <a class="simple-source" href="${escapeHtml(realCase.sourceUrl)}" target="_blank" rel="noopener noreferrer">Fonte técnica</a>
+          </article>
+        `;
+      }).join("");
+
+      const financialCasesHtml = financialCases.map(item => `
+        <article class="case-card">
+          <h3>${escapeHtml(item.company)}</h3>
+          <div class="application-kicker">O que fizeram?</div>
+          <p>${escapeHtml(item.whatTheyDid)}</p>
+          <div class="application-kicker">Por que isso importa?</div>
+          <p>${escapeHtml(item.whyItMatters)}</p>
+          <div class="application-kicker">Como isso se parece no mundo real?</div>
+          <p>${escapeHtml(item.realWorld)}</p>
+          <a class="source-link" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.sourceUrl)}</a>
+        </article>
+      `).join("");
+
+      return `
+        <section class="report-section journey-map">
+          <span class="path-kind">Mapa da jornada</span>
+          <h2 class="path-title">Como ler este relatório final</h2>
+          <div class="journey-track">
+            <article class="journey-node journey-node-1">
+              <span class="journey-step">1</span>
+              <h3>MEU AS-IS</h3>
+              <p>Onde estamos.</p>
+            </article>
+            <article class="journey-node journey-node-2">
+              <span class="journey-step">2</span>
+              <h3>MEU FT VIEW</h3>
+              <p>O que a Nova Economia pode mudar.</p>
+            </article>
+            <article class="journey-node journey-node-3">
+              <span class="journey-step">3</span>
+              <h3>COMEÇAR AGORA</h3>
+              <p>Por onde começar.</p>
+            </article>
+            <article class="journey-node journey-node-4">
+              <span class="journey-step">4</span>
+              <h3>TRANSFORMAR</h3>
+              <p>FMIF + PTIF no Workbook.</p>
+            </article>
           </div>
         </section>
-        ${buildDetailedSections(context)}
+
+        <section class="report-section part-section part-1">
+          <div class="part-marker">PARTE 1</div>
+          <h2 class="part-title">ENTENDER</h2>
+          <p class="part-subtitle">Meu AS-IS — Onde estou.</p>
+          <div class="asis-report-shell">
+            <div id="asis-snapshot-host" data-has-asis="${asisSnapshot?.html ? "1" : "0"}">
+              ${asisSnapshot?.html ? "" : `<div class="asis-report-fallback">O relatório AS-IS completo não está disponível neste participante.</div>`}
+            </div>
+          </div>
+        </section>
+
+        <section class="part-transition">
+          VOCÊ JÁ SABE ONDE ESTÁ.<br>
+          AGORA VAMOS IDENTIFICAR ONDE COMEÇAR.
+        </section>
+
+        <section class="report-section part-section part-2">
+          <div class="part-marker">PARTE 2</div>
+          <h2 class="part-title">DESCOBRIR</h2>
+          <p class="part-subtitle">Meu FT View — Onde posso começar.</p>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">2.1 · Ponto de partida recomendado</span>
+          <h2 class="path-title">${escapeHtml(componentDisplay)}</h2>
+          <p class="path-copy">Esta recomendação já foi construída no FT View homologado a partir do seu AS-IS. O relatório apenas representa esse resultado, sem recalcular o diagnóstico.</p>
+          <div class="focus-card">
+            <h3>Componente recomendado</h3>
+            <p>${componentId && componentNameText
+              ? `Componente destacado: ${escapeHtml(componentDisplay)}. Score AS-IS de referência: ${escapeHtml(componentScoreText)}. A leitura destaca este componente como ponto inicial de experimentação, considerando suas evidências atuais e o potencial de aplicação no contexto informado.`
+              : escapeHtml(missingFtStep)}</p>
+          </div>
+          <div class="focus-card">
+            <h3>Por que este componente apareceu</h3>
+            <p>${escapeHtml(selectedReason)}</p>
+          </div>
+          <div class="focus-card">
+            <h3>Contexto relevante</h3>
+            <p>${escapeHtml(path1Situation)}</p>
+          </div>
+          <div class="focus-card">
+            <h3>Evidências disponíveis</h3>
+            <p>${path1ParticipantText !== missingFtStep
+              ? escapeHtml(path1ParticipantText)
+              : escapeHtml("As respostas estruturadas do AS-IS seguem como sinal principal desta recomendação.")}</p>
+          </div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">2.2 · Onde Blockchain pode contribuir</span>
+          <h2 class="path-title">Possibilidades relevantes para sua realidade</h2>
+          <div class="application-grid">
+            ${applicationsHtml || `<article class="simple-application-card"><h3>Possibilidades relevantes</h3><p>${escapeHtml(missingFtStep)}</p></article>`}
+          </div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">2.3 · O que você construiu no FT View</span>
+          <h2 class="path-title">Resultado personalizado</h2>
+          <div class="participant-card">
+            <h4>Situação escolhida</h4>
+            <p>${escapeHtml(path1Situation)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Texto registrado</h4>
+            <p>${escapeHtml(path1ParticipantText)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Hipótese</h4>
+            <p>${escapeHtml(path1Hypothesis)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Experimento proposto</h4>
+            <p>${escapeHtml(path1Experiment)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Critérios de medição</h4>
+            ${renderCriteriaHtml(personalized.measurementCriteria)}
+          </div>
+          <div class="participant-card">
+            <h4>Possibilidade destacada</h4>
+            <p>${escapeHtml(selectedPossibility)}</p>
+          </div>
+        </section>
+
+        <section class="part-transition">
+          VOCÊ JÁ TEM UMA OPORTUNIDADE PERSONALIZADA.<br>
+          MAS EXISTE TAMBÉM UMA NOVA INFRAESTRUTURA FINANCEIRA QUE PODE COMEÇAR A EXPERIMENTAR AGORA.
+        </section>
+
+        <section class="report-section part-section part-3">
+          <div class="part-marker">PARTE 3</div>
+          <h2 class="part-title">EXPERIMENTAR</h2>
+          <p class="part-subtitle">Nova infraestrutura financeira — Começar usando.</p>
+          <div class="use-highlight">
+            <strong>Mensagem central</strong>
+            Você não precisa começar investindo. Pode começar usando.
+          </div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">3.1 · Nova infraestrutura financeira</span>
+          <h2 class="path-title">Um caminho transversal para qualquer participante</h2>
+          <p class="path-copy">Este caminho não depende do score AS-IS, não altera ranking e não substitui a recomendação personalizada da Parte 2. É uma oportunidade transversal do Workshop PNE para experimentar o uso da infraestrutura.</p>
+          <div class="case-grid" style="margin-top:12px;">
+            <article class="case-card">
+              <h3>Receber</h3>
+              <p>Receber pagamentos utilizando infraestrutura baseada em Blockchain e ativos digitais.</p>
+            </article>
+            <article class="case-card">
+              <h3>Pagar</h3>
+              <p>Realizar pagamentos utilizando essa nova infraestrutura, mantendo foco na operação real.</p>
+            </article>
+            <article class="case-card">
+              <h3>Transferir</h3>
+              <p>Movimentar valor sem depender exclusivamente dos trilhos bancários tradicionais.</p>
+            </article>
+            <article class="case-card">
+              <h3>Internacional</h3>
+              <p>Quando aplicável, experimentar transferências internacionais com ativos digitais e stablecoins.</p>
+            </article>
+            <article class="case-card">
+              <h3>Disponibilidade</h3>
+              <p>Testar movimentações fora de limitações tradicionais de horário bancário, conforme a infraestrutura utilizada.</p>
+            </article>
+          </div>
+          <div class="strategic-callout">EXPERIMENTE → COMPARE → APRENDA. Sem promessa de economia, sem promessa de ganho financeiro e sem recomendação de investimento.</div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">3.2 · Casos reais de referência</span>
+          <h2 class="path-title">Como isso já acontece no mercado</h2>
+          <div class="case-grid">
+            ${financialCasesHtml}
+          </div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">3.3 · Uma forma prática de começar</span>
+          <h2 class="path-title">LiqPay</h2>
+          <p class="path-copy">Durante o Workshop PNE você conheceu uma forma prática de experimentar essa nova infraestrutura. A LiqPay permite explorar pagamentos, recebimentos e movimentação de valor conectando a experiência cotidiana à infraestrutura de ativos digitais.</p>
+          <div class="strategic-callout">A LiqPay é uma possibilidade prática de experimentação apresentada no Workshop. Não é uma recomendação derivada do score do seu AS-IS e não é a conclusão do seu diagnóstico.</div>
+        </section>
+
+        <section class="report-section">
+          <span class="path-kind">O que você construiu · Caminho transversal</span>
+          <h2 class="path-title">Seu experimento financeiro</h2>
+          <div class="participant-card">
+            <h4>Situação escolhida</h4>
+            <p>${escapeHtml(path2Situation)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Texto registrado</h4>
+            <p>${escapeHtml(path2ParticipantText)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Hipótese</h4>
+            <p>${escapeHtml(path2Hypothesis)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Experimento proposto</h4>
+            <p>${escapeHtml(path2Experiment)}</p>
+          </div>
+          <div class="participant-card">
+            <h4>Critérios de medição</h4>
+            ${renderCriteriaHtml(financial.measurementCriteria)}
+          </div>
+        </section>
+
+        <section class="report-section part-section part-4 continue-card">
+          <span class="path-kind">E agora?</span>
+          <h2 class="part-title">TRANSFORMAR</h2>
+          <p class="part-subtitle">Meu próximo passo.</p>
+          <p class="path-copy">O Workshop PNE não termina na identificação da oportunidade. O FT View mostrou onde começar a olhar. O próximo passo é avaliar sua maturidade para avançar e transformar essa oportunidade em um plano.</p>
+          <p class="path-copy"><strong>Agora continue no Workbook: realize o FMIF para avaliar sua maturidade/prontidão e, em seguida, utilize o PTIF para estruturar o plano de transformação.</strong></p>
+          <div class="fmif-flow">
+            <div class="fmif-step"><strong>FT VIEW</strong> · Onde começar</div>
+            <div class="fmif-step"><strong>FMIF</strong> · Avaliar maturidade e prontidão</div>
+            <div class="fmif-step"><strong>PTIF</strong> · Transformar a oportunidade em um plano</div>
+          </div>
+          <div class="continue-workbook">CONTINUE AGORA NO SEU WORKBOOK — FMIF e PTIF devem ser realizados no Workbook do Workshop PNE.</div>
+          <div class="strategic-callout">Localize as etapas FMIF e PTIF no Workbook e continue o desenvolvimento da oportunidade identificada neste relatório.</div>
+        </section>
       `;
     }
 
@@ -1542,25 +2503,21 @@
       }
 
       const areaRecord = areaRecordFromLabel(diagnostico.setor || participant?.setor);
-      const diagnosticoForEngine = {
-        componentes: Object.fromEntries(Object.entries(componentes).map(([num, value]) => [num, { pontuacao: value.pontuacao }]))
-      };
-      const profile = mapParticipantProfile(participant, runtime);
-      const engineResult = runtime.opportunityEngine.evaluateOpportunities(diagnosticoForEngine, areaRecord.id, profile);
-      const entryResult = runtime.entryEngine.decideEntryDoor(engineResult, diagnosticoForEngine);
+      const ftViewData = participant?.ftView || {};
 
       return {
         runtime,
+        participant,
         areaRecord,
         componentes,
-        engineResult,
-        entryResult
+        ftViewData
       };
     }
 
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
       storyHost.innerHTML = buildHtmlSections(context);
+      mountAsisSnapshot(participant);
       rememberParticipantPayload(participant);
       updateBackLink();
       state.hidden = true;
