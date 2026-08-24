@@ -258,9 +258,9 @@ function evaluateTerritories(context) {
     .map(component => buildComponentAnalysis(component, evidenceResult))
     .sort((left, right) =>
       right.priorityScore - left.priorityScore
-      || right.evidence.points - left.evidence.points
-      || right.adherence.points - left.adherence.points
       || right.need.points - left.need.points
+      || right.adherence.points - left.adherence.points
+      || right.evidence.points - left.evidence.points
       || byCanonicalOrder(left, right)
     );
 
