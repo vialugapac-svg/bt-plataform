@@ -84,6 +84,15 @@
       return template.content.cloneNode(true);
     }
 
+    function bindPrintButton() {
+      const botaoImpressao = document.querySelector("#resultado-content #asis-print-button, #resultado-content .asis-print-btn");
+      if (!botaoImpressao) return;
+      botaoImpressao.addEventListener("click", evento => {
+        evento.preventDefault();
+        window.print();
+      });
+    }
+
     function mostrarEstadoFtView(liberado) {
       ftViewStatus.textContent = liberado ? "FT View · 🟢 Liberado" : "FT View · 🔒 Bloqueado";
       ftViewStatus.classList.toggle("released", liberado);
@@ -127,7 +136,9 @@
         }
 
         document.getElementById("asis-styles").textContent = css || "";
-        document.getElementById("resultado-content").replaceChildren(sanitizarRelatorio(html));
+        const container = document.getElementById("resultado-content");
+        container.replaceChildren(sanitizarRelatorio(html));
+        bindPrintButton();
         bindFtViewAccessButton(workshopId, participanteId);
         mostrarEstadoFtView(participante.diagnostico?.ftViewLiberado === true);
         onValue(ref(db, `workshops/${workshopId}/participantes/${participanteId}/diagnostico/ftViewLiberado`), statusSnapshot => {
