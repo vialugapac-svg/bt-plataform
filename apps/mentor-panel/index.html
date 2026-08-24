@@ -178,8 +178,25 @@
         button.appendChild(criarTexto("span", `status ${concluido ? "done" : "progress"}`, concluido ? "Concluído" : "Em andamento"));
         const ftControl = document.createElement("span");
         ftControl.className = "ft-control";
-        ftControl.appendChild(criarTexto("span", `ft-status ${liberado ? "released" : "locked"}`, liberado ? "🟢 Liberado" : "🔒 Bloqueado"));
-        if (!liberado) {
+        if (liberado) {
+          const statusButton = document.createElement("button");
+          statusButton.className = `ft-status ${liberado ? "released" : "locked"}`;
+          statusButton.textContent = "🟢 Liberado";
+          statusButton.type = "button";
+          statusButton.style.border = "none";
+          statusButton.style.background = "none";
+          statusButton.style.cursor = "pointer";
+          statusButton.style.padding = "0";
+          statusButton.style.font = "inherit";
+          statusButton.style.color = "inherit";
+          statusButton.addEventListener("click", evento => {
+            evento.stopPropagation();
+            const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
+            window.location.href = `../asis-v2/ft-view.html?${params.toString()}`;
+          });
+          ftControl.appendChild(statusButton);
+        } else {
+          ftControl.appendChild(criarTexto("span", `ft-status ${liberado ? "released" : "locked"}`, "🔒 Bloqueado"));
           const releaseButton = criarTexto("button", "release-button", "Liberar FT View");
           releaseButton.type = "button";
           releaseButton.disabled = !participante.diagnostico;
