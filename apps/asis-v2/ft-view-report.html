@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório Executivo</title>
+  <title>Relatório Final — Workshop PNE</title>
   <style>
     :root {
       color-scheme: light;
@@ -97,18 +97,74 @@
 
     @media print {
       @page { size: A4; margin: 12mm; }
+      
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      
       .report-toolbar { display: none !important; }
       .footer-note { display: none !important; }
       body { background: #fff !important; }
       .ft-page { padding: 0 !important; }
+      
+      /* Preserve card backgrounds and borders */
       .story-card, .flow-card, .lens-card, .report-section, .application-card, .case-card, .participant-box, .measure-card, .fmif-step {
         break-inside: avoid;
         box-shadow: none !important;
-        border: 1px solid #ddd !important;
       }
+      
+      /* Preserve component grid colors */
+      .component-card.is-strong { background: var(--green-soft) !important; border-color: #c8e3cc !important; }
+      .component-card.is-attention { background: var(--red-soft) !important; border-color: #f0d0d0 !important; }
+      .component-card.is-neutral { background: #f8f9fb !important; border-color: #e4e6ea !important; }
+      
+      /* Preserve box accents */
+      .box-accent-green { border-left: 4px solid var(--green) !important; }
+      .box-accent-red { border-left: 4px solid var(--red) !important; }
+      .box-accent-blue { border-left: 4px solid #1b4f9b !important; }
+      .box-accent-purple { border-left: 4px solid var(--purple) !important; }
+      
+      /* Preserve confidence/entry door badges */
+      .confidence-pill.low { background: #f1f2f4 !important; color: #55606f !important; border-color: #d7dbe2 !important; }
+      .confidence-pill.medium { background: #fff6e8 !important; color: #8c5a00 !important; border-color: #edd4a3 !important; }
+      .confidence-pill.high { background: #edf7ef !important; color: #2e7d32 !important; border-color: #c8e3cc !important; }
+      
+      .entry-door-badge.prepare { background: #eef2f7 !important; color: #405067 !important; border-color: #cfd8e4 !important; }
+      .entry-door-badge.explore { background: #eef4fb !important; color: #1b4f9b !important; border-color: #c9d7eb !important; }
+      .entry-door-badge.experiment { background: #fff6e8 !important; color: #8c5a00 !important; border-color: #edd4a3 !important; }
+      .entry-door-badge.offer { background: #edf7ef !important; color: #2e7d32 !important; border-color: #c8e3cc !important; }
+      .entry-door-badge.venture { background: #efeaf9 !important; color: #5c4691 !important; border-color: #d6cbee !important; }
+      
+      .origin-badge.internal { background: #fff6e8 !important; color: #8c5a00 !important; border-color: #edd4a3 !important; }
+      .origin-badge.external { background: #eef4fb !important; color: #1b4f9b !important; border-color: #c9d7eb !important; }
+      .origin-badge.mixed { background: #f3effb !important; color: #6d5b96 !important; border-color: #d9cff0 !important; }
+      .origin-badge.undetermined { background: #f1f2f4 !important; color: #5b6574 !important; border-color: #d7dbe2 !important; }
+      
+      /* Preserve opportunity/blockchain hero boxes */
+      .opportunity-hero { background: #eef4fb !important; border-color: #d9e3ef !important; }
+      .blockchain-primary { background: #edf7ef !important; color: #0f5b46 !important; }
+      
+      /* Preserve workshop cards with colored top borders */
+      .workshop-card.workshop-hero { border-top-color: var(--brand) !important; }
+      .workshop-card.workshop-opportunity { border-top-color: #1b4f9b !important; }
+      .workshop-card.workshop-origin { border-top-color: #6d5b96 !important; }
+      .workshop-card.workshop-blockchain { border-top-color: #0f6e56 !important; }
+      .workshop-card.workshop-next { border-top-color: #2e7d32 !important; }
+      
+      /* Preserve lens cards */
+      .lens-card { background: #f8fafc !important; border-left-color: #1b4f9b !important; }
+      
+      /* Preserve tag and evidence list styling */
+      .tag { background: #fff !important; color: #425067 !important; border-color: #dcd8cf !important; }
+      .evidence-list li, .reason-list li, .support-list li { background: #fff !important; color: #445064 !important; border-color: #e8e4dc !important; }
+      
+      /* Preserve method notes and subtle notes */
+      .method-note { background: #f4f6f9 !important; border-color: #d9e1ea !important; }
+      .subtle-note { background: #f4f6f9 !important; }
+      
+      /* Prevent page breaks inside key sections */
       .strategic-path-card, .strategic-transaction-card, .strategic-highlight, .strategic-note {
         break-inside: avoid;
       }
+      
       .part-section.part-2,
       .part-section.part-3,
       .part-section.part-4 {
@@ -2325,7 +2381,7 @@
 
         <section class="report-section part-section part-2">
           <div class="part-marker">PARTE 2</div>
-          <h2 class="part-title">DESCOBRIR</h2>
+          <h2 class="part-title">EXPLORAR</h2>
           <p class="part-subtitle">Meu FT View — Onde posso começar.</p>
         </section>
 
@@ -2399,7 +2455,7 @@
 
         <section class="report-section part-section part-3">
           <div class="part-marker">PARTE 3</div>
-          <h2 class="part-title">EXPERIMENTAR</h2>
+          <h2 class="part-title">COMEÇAR</h2>
           <p class="part-subtitle">Nova infraestrutura financeira — Começar usando.</p>
           <div class="use-highlight">
             <strong>Mensagem central</strong>

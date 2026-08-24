@@ -439,6 +439,52 @@
       font-size: 11px;
     }
 
+    .sequence-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .sequence-block {
+      padding: 12px 14px;
+      border: 1px solid #e5e1d8;
+      border-radius: 12px;
+      background: #fbfaf7;
+    }
+
+    .sequence-block.compact {
+      background: #fff;
+    }
+
+    .sequence-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #74839a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .sequence-block p {
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .sequence-block ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .sequence-block li + li {
+      margin-top: 4px;
+    }
+
     .entry-card {
       border-top: 5px solid var(--brand);
       background: #fff;
@@ -2659,23 +2705,90 @@
         ? tensionItems.map(item => `<li class="tag"><span>${escapeHtml(componentName(runtime, item.componentNum))}</span><span class="tag-meta">atenção</span></li>`).join("")
         : `<li class="tag"><span>Nenhum limitador dominante foi explicitado pelo motor.</span></li>`;
 
-      const blockchainHtml = (engineResult.blockchainPossibilities || []).slice(0, 3).map(possibility => `
-        <article class="possibility-card">
-          <div class="context-strip">
-            <span class="confidence-pill ${escapeHtml(possibility.confidence)}">${escapeHtml(confidenceLabel(possibility.confidence))}</span>
+      const recommendationItems = (engineResult.blockchainPossibilities || []).slice(0, 3);
+      const primaryRecommendation = recommendationItems[0] || null;
+      const complementaryRecommendations = recommendationItems.slice(1, 3);
+      const renderField = (label, value, compact = false) => {
+        const list = Array.isArray(value)
+          ? value.map(item => String(item || "").trim()).filter(Boolean)
+          : String(value ?? "").trim()
+            ? [String(value).trim()]
+            : [];
+        return `
+          <div class="sequence-block${compact ? " compact" : ""}">
+            <span class="sequence-label">${escapeHtml(label)}</span>
+            ${list.length
+              ? (list.length === 1
+                ? `<p>${escapeHtml(list[0])}</p>`
+                : `<ul>${list.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`)
+              : `<p>Não registrado nesta leitura.</p>`}
           </div>
-          <h3>${escapeHtml(possibility.name)}</h3>
-          <p>${escapeHtml(familyDescription(runtime, areaRecord.id, possibility.id))}</p>
-          ${(possibility.supportingEvidence || []).length
-            ? `<ul class="support-list" style="margin-top:12px;">${possibility.supportingEvidence.map(item => `<li>${supportingEvidenceText(runtime, item)}</li>`).join("")}</ul>`
-            : `<div class="subtle-note">Sem evidências discriminantes adicionais. Nesta leitura, trata-se apenas de um sinal inicial a ser explorado com prudência.</div>`}
+        `;
+      };
+      const primaryEvidence = (primaryRecommendation?.supportingEvidence || []).slice(0, 3);
+      const primaryEvidenceHtml = primaryEvidence.length
+        ? `<ul class="support-list">${primaryEvidence.map(item => `<li>${supportingEvidenceText(runtime, item)}</li>`).join("")}</ul>`
+        : `<div class="subtle-note">Sem evidências discriminantes adicionais. Nesta leitura, trata-se apenas de um sinal inicial a ser explorado com prudência.</div>`;
+      const primaryComponent = primaryRecommendation?.dominantComponent || primaryEvidence[0]?.componentNum || null;
+      const primaryHypothesis = primaryRecommendation && primaryComponent
+        ? buildHypothesisText({ componentId: primaryComponent, componentName: componentName(runtime, primaryComponent) }, primaryRecommendation.situation || primaryRecommendation.possibility || "")
+        : "";
+      const primaryCardHtml = primaryRecommendation ? `
+        <article class="possibility-card box-accent-blue">
+          <div class="context-strip">
+            <span class="confidence-pill ${escapeHtml(primaryRecommendation.confidence)}">${escapeHtml(confidenceLabel(primaryRecommendation.confidence))}</span>
+            <span class="context-pill">${escapeHtml(primaryRecommendation.role === "PRIMARY" ? "Recomendação principal" : "Possibilidade principal")}</span>
+          </div>
+          <h3>${escapeHtml(primaryRecommendation.name)}</h3>
+          <p>${escapeHtml(primaryRecommendation.familyDescription || familyDescription(runtime, areaRecord.id, primaryRecommendation.id))}</p>
+          <div class="sequence-grid">
+            ${renderField("O QUE OBSERVAMOS NO SEU AS-IS", primaryEvidence.map(item => `${componentName(runtime, item.componentNum)} · ${item.value}`))}
+            ${renderField("SITUAÇÃO", primaryRecommendation.situation)}
+            ${renderField("POSSIBILIDADE", primaryRecommendation.possibility)}
+            ${renderField("CAPACIDADE NECESSÁRIA", primaryRecommendation.capacityNeeded)}
+            ${renderField("INFRAESTRUTURA", primaryRecommendation.infrastructure)}
+            ${renderField("EXPLICAÇÃO SIMPLES DA INFRAESTRUTURA", primaryRecommendation.infrastructureExplain)}
+            ${renderField("NO SEU CONTEXTO", primaryRecommendation.areaContext || primaryRecommendation.contextualizationByArea)}
+            ${renderField("IMPACTO POTENCIAL", primaryRecommendation.impactPotential)}
+            ${renderField("O QUE TESTAR", primaryRecommendation.whatToTest)}
+            ${renderField("O QUE MEDIR", primaryRecommendation.whatToMeasure)}
+            ${renderField("HIPÓTESE PARA VALIDAÇÃO", primaryHypothesis)}
+            ${renderField("TRAVA / QUANDO NÃO RECOMENDAR", primaryRecommendation.notRecommendWhen)}
+          </div>
+          <div class="subtle-note" style="margin-top:12px;">
+            <strong>Evidências que sustentam esta leitura</strong>
+            <div style="margin-top:10px;">${primaryEvidenceHtml}</div>
+          </div>
         </article>
-      `).join("");
+      ` : `<article class="possibility-card"><h3>Nenhuma possibilidade destacada</h3><p>O motor não retornou possibilidades Blockchain relevantes para esta leitura.</p></article>`;
+      const complementaryCardsHtml = complementaryRecommendations.length
+        ? complementaryRecommendations.map(possibility => `
+          <article class="possibility-card">
+            <div class="context-strip">
+              <span class="confidence-pill ${escapeHtml(possibility.confidence)}">${escapeHtml(confidenceLabel(possibility.confidence))}</span>
+              <span class="context-pill">Alavanca complementar</span>
+            </div>
+            <h3>${escapeHtml(possibility.name)}</h3>
+            <p>${escapeHtml(possibility.familyDescription || familyDescription(runtime, areaRecord.id, possibility.id))}</p>
+            <div class="sequence-grid">
+              ${renderField("SITUAÇÃO", possibility.situation, true)}
+              ${renderField("POSSIBILIDADE", possibility.possibility, true)}
+              ${renderField("CAPACIDADE NECESSÁRIA", possibility.capacityNeeded, true)}
+              ${renderField("INFRAESTRUTURA", possibility.infrastructure, true)}
+              ${renderField("NO SEU CONTEXTO", possibility.areaContext || possibility.contextualizationByArea, true)}
+              ${renderField("IMPACTO POTENCIAL", possibility.impactPotential, true)}
+              ${renderField("O QUE TESTAR", possibility.whatToTest, true)}
+              ${renderField("O QUE MEDIR", possibility.whatToMeasure, true)}
+              ${renderField("TRAVA / QUANDO NÃO RECOMENDAR", possibility.notRecommendWhen, true)}
+            </div>
+          </article>
+        `).join("")
+        : "";
 
       return `
         <section class="story-card">
-          <div class="section-step">1. O que o AS-IS está mostrando</div>
-          <h2>O que o AS-IS está mostrando</h2>
+          <div class="section-step">1. O QUE OBSERVAMOS NO SEU AS-IS</div>
+          <h2>O QUE OBSERVAMOS NO SEU AS-IS</h2>
           <p class="section-copy">${escapeHtml(evidenceSummaryText(engineResult, strengths, weaknesses, runtime))}</p>
 
           <div class="summary-grid">
@@ -2696,15 +2809,15 @@
         </section>
 
         <section class="story-card">
-          <div class="section-step">2. O que essas evidências podem estar revelando</div>
-          <h2>Existe uma oportunidade?</h2>
+          <div class="section-step">2. SITUAÇÃO</div>
+          <h2>SITUAÇÃO</h2>
           <p class="section-copy">O FT View não inventa uma oportunidade quando o motor não encontrou evidência suficiente. Esta etapa mostra apenas a leitura de negócio efetivamente produzida pelo engine.</p>
           ${opportunitySection}
         </section>
 
         <section class="story-card">
-          <div class="section-step">3. Capacidade de captura</div>
-          <h2>Temos capacidade para capturá-la?</h2>
+          <div class="section-step">3. CAPACIDADE NECESSÁRIA</div>
+          <h2>CAPACIDADE NECESSÁRIA</h2>
           <p class="section-copy">O motor não expõe uma nota única de capacidade. Por isso, o FT View mostra diretamente os sinais que o próprio engine usa: alavancas, pontos de atenção e justificativas para o próximo passo prudente.</p>
 
           <div class="signal-grid">
@@ -2741,19 +2854,19 @@
         </section>
 
         <section class="story-card">
-          <div class="section-step">4. Origem da oportunidade</div>
-          <h2>De onde essa oportunidade parece vir?</h2>
-          <p class="section-copy">Origem não é tecnologia. Ela mostra apenas se o motor lê a oportunidade como predominantemente interna, externa, mista ou ainda indeterminada.</p>
+          <div class="section-step">4. NO SEU CONTEXTO</div>
+          <h2>NO SEU CONTEXTO</h2>
+          <p class="section-copy">Aqui a área de atuação apenas contextualiza a leitura. Ela não substitui nem domina as evidências do AS-IS.</p>
 
           <article class="origin-card">
-            <div class="origin-badge ${escapeHtml((engineResult.opportunityOrigin || "UNDETERMINED").toLowerCase())}">${escapeHtml(originLabel(engineResult.opportunityOrigin))}</div>
-            <p style="margin-top:12px;">${escapeHtml(originCopy(engineResult.opportunityOrigin))}</p>
+            <div class="origin-badge ${escapeHtml((engineResult.opportunityOrigin || "UNDETERMINED").toLowerCase())}">${escapeHtml(areaRecord.infraestruturaFoco?.name || "Blockchain")}</div>
+            <p style="margin-top:12px;">${escapeHtml(areaRecord.infraestruturaFoco?.explain || originCopy(engineResult.opportunityOrigin))}</p>
           </article>
         </section>
 
         <section class="story-card">
-          <div class="section-step">5. Onde a nova infraestrutura pode contribuir</div>
-          <h2>E a Blockchain?</h2>
+          <div class="section-step">5. INFRAESTRUTURA</div>
+          <h2>INFRAESTRUTURA</h2>
           <p class="section-copy">Estas não são soluções recomendadas. São possibilidades que merecem ser exploradas à luz das evidências do seu modelo.</p>
 
           <article class="info-box box-accent-blue" style="margin-bottom:12px;">
@@ -2769,7 +2882,8 @@
           </article>
 
           <div class="blockchain-grid">
-            ${blockchainHtml || `<article class="possibility-card"><h3>Nenhuma possibilidade destacada</h3><p>O motor não retornou possibilidades Blockchain relevantes para esta leitura.</p></article>`}
+            ${primaryCardHtml}
+            ${complementaryCardsHtml}
           </div>
         </section>
 
