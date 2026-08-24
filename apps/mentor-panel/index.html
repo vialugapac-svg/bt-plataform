@@ -192,7 +192,7 @@
           statusButton.addEventListener("click", evento => {
             evento.stopPropagation();
             const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
-            window.location.href = `../asis-v2/ft-view.html?${params.toString()}`;
+            window.location.href = `https://btmodel-asis.netlify.app/ft-view.html?${params.toString()}`;
           });
           ftControl.appendChild(statusButton);
         } else {

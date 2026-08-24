@@ -54,7 +54,7 @@
 
     function ftViewUrl(workshopId, participanteId) {
       const params = new URLSearchParams({ workshop: workshopId, participante: participanteId });
-      return `../asis-v2/ft-view.html?${params.toString()}`;
+      return `https://btmodel-asis.netlify.app/ft-view.html?${params.toString()}`;
     }
 
     function bindFtViewAccessButton(workshopId, participanteId) {
