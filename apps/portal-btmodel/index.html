@@ -7,7 +7,7 @@
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile,signOut} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-const app=initializeApp({apiKey:"AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",authDomain:"btmodel-asis.firebaseapp.com",projectId:"btmodel-asis",appId:"1:177492900543:web:placeholder"});
+const app=initializeApp({apiKey:"AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",authDomain:"btmodel-asis.firebaseapp.com",projectId:"btmodel-asis",appId:"1:177492900543:web:8d7c3c3bd623464aefa40a"});
 const auth=getAuth(app), $=id=>document.getElementById(id);
 onAuthStateChanged(auth,user=>{ $('auth').hidden=!!user;$('dashboard').hidden=!user;$('logout').hidden=!user;if(user)$('welcome').textContent='Olá, '+(user.displayName||user.email)+'.';});
 function fail(e){$('status').textContent=e.code==='auth/email-already-in-use'?'Este e-mail já possui conta. Use Entrar.':e.code==='auth/operation-not-allowed'?'Cadastro por e-mail ainda não habilitado no Firebase.':e.code==='auth/invalid-credential'?'Credenciais inválidas. Confira e-mail e senha.':'Não foi possível concluir. '+(e.code||'Tente novamente.');}
