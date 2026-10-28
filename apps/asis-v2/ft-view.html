@@ -1911,11 +1911,54 @@
       };
     }
 
-    async function renderFromParticipant(participant) {
+
+    // Camada de convite ao experimento: leitura não prescritiva, sem modificar o AS-IS.
+    function buildLiqPayOpportunity(context) {
+      const eligible = (context.territoryResult?.componentAnalyses || [])
+        .filter(item => /receitas|processos|canais|custos|ecossistema|clientes/i.test(item.componentName || ""))
+        .filter(item => Number.isFinite(Number(item.score)))
+        .sort((a, b) => Number(a.score) - Number(b.score));
+      const candidates = eligible.slice(0, 2);
+      const names = candidates.map(item => item.componentName);
+      const low = candidates.some(item => Number(item.score) <= 2);
+      const rationale = low
+        ? "Esses componentes apresentaram pontuações que justificam investigar possíveis melhorias."
+        : "Esses componentes podem ter relação com operações financeiras, mas as respostas não demonstram, por si só, uma necessidade de mudança.";
+      const label = names.length ? names.map(escapeHtml).join(" e ") : "seu modelo de negócio";
+      return `<section style="background:#fff;border:1px solid #dedbd3;border-radius:16px;padding:24px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#5f6875">POSSIBILIDADE DE EXPERIMENTO · ALPHAVILLE</div>
+        <h2 style="font-size:23px;line-height:1.3;margin:12px 0">A LiqPay faz sentido para o seu negócio?</h2>
+        <p style="line-height:1.7">A partir da análise do seu BT Model, observamos os componentes <strong>${label}</strong>. ${rationale}</p>
+        <p style="line-height:1.7">Uma possibilidade é avaliar se a LiqPay poderia contribuir para os fluxos de recebimento ou pagamento da sua empresa. Isso é uma <strong>hipótese para validar</strong>, não uma recomendação automática.</p>
+        <p style="font-weight:700">Você gostaria de investigar essa possibilidade?</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" data-liqpay-choice="sim" style="padding:12px;border-radius:10px;background:#1a2744;color:#fff;border:0">Sim, quero avaliar</button>
+          <button type="button" data-liqpay-choice="talvez" style="padding:12px;border-radius:10px;background:#eef4fb;border:1px solid #c9d7e9">Quero entender melhor</button>
+          <button type="button" data-liqpay-choice="nao" style="padding:12px;border-radius:10px;background:#fff;border:1px solid #dedbd3">Não agora</button>
+        </div>
+        <p data-liqpay-feedback role="status" style="margin-top:12px;color:#5f6875"></p>
+        <p style="font-size:12px;color:#5f6875">Nenhum pagamento é iniciado nesta etapa. O AS-IS permanece inalterado.</p>
+      </section>`;
+    }
+
+    function bindLiqPayChoiceHandlers() {
+      storyHost.querySelectorAll("[data-liqpay-choice]").forEach(button => {
+        button.addEventListener("click", () => {
+          const choice = button.getAttribute("data-liqpay-choice");
+          const feedback = storyHost.querySelector("[data-liqpay-feedback]");
+          if (feedback) feedback.textContent = choice === "sim"
+            ? "Próximo passo: conversar com o facilitador para definir um teste pequeno, voluntário e mensurável."
+            : choice === "talvez"
+            ? "Converse com o facilitador sobre os recursos disponíveis, custos e condições antes de decidir."
+            : "Sem problema. Nenhuma experiência será iniciada.";
+        });
+      });
+    }
+\n    async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
-      storyHost.innerHTML = buildHtmlSections(context);
-      bindTerritoryChoiceHandlers(context);
+      storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
+      bindTerritoryChoiceHandlers(context);\n      bindLiqPayChoiceHandlers();
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
@@ -1930,8 +1973,8 @@
           const territoryId = button.getAttribute("data-territory-select");
           if (!territoryId || territoryId === context.selectedTerritoryId) return;
           context.selectedTerritoryId = territoryId;
-          storyHost.innerHTML = buildHtmlSections(context);
-          bindTerritoryChoiceHandlers(context);
+          storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
+          bindTerritoryChoiceHandlers(context);\n      bindLiqPayChoiceHandlers();
         });
       });
     }
