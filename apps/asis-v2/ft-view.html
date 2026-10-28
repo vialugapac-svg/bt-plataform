@@ -872,7 +872,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-    import { FT_KNOWLEDGE_BASE } from "../shared-discernment/ft-knowledge-base.js";
+    import { FT_KNOWLEDGE_BASE } from "./shared-discernment/ft-knowledge-base.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC1jgVmGLqbtGHpB3CJiYtC2nm4_FpdM0g",
@@ -889,15 +889,15 @@
     const storyHost = document.getElementById("story-host");
 
     const commonJsModulePaths = new Map([
-      ["component-dictionary", new URL("../shared-discernment/component-dictionary.js", import.meta.url)],
-      ["blockchain-kb-opportunities", new URL("../shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
-      ["profile-adapter", new URL("../shared-discernment/profile-adapter.js", import.meta.url)],
-      ["opportunity-engine", new URL("../shared-discernment/opportunity-engine.js", import.meta.url)],
-      ["entry-engine", new URL("../shared-discernment/entry-engine.js", import.meta.url)],
-      ["blockchain-adherence-matrix", new URL("../shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
-      ["evidence-interpreter", new URL("../shared-discernment/evidence-interpreter.js", import.meta.url)],
-      ["territory-context", new URL("../shared-discernment/territory-context.js", import.meta.url)],
-      ["territory-engine", new URL("../shared-discernment/territory-engine.js", import.meta.url)]
+      ["component-dictionary", new URL("./shared-discernment/component-dictionary.js", import.meta.url)],
+      ["blockchain-kb-opportunities", new URL("./shared-discernment/blockchain-kb-opportunities.js", import.meta.url)],
+      ["profile-adapter", new URL("./shared-discernment/profile-adapter.js", import.meta.url)],
+      ["opportunity-engine", new URL("./shared-discernment/opportunity-engine.js", import.meta.url)],
+      ["entry-engine", new URL("./shared-discernment/entry-engine.js", import.meta.url)],
+      ["blockchain-adherence-matrix", new URL("./shared-discernment/blockchain-adherence-matrix.js", import.meta.url)],
+      ["evidence-interpreter", new URL("./shared-discernment/evidence-interpreter.js", import.meta.url)],
+      ["territory-context", new URL("./shared-discernment/territory-context.js", import.meta.url)],
+      ["territory-engine", new URL("./shared-discernment/territory-engine.js", import.meta.url)]
     ]);
 
     let ftRuntimePromise = null;
