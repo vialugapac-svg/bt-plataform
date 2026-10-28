@@ -1916,21 +1916,24 @@
     function buildLiqPayOpportunity(context) {
       const eligible = (context.territoryResult?.componentAnalyses || [])
         .filter(item => /receitas|processos|canais|custos|ecossistema|clientes/i.test(item.componentName || ""))
-        .filter(item => Number.isFinite(Number(item.score)))
-        .sort((a, b) => Number(a.score) - Number(b.score));
-      const candidates = eligible.slice(0, 2);
+        .filter(item => Number.isFinite(Number(item.score)));
+      const evidenceText = item => (item.textualEvidenceCapped || item.textualEvidenceRaw || [])
+        .map(e => typeof e === "string" ? e : JSON.stringify(e)).join(" ").toLowerCase();
+      const paymentPattern = /pix|pagament|recebiment|cobran|transa[cç]|fornecedor|taxa|financeir|faturament|liquidez|caixa|cliente.*pagar|cripto|usdt/;
+      const supported = eligible.filter(item => paymentPattern.test(evidenceText(item)));
+      const candidates = supported.sort((a,b) => Number(a.score)-Number(b.score)).slice(0,2);
       const names = candidates.map(item => item.componentName);
-      const low = candidates.some(item => Number(item.score) <= 2);
-      const rationale = low
-        ? "As pontuações desses componentes sugerem investigar possíveis melhorias, mas não comprovam um problema financeiro."
-        : "Esses componentes podem ter relação com operações financeiras, mas as respostas não demonstram, por si só, uma necessidade de mudança.";
+      const hasFit = candidates.length > 0;
+      const rationale = hasFit
+        ? "Encontramos menções a operações financeiras nas evidências textuais associadas a esses componentes. Isso sugere investigar uma possibilidade, não comprova que a LiqPay seja adequada."
+        : "Não encontramos nas evidências textuais disponíveis uma indicação específica de que a LiqPay resolveria uma necessidade do negócio.";
       const label = names.length ? names.map(escapeHtml).join(" e ") : "seu modelo de negócio";
       return `<section style="background:#fff;border:1px solid #dedbd3;border-radius:16px;padding:24px;margin-bottom:14px">
         <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#5f6875">POSSIBILIDADE DE EXPERIMENTO · ALPHAVILLE</div>
         <h2 style="font-size:23px;line-height:1.3;margin:12px 0">A LiqPay faz sentido para o seu negócio?</h2>
         <p style="line-height:1.7">A partir da análise do seu BT Model, observamos os componentes <strong>${label}</strong>. ${rationale}</p>
-        <p style="line-height:1.7">Uma possibilidade é avaliar se a LiqPay poderia contribuir para os fluxos de recebimento ou pagamento da sua empresa. Isso é uma <strong>hipótese para validar</strong>, não uma recomendação automática.</p>
-        <p style="font-weight:700">Você gostaria de investigar essa possibilidade?</p>
+        <p style="line-height:1.7">${hasFit ? "Uma possibilidade é avaliar se a LiqPay poderia contribuir para os fluxos de recebimento ou pagamento da sua empresa. Isso é uma <strong>hipótese para validar</strong>, não uma recomendação automática." : "Por enquanto, a melhor decisão é compreender seus fluxos financeiros antes de sugerir um teste com a LiqPay."}</p>
+        <p style="font-weight:700">${hasFit ? "Você gostaria de investigar essa possibilidade?" : "Você gostaria de conversar sobre essa possibilidade, sem compromisso?"}</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button type="button" data-liqpay-choice="sim" style="padding:12px;border-radius:10px;background:#1a2744;color:#fff;border:0">Sim, quero avaliar</button>
           <button type="button" data-liqpay-choice="talvez" style="padding:12px;border-radius:10px;background:#eef4fb;border:1px solid #c9d7e9">Quero entender melhor</button>
