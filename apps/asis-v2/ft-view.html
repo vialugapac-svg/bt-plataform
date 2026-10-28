@@ -1912,59 +1912,49 @@
     }
 
 
-    // Camada de convite ao experimento: leitura não prescritiva, sem modificar o AS-IS.
-    function buildLiqPayOpportunity(context) {
-      const eligible = (context.territoryResult?.componentAnalyses || [])
-        .filter(item => /receitas|processos|canais|custos|ecossistema|clientes/i.test(item.componentName || ""))
-        .filter(item => Number.isFinite(Number(item.score)));
-      const evidenceText = item => {
-        const raw = item.textualEvidenceCapped || item.textualEvidenceRaw || [];
-        const values = Array.isArray(raw) ? raw : [raw];
-        return values.map(e => typeof e === "string" ? e : JSON.stringify(e)).join(" ").toLowerCase();
-      };
-      const paymentPattern = /pix|pagament|recebiment|cobran|transa[cç]|fornecedor|taxa|financeir|faturament|liquidez|caixa|cliente.*pagar|cripto|usdt/;
-      const supported = eligible.filter(item => paymentPattern.test(evidenceText(item)));
-      const candidates = supported.sort((a,b) => Number(a.score)-Number(b.score)).slice(0,2);
-      const names = candidates.map(item => item.componentName);
-      const hasFit = candidates.length > 0;
-      const rationale = hasFit
-        ? "Encontramos menções a operações financeiras nas evidências textuais associadas a esses componentes. Isso sugere investigar uma possibilidade, não comprova que a LiqPay seja adequada."
-        : "Não encontramos nas evidências textuais disponíveis uma indicação específica de que a LiqPay resolveria uma necessidade do negócio.";
-      const label = names.length ? names.map(escapeHtml).join(" e ") : "seu modelo de negócio";
-      return `<section style="background:#fff;border:1px solid #dedbd3;border-radius:16px;padding:24px;margin-bottom:14px">
-        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#5f6875">POSSIBILIDADE DE EXPERIMENTO · ALPHAVILLE</div>
-        <h2 style="font-size:23px;line-height:1.3;margin:12px 0">A LiqPay faz sentido para o seu negócio?</h2>
-        <p style="line-height:1.7">A partir da análise do seu BT Model, observamos os componentes <strong>${label}</strong>. ${rationale}</p>
-        <p style="line-height:1.7">${hasFit ? "Uma possibilidade é avaliar se a LiqPay poderia contribuir para os fluxos de recebimento ou pagamento da sua empresa. Isso é uma <strong>hipótese para validar</strong>, não uma recomendação automática." : "Por enquanto, a melhor decisão é compreender seus fluxos financeiros antes de sugerir um teste com a LiqPay."}</p>
-        <p style="font-weight:700">${hasFit ? "Você gostaria de investigar essa possibilidade?" : "Você gostaria de conversar sobre essa possibilidade, sem compromisso?"}</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button type="button" data-liqpay-choice="sim" style="padding:12px;border-radius:10px;background:#1a2744;color:#fff;border:0">Sim, quero avaliar</button>
-          <button type="button" data-liqpay-choice="talvez" style="padding:12px;border-radius:10px;background:#eef4fb;border:1px solid #c9d7e9">Quero entender melhor</button>
-          <button type="button" data-liqpay-choice="nao" style="padding:12px;border-radius:10px;background:#fff;border:1px solid #dedbd3">Não agora</button>
+    // Convite opcional após a análise geral; não infere aderência LiqPay do AS-IS.
+    function buildLiqPayOpportunity() {
+      return `<section style="background:#fff;border:1px solid #dedbd3;border-radius:16px;padding:24px;margin-top:18px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#5f6875">EXPLORAÇÃO COMPLEMENTAR · OPCIONAL</div>
+        <h2 style="font-size:22px">Quer explorar seus recebimentos via PIX?</h2>
+        <p>O AS-IS oferece uma visão geral do negócio. Se você recebe por PIX, podemos investigar separadamente se existe alguma oportunidade nos seus fluxos financeiros.</p>
+        <button type="button" data-pix-start style="padding:12px;border-radius:10px;background:#1a2744;color:white;border:0">Explorar recebimentos</button>
+        <div data-pix-form hidden style="margin-top:16px">
+          <label>Com que frequência você recebe por PIX?<select data-pix-frequency style="display:block;padding:10px;margin:8px 0;width:100%"><option value="">Selecione</option><option value="diario">Diariamente</option><option value="semanal">Semanalmente</option><option value="ocasional">Ocasionalmente</option><option value="nunca">Não recebo</option></select></label>
+          <label>O PIX representa quanto do seu faturamento?<select data-pix-share style="display:block;padding:10px;margin:8px 0;width:100%"><option value="">Selecione</option><option value="alto">Mais da metade</option><option value="medio">Até metade</option><option value="baixo">Uma pequena parcela</option><option value="naosei">Não sei</option></select></label>
+          <label>Qual desafio você gostaria de investigar?<select data-pix-challenge style="display:block;padding:10px;margin:8px 0;width:100%"><option value="">Selecione</option><option value="conciliacao">Conciliação e controle</option><option value="uso">Uso dos valores recebidos no dia a dia</option><option value="custos">Custos e condições</option><option value="nenhum">Nenhum desafio específico</option></select></label>
+          <button type="button" data-pix-evaluate style="padding:12px;border-radius:10px;background:#1a2744;color:white;border:0">Analisar respostas</button>
+          <p data-pix-result role="status" style="line-height:1.6"></p>
         </div>
-        <p data-liqpay-feedback role="status" style="margin-top:12px;color:#5f6875"></p>
-        <p style="font-size:12px;color:#5f6875">Nenhum pagamento é iniciado nesta etapa. O AS-IS permanece inalterado.</p>
+        <p style="font-size:12px;color:#5f6875">Esta investigação não modifica o AS-IS, não inicia pagamentos e não comprova aderência a qualquer produto.</p>
       </section>`;
     }
 
     function bindLiqPayChoiceHandlers() {
-      storyHost.querySelectorAll("[data-liqpay-choice]").forEach(button => {
-        button.addEventListener("click", () => {
-          const choice = button.getAttribute("data-liqpay-choice");
-          const feedback = storyHost.querySelector("[data-liqpay-feedback]");
-          if (feedback) feedback.textContent = choice === "sim"
-            ? "Próximo passo: conversar com o facilitador para definir um teste pequeno, voluntário e mensurável."
-            : choice === "talvez"
-            ? "Converse com o facilitador sobre os recursos disponíveis, custos e condições antes de decidir."
-            : "Sem problema. Nenhuma experiência será iniciada.";
-        });
+      const start = storyHost.querySelector("[data-pix-start]");
+      const form = storyHost.querySelector("[data-pix-form]");
+      if (!start || !form) return;
+      start.addEventListener("click", () => { form.hidden = false; start.hidden = true; });
+      storyHost.querySelector("[data-pix-evaluate]")?.addEventListener("click", () => {
+        const frequency = form.querySelector("[data-pix-frequency]").value;
+        const share = form.querySelector("[data-pix-share]").value;
+        const challenge = form.querySelector("[data-pix-challenge]").value;
+        const result = form.querySelector("[data-pix-result]");
+        if (!frequency || !share || !challenge) { result.textContent = "Responda às três perguntas para continuar."; return; }
+        if (frequency === "nunca" || challenge === "nenhum") {
+          result.textContent = "Não identificamos uma necessidade específica para explorar agora. Nenhuma solução será recomendada.";
+        } else if (challenge === "uso" && (frequency === "diario" || frequency === "semanal")) {
+          result.textContent = "Hipótese para avaliação humana: investigar se a LiqPay oferece recursos adequados ao uso cotidiano dos valores recebidos. É necessário confirmar funcionalidades, custos, riscos e condições antes de qualquer teste.";
+        } else {
+          result.textContent = "Há um tema financeiro a compreender melhor, mas ainda não há evidências suficientes para indicar a LiqPay. Converse com o facilitador para aprofundar a necessidade.";
+        }
       });
     }
 
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
-      storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
+      storyHost.innerHTML = buildHtmlSections(context) + buildLiqPayOpportunity();
       bindTerritoryChoiceHandlers(context);
       bindLiqPayChoiceHandlers();
       rememberParticipantPayload(participant);
@@ -1981,7 +1971,7 @@
           const territoryId = button.getAttribute("data-territory-select");
           if (!territoryId || territoryId === context.selectedTerritoryId) return;
           context.selectedTerritoryId = territoryId;
-          storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
+          storyHost.innerHTML = buildHtmlSections(context) + buildLiqPayOpportunity();
           bindTerritoryChoiceHandlers(context);
           bindLiqPayChoiceHandlers();
         });
