@@ -1960,7 +1960,8 @@
         });
       });
     }
-\n    async function renderFromParticipant(participant) {
+
+    async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
