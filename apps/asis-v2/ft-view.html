@@ -1922,7 +1922,7 @@
       const names = candidates.map(item => item.componentName);
       const low = candidates.some(item => Number(item.score) <= 2);
       const rationale = low
-        ? "Esses componentes apresentaram pontuações que justificam investigar possíveis melhorias."
+        ? "As pontuações desses componentes sugerem investigar possíveis melhorias, mas não comprovam um problema financeiro."
         : "Esses componentes podem ter relação com operações financeiras, mas as respostas não demonstram, por si só, uma necessidade de mudança.";
       const label = names.length ? names.map(escapeHtml).join(" e ") : "seu modelo de negócio";
       return `<section style="background:#fff;border:1px solid #dedbd3;border-radius:16px;padding:24px;margin-bottom:14px">
@@ -1958,7 +1958,8 @@
       const context = await buildFtContext(participant);
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
-      bindTerritoryChoiceHandlers(context);\n      bindLiqPayChoiceHandlers();
+      bindTerritoryChoiceHandlers(context);
+      bindLiqPayChoiceHandlers();
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
@@ -1974,7 +1975,8 @@
           if (!territoryId || territoryId === context.selectedTerritoryId) return;
           context.selectedTerritoryId = territoryId;
           storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
-          bindTerritoryChoiceHandlers(context);\n      bindLiqPayChoiceHandlers();
+          bindTerritoryChoiceHandlers(context);
+      bindLiqPayChoiceHandlers();
         });
       });
     }
