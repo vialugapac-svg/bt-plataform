@@ -1917,8 +1917,11 @@
       const eligible = (context.territoryResult?.componentAnalyses || [])
         .filter(item => /receitas|processos|canais|custos|ecossistema|clientes/i.test(item.componentName || ""))
         .filter(item => Number.isFinite(Number(item.score)));
-      const evidenceText = item => (item.textualEvidenceCapped || item.textualEvidenceRaw || [])
-        .map(e => typeof e === "string" ? e : JSON.stringify(e)).join(" ").toLowerCase();
+      const evidenceText = item => {
+        const raw = item.textualEvidenceCapped || item.textualEvidenceRaw || [];
+        const values = Array.isArray(raw) ? raw : [raw];
+        return values.map(e => typeof e === "string" ? e : JSON.stringify(e)).join(" ").toLowerCase();
+      };
       const paymentPattern = /pix|pagament|recebiment|cobran|transa[cç]|fornecedor|taxa|financeir|faturament|liquidez|caixa|cliente.*pagar|cripto|usdt/;
       const supported = eligible.filter(item => paymentPattern.test(evidenceText(item)));
       const candidates = supported.sort((a,b) => Number(a.score)-Number(b.score)).slice(0,2);
@@ -1979,7 +1982,7 @@
           context.selectedTerritoryId = territoryId;
           storyHost.innerHTML = buildLiqPayOpportunity(context) + '<details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700;padding:14px;border:1px solid #dedbd3;border-radius:12px">Ver análise FT View detalhada</summary>' + buildHtmlSections(context) + '</details>';
           bindTerritoryChoiceHandlers(context);
-      bindLiqPayChoiceHandlers();
+          bindLiqPayChoiceHandlers();
         });
       });
     }
