@@ -1973,7 +1973,7 @@
     function dgWrite(value) { try { localStorage.setItem(dgKey(), JSON.stringify(value)); } catch (_) {} }
     function dgScore(context, id) {
       const records = context.territoryContext?.components || [];
-      const match = records.find(c => Number(c.componentId) === id || String(c.componentId).replace(/\\D/g,"") === String(id));
+      const match = records.find(c => Number(c.componentId) === id || String(c.componentId).replace(/\D/g,"") === String(id));
       const score = Number(match?.score);
       return Number.isFinite(score) && score > 0 ? score : null;
     }
@@ -2074,6 +2074,7 @@
           storyHost.innerHTML = buildSimpleFtView(context);
           bindTerritoryChoiceHandlers(context);
           bindSimpleFtView();
+          dgAttach(context);
         });
       });
     }
