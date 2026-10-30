@@ -1949,12 +1949,114 @@
       }));
     }
 
+
+    // Descoberta Guiada: módulo aditivo, sem alterar o AS-IS ou a análise existente.
+    const dgQuestions = [
+      { title:"O que move seu negócio?", prompt:"Qual transformação você deseja gerar e para quem?", ids:[1,2,3,8] },
+      { title:"Onde está a maior dificuldade?", prompt:"Qual problema recorrente mais consome tempo, dinheiro ou energia?", ids:[2,4,10] },
+      { title:"Como o trabalho acontece?", prompt:"Descreva uma atividade essencial: onde ela começa, quem participa e onde costuma travar?", ids:[4,5,9] },
+      { title:"Quem participa do resultado?", prompt:"Quais clientes, pessoas e parceiros são decisivos? O que eles mais precisam?", ids:[7,8,9] },
+      { title:"Onde existe valor não aproveitado?", prompt:"Que capacidade, relacionamento ou oportunidade você possui, mas ainda utiliza pouco?", ids:[3,5,6,7] },
+      { title:"O que ameaça a continuidade?", prompt:"O que pode fazer perder clientes, qualidade, caixa ou confiança?", ids:[4,8,9,10,11] },
+      { title:"Qual mudança pequena vale testar?", prompt:"Se pudesse realizar um experimento de baixo risco nos próximos 30 dias, qual seria?", ids:[1,3,4,10,11] }
+    ];
+    const dgNames = ["Propósito","Problema/Oportunidade","Proposta de Valor","Processos","Ativos","Canais","Ecossistema","Clientes/Pessoas","Jornada","Custos/Externalidades","Receitas/Impactos Positivos"];
+    const dgSafe = value => escapeHtml(String(value == null ? "" : value));
+    function dgKey() {
+      const p = new URLSearchParams(location.search);
+      return "ft-descoberta-v1:" + (p.get("workshop") || "preview") + ":" + (p.get("participante") || "local");
+    }
+    function dgRead() {
+      try { const value = JSON.parse(localStorage.getItem(dgKey()) || "{}"); return Array.isArray(value.answers) ? value : {answers:[],step:0}; }
+      catch (_) { return {answers:[],step:0}; }
+    }
+    function dgWrite(value) { try { localStorage.setItem(dgKey(), JSON.stringify(value)); } catch (_) {} }
+    function dgScore(context, id) {
+      const records = context.territoryContext?.components || [];
+      const match = records.find(c => Number(c.componentId) === id || String(c.componentId).replace(/\\D/g,"") === String(id));
+      const score = Number(match?.score);
+      return Number.isFinite(score) && score > 0 ? score : null;
+    }
+    function dgResult(context, answers) {
+      const signals = dgNames.map((name,index) => {
+        const id=index+1, score=dgScore(context,id);
+        const evidence=dgQuestions.map((q,qi)=>q.ids.includes(id) && answers[qi]?.trim() ? {question:qi+1,text:answers[qi].trim()} : null).filter(Boolean);
+        return {id,name,score,evidence};
+      });
+      const sorted=signals.filter(s=>s.score!==null).sort((a,b)=>b.score-a.score);
+      const strengths=sorted.filter(s=>s.score>=3.5).slice(0,3);
+      const risks=sorted.filter(s=>s.score<3.5).reverse().slice(0,3);
+      const opportunities=signals.filter(s=>s.evidence.length && (s.score===null || s.score<4)).sort((a,b)=>(a.score??3)-(b.score??3)).slice(0,3);
+      const links=[
+        [1,3,"O propósito se traduz na proposta de valor?"],
+        [2,4,"O problema identificado aparece nos processos?"],
+        [4,9,"Os processos sustentam a experiência do cliente?"],
+        [5,7,"Os ativos podem ser potencializados por parceiros?"],
+        [6,8,"Os canais alcançam as pessoas certas?"],
+        [10,11,"Os custos e impactos se conectam ao resultado financeiro?"]
+      ].map(([a,b,hypothesis])=>({a:signals[a-1],b:signals[b-1],hypothesis}))
+       .filter(x=>x.a.evidence.length || x.b.evidence.length)
+       .sort((x,y)=>((x.a.score??3)+(x.b.score??3))-((y.a.score??3)+(y.b.score??3))).slice(0,3);
+      return {signals,strengths,risks,opportunities,links};
+    }
+    function dgSignalCard(s) {
+      const excerpt=s.evidence[0];
+      return '<li><strong>'+dgSafe(s.name)+'</strong> — '+(s.score===null?'sem nota disponível':('nota AS-IS: '+dgSafe(s.score)))+
+        (excerpt?'<div style="font-size:12px;color:#5f6875">Resposta '+excerpt.question+': “'+dgSafe(excerpt.text.slice(0,180))+'”</div>':'')+'</li>';
+    }
+    function dgRender(context) {
+      const host=storyHost.querySelector("#dg-host");
+      if(!host)return;
+      const saved=dgRead(), answers=dgQuestions.map((_,i)=>saved.answers[i]||"");
+      const step=Math.min(Math.max(0,Number(saved.step)||0),7);
+      if(step<7) {
+        const q=dgQuestions[step];
+        host.innerHTML='<div style="font-size:12px;color:#5f6875;font-weight:700">PERGUNTA '+(step+1)+' DE 7</div>'+
+          '<div style="height:6px;background:#e6eaf0;border-radius:8px;margin:12px 0"><div style="width:'+((step+1)/7*100)+'%;height:100%;background:#1a2744;border-radius:8px"></div></div>'+
+          '<h3 style="margin:12px 0">'+dgSafe(q.title)+'</h3><p>'+dgSafe(q.prompt)+'</p>'+
+          '<textarea id="dg-answer" rows="4" maxlength="1200" style="width:100%;padding:12px;border:1px solid #bfc7d2;border-radius:10px;font:inherit" placeholder="Escreva sua resposta...">'+dgSafe(answers[step])+'</textarea>'+
+          '<div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">'+
+          (step?'<button type="button" id="dg-back" style="padding:12px;border-radius:9px;border:1px solid #c8ced7;background:white">Voltar</button>':'')+
+          '<button type="button" id="dg-next" style="padding:12px 18px;border:0;border-radius:9px;background:#1a2744;color:white">'+(step===6?'Ver minha descoberta':'Próxima pergunta')+'</button></div>'+
+          '<p id="dg-error" role="alert" style="color:#a12424"></p>';
+        const readCurrent=()=>{answers[step]=host.querySelector("#dg-answer").value.trim();};
+        host.querySelector("#dg-next").onclick=()=>{readCurrent();if(answers[step].length<8){host.querySelector("#dg-error").textContent="Escreva pelo menos uma frase para continuar.";return;}dgWrite({answers,step:step+1});dgRender(context);};
+        const back=host.querySelector("#dg-back");
+        if(back)back.onclick=()=>{readCurrent();dgWrite({answers,step:step-1});dgRender(context);};
+      } else {
+        const result=dgResult(context,answers);
+        const list=items=>items.length?'<ul style="line-height:1.7;padding-left:20px">'+items.map(dgSignalCard).join('')+'</ul>':'<p>Não há evidências suficientes para classificar com segurança.</p>';
+        host.innerHTML='<h3>Sua descoberta pelos 11 componentes</h3>'+
+          '<p>Leitura inicial baseada no AS-IS e nas sete respostas. As conexões abaixo são <strong>hipóteses para validação humana</strong>, não diagnósticos definitivos.</p>'+
+          '<h4>Forças observadas no AS-IS</h4>'+list(result.strengths)+
+          '<h4>Riscos que merecem investigação</h4>'+list(result.risks)+
+          '<h4>Oportunidades a explorar</h4>'+list(result.opportunities)+
+          '<h4>Sinapses potenciais</h4>'+
+          (result.links.length?'<ul style="line-height:1.7;padding-left:20px">'+result.links.map(x=>'<li><strong>'+dgSafe(x.a.name)+' ↔ '+dgSafe(x.b.name)+'</strong>: '+dgSafe(x.hypothesis)+'</li>').join('')+'</ul>':'<p>Precisamos de mais evidências para sugerir conexões.</p>')+
+          '<details><summary style="cursor:pointer">Ver os 11 componentes</summary><ol>'+result.signals.map(s=>'<li>'+dgSafe(s.name)+(s.score!==null?' — '+dgSafe(s.score):' — sem nota')+'</li>').join('')+'</ol></details>'+
+          '<p style="font-weight:700;margin-top:18px">Qual hipótese faz mais sentido testar primeiro?</p>'+
+          '<textarea id="dg-validation" rows="2" style="width:100%;padding:12px;border:1px solid #bfc7d2;border-radius:10px" placeholder="Sua validação ou ressalva...">'+dgSafe(saved.validation||"")+'</textarea>'+
+          '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button id="dg-save" type="button" style="padding:12px;border:0;border-radius:9px;background:#1a2744;color:white">Guardar minha reflexão</button><button id="dg-revise" type="button" style="padding:12px;border:1px solid #ccd3dd;border-radius:9px;background:white">Revisar respostas</button></div><p id="dg-saved" role="status" style="color:#2e7d32"></p>'+
+          '<p style="font-size:12px;color:#5f6875">As respostas ficam salvas neste navegador, separadas do diagnóstico AS-IS. Não substituem nem alteram os registros do Firebase.</p>';
+        host.querySelector("#dg-save").onclick=()=>{dgWrite({answers,step:7,validation:host.querySelector("#dg-validation").value.trim()});host.querySelector("#dg-saved").textContent="Reflexão guardada neste navegador.";};
+        host.querySelector("#dg-revise").onclick=()=>{dgWrite({answers,step:0,validation:host.querySelector("#dg-validation").value.trim()});dgRender(context);};
+      }
+    }
+    function dgAttach(context) {
+      const section=document.createElement("section");
+      section.className="story-card";
+      section.innerHTML='<span class="section-step">FT VIEW · DESCOBERTA GUIADA</span><h2>Descubra conexões no seu negócio</h2><p>Sete perguntas individuais para conectar sua experiência ao diagnóstico dos 11 componentes do BT Model.</p><div id="dg-host"></div>';
+      storyHost.prepend(section);
+      dgRender(context);
+    }
+
     async function renderFromParticipant(participant) {
       const context = await buildFtContext(participant);
       context.selectedTerritoryId = context.territoryResult?.recommendedTerritory?.componentId || null;
       storyHost.innerHTML = buildSimpleFtView(context);
       bindTerritoryChoiceHandlers(context);
       bindSimpleFtView();
+      dgAttach(context);
       rememberParticipantPayload(participant);
       updateReportLink();
       state.hidden = true;
